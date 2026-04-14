@@ -2,6 +2,7 @@ import '../styles/courses_list.css'
 import SearchInput from '../components/courses_list/serach_input'
 import Header from '../components/header'
 import MathList from '../components/courses_list/lists'
+import GithubFooter from '../components/github_footer'
 
 export default function CoursesList() {
     return (
@@ -9,6 +10,7 @@ export default function CoursesList() {
             <Header />
             <SearchInput />
             <MathList />
+            <GithubFooter />
         </>
     )
 }
