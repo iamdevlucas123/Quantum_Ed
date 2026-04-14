@@ -1,2 +1,2 @@
 - The course detail required be a blueprint of all courses? how solve this?
-- 
+- Create a notFound.jsx on my routes
