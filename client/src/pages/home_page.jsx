@@ -5,7 +5,7 @@ import CourseSection from '../components/home_page/course_section'
 import VideoSection from '../components/home_page/video_section'
 import GithubFooter from '../components/github_footer'
 
-export default function HomePage() {
+function HomePage() {
     return (
         <>
             <Header />
@@ -16,3 +16,5 @@ export default function HomePage() {
         </>
     )
 }
+
+export default HomePage

@@ -4,7 +4,7 @@ import Header from '../components/header'
 import MathList from '../components/courses_list/lists'
 import GithubFooter from '../components/github_footer'
 
-export default function CoursesList() {
+function CoursesList() {
     return (
         <>
             <Header />
@@ -14,3 +14,5 @@ export default function CoursesList() {
         </>
     )
 }
+
+export default CoursesList

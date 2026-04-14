@@ -5,7 +5,7 @@ import CourseHero from '../components/course_details/coursesHero'
 import CourseObjectives from '../components/course_details/courseObjectives'
 import CourseContent from '../components/course_details/courseContent'
 
-export default function courseDetail() {
+function courseDetail() {
     return (
         <>
             <Header />
@@ -16,3 +16,5 @@ export default function courseDetail() {
         </>
     )
 }
+
+export default courseDetail
