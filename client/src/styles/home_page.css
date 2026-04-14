@@ -1,15 +1,4 @@
 
-:root{
-    --primary-color: #1800ad;
-    --second-color: #ffffff;
-    --font-main: 'Inter', sans-serif;
-}
-
-*{
-    margin: 0;
-    padding: 0;
-}
-
 .header{
     display: flex;
     justify-content: center;
@@ -32,4 +21,15 @@
     font-family: var(--font-main);
     font-size: 18px;
     font-weight: 500;
+}
+
+.footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: var();
+    color: var(--second-color);
+    font-family: var(--font-main);
 }
