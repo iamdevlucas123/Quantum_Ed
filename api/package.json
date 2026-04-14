@@ -10,10 +10,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@prisma/client": "^7.7.0",
-    "dotenv": "^16.0.3"
+    "@prisma/client": "^7.7.0"
   },
   "devDependencies": {
-    "prisma": "^7.7.0"
+    "@types/node": "^25.6.0",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.7.0",
+    "typescript": "^6.0.2"
   }
 }

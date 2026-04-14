@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -10,4 +5,74 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String     @id @default(uuid())
+  localStorageKey String
+
+  progresses      Progress[]
+
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+model Progress {
+  id         String    @id @default(uuid())
+  progress   Float     @default(0)
+
+  userId     String
+  courseId   String
+
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course     Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([userId, courseId])
+}
+
+model Subject {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+
+  courses     Course[]
+}
+
+model Course {
+  id          String     @id @default(uuid())
+  title       String     @unique
+  description String
+
+  subjectId   Int
+  subject     Subject    @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  modules     Module[]
+  progresses  Progress[]
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Module {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+
+  courseId    String
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  lessons     Lesson[]
+}
+
+model Lesson {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+
+  moduleId    Int
+  module      Module    @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 }
