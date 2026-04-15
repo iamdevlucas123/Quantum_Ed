@@ -1,3 +1,4 @@
+import CourseMeta from './courseMeta';
 
 export default function CourseHero() {
   return (
