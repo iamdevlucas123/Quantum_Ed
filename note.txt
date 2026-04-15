@@ -1,2 +1,4 @@
 - The course detail required be a blueprint of all courses? how solve this?
 - Create a notFound.jsx on my routes
+- Dont forget to pass all css Header to header.
+- Remember to tensform all the CSS mobile-first

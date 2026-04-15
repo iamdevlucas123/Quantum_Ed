@@ -44,4 +44,5 @@ export default function mathList() {
             </ul>
         </div>
     )
+
 }
