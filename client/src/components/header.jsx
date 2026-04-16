@@ -7,9 +7,7 @@ export default function Header() {
         <header className="header">
             <div className="header__left">
                 <div className="logo">
-                    <button onClick={window.location.href = '/'}>
                         <img src={logo} alt="Logo" />
-                    </button>
                 </div>
                 <ExploreMenu />
             </div>
