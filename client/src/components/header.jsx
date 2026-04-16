@@ -3,14 +3,11 @@ import { useState } from 'react';
 import '../styles/header.css';
 
 export default function Header() {
+    //
     const [isOpen, setIsOpen] = useState(false);
 
     const menuItems = [
-        'Matemathics',
-        'Physics',
-        'Computer Science',
-        'AI',
-        'Quantum Computing',
+        //for each subject, create a menu item
     ];
 
     const handleToggle = () => {

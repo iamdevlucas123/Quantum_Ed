@@ -39,6 +39,17 @@ model Subject {
   name        String
   description String
 
+  topics      Topic[]
+}
+
+model Topic {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+
+  subjectId   Int
+  subject     Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
   courses     Course[]
 }
 
@@ -53,8 +64,8 @@ model Course {
   priorKnowledge   String[]
   learnObjectives  String[]
 
-  subjectId        String
-  subject          Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  topicId          Int
+  topic            Topic     @relation(fields: [topicId], references: [id], onDelete: Cascade)
 
   modules          Module[]
   progresses       Progress[]
