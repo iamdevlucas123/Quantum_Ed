@@ -1,6 +1,6 @@
 export default function About() {
     return (
-        <section className="about-section">
+        <section id="about-section" className="about-section">
             <div className="about-section__intro">
                 <p className="about-section__eyebrow">About QuantumEd</p>
                 <h2>Learn complex subjects with structure, clarity and real academic depth.</h2>

@@ -16,6 +16,10 @@
     box-shadow: 0 18px 40px rgba(18, 24, 40, 0.08);
 }
 
+#about-section {
+  scroll-margin-top: 100px;
+}
+
 .header__left {
     display: flex;
     align-items: center;
