@@ -7,12 +7,13 @@ export default function Header() {
         <header className="header">
             <div className="header__left">
                 <div className="logo">
-                        <img src={logo} alt="Logo" />
+                        <a href="/"><img src={logo} alt="Logo" /></a>
                 </div>
                 <ExploreMenu />
             </div>
             <nav className="nav nav--secondary">
                 <ul>
+                    <li><a href="#">About</a></li>
                     <li><a href="#">Github</a></li>
                 </ul>
             </nav>

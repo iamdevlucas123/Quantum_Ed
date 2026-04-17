@@ -14,6 +14,10 @@ function App() {
         <Route path="/courses" element={<CoursesList />} />
         <Route path="/courses/:id" element={<CourseDetail />} />
         <Route path="/lessons/:id" element={<LessonsViewer />} />
+
+        // Dev routes
+        <Route path="/dev/lessons-viewer" element={<LessonsViewer />} />
+        <Route path="/dev/course-detail" element={<CourseDetail />} />
       </Routes>
     </>
   )

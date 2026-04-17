@@ -92,4 +92,22 @@ model Lesson {
 
   moduleId    Int
   module      Module    @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  content     LessonContent?
+}
+
+model LessonContent {
+  id             Int       @id @default(autoincrement())
+  lessonId        Int       @unique
+  overview        String?
+  videoUrl        String?
+  body            String
+  resources       String[]
+  exerciseCount   Int       @default(0)
+  durationMinutes Int       @default(0)
+
+  lesson          Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
