@@ -1,36 +1,72 @@
 export default function MainContent() {
     return (
         <main className="main-content">
-            <section className="lesson-overview">
-                <div className="lesson-overview__intro">
-                    <p className="lesson-overview__eyebrow">Lesson Overview</p>
-                    <h3>What you are learning now</h3>
+            <nav className="main-content__breadcrumb" aria-label="Breadcrumb">
+                <span>Home</span>
+                <span>&#8250;</span>
+                <span>Courses</span>
+                <span>&#8250;</span>
+                <span>Learn Node.js</span>
+            </nav>
+
+            <section className="lesson-hero">
+                <div className="lesson-hero__copy">
+                    <p className="lesson-hero__eyebrow">Current Lesson</p>
+                    <h1>Introduction to Node.js</h1>
                     <p>
-                        This lesson connects abstract vector operations to geometric interpretation.
-                        You will see how scaling, rotation and projection can all be written as linear
-                        maps and studied with matrix language.
+                        Get introduced to Node.js, its primary use cases, and the core features that make it
+                        powerful for back-end development.
                     </p>
+                </div>
+
+                <div className="lesson-hero__tools" aria-hidden="true">
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
                 </div>
             </section>
 
-            <section className="content">
-                <h3>Content</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dicta minus totam officia eligendi. Omnis totam sequi facilis quisquam quis nemo, minus rem ullam, veritatis vitae, iste quae ipsam exercitationem.</p>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut accusamus dignissimos, officia id quasi quae cupiditate deserunt a eligendi pariatur facilis sapiente voluptatum voluptatibus quia magni tempore! Expedita, omnis ex.</p>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero mollitia laboriosam reprehenderit non veniam, quod atque eum excepturi qui, accusantium eius maiores velit omnis modi delectus dolore, ea illo rem?</p>
+            <section className="lesson-article">
+                <p>
+                    Welcome. You are about to dive into Node.js, one of the most versatile and popular
+                    technologies for back-end development. Node.js allows us to use JavaScript, a language
+                    you may already know from front-end work, on the server side as well. This opens up a
+                    new world of possibilities for APIs, tools and modern web applications.
+                </p>
+
+                <h2>What is Node.js?</h2>
+                <p>
+                    <strong>Node.js</strong> is an open-source, cross-platform runtime environment that allows
+                    us to execute JavaScript code outside a browser. Traditionally, JavaScript was used almost
+                    exclusively to create interactive interfaces on the web. Node.js changed that by making it
+                    practical to run JavaScript on servers, in command-line tools and in automation workflows.
+                </p>
+
+                <p>
+                    Its event-driven architecture and non-blocking I/O model make it especially effective for
+                    applications that need to handle many concurrent requests. That is one of the reasons why
+                    it became a strong option for APIs, real-time apps and scalable service layers.
+                </p>
             </section>
 
-            <section className="key-resume">
-                <h3>Key Resume</h3>
+            <section className="lesson-keypoints">
+                <h3>Key takeaways</h3>
                 <ul>
-                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dicta minus totam officia eligendi.</li>
-                    <li>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut accusamus dignissimos, officia id quasi quae cupiditate deserunt a eligendi pariatur facilis sapiente voluptatum voluptatibus quia magni tempore! Expedita, omnis ex.</li>
-                    <li>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero mollitia laboriosam reprehenderit non veniam, quod atque eum excepturi qui, accusantium eius maiores velit omnis modi delectus dolore, ea illo rem?</li>
+                    <li>Node.js lets JavaScript run beyond the browser, especially in server-side environments.</li>
+                    <li>It is widely used for APIs, tooling, real-time systems and fast iteration in full-stack teams.</li>
+                    <li>Its architecture is built around event-driven patterns and efficient handling of asynchronous work.</li>
                 </ul>
             </section>
-            <footer className="pass-lesson">
-                <button className="next-lesson">Next Lesson</button>
-                <button className="previous-lesson">Previous Lesson</button>
+
+            <footer className="lesson-navigation">
+                <button type="button" className="lesson-navigation__button lesson-navigation__button--secondary">
+                    Previous lesson
+                </button>
+                <button type="button" className="lesson-navigation__button">
+                    Next lesson
+                </button>
             </footer>
         </main>
     );
