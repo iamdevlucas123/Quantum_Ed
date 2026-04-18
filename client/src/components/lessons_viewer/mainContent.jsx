@@ -11,51 +11,27 @@ export default function MainContent() {
                         maps and studied with matrix language.
                     </p>
                 </div>
-
-                <div className="lesson-overview__cards">
-                    <article>
-                        <span>Duration</span>
-                        <strong>38 min</strong>
-                    </article>
-                    <article>
-                        <span>Exercises</span>
-                        <strong>6 tasks</strong>
-                    </article>
-                    <article>
-                        <span>Difficulty</span>
-                        <strong>Intermediate</strong>
-                    </article>
-                </div>
-            </section>
-
-            <section className="lesson-notes">
-                <h3>Key Notes</h3>
-                <ul>
-                    <li>Every linear transformation can be represented by a matrix after a basis is chosen.</li>
-                    <li>Composition of transformations matches matrix multiplication order.</li>
-                    <li>The kernel and image describe what is lost and preserved by the transformation.</li>
-                </ul>
             </section>
 
             <section className="content">
-                <h3>Lesson Content</h3>
-                <p>
-                    In this lesson we will see how to represent linear transformations as matrices and how to use this representation to understand their properties.
-                    We will start by reviewing the concept of a linear transformation and then show how to find the matrix representation of a transformation given a basis.
-                    We will also see how to compute the kernel and image of a transformation using its matrix representation.
-                </p>
+                <h3>Content</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dicta minus totam officia eligendi. Omnis totam sequi facilis quisquam quis nemo, minus rem ullam, veritatis vitae, iste quae ipsam exercitationem.</p>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut accusamus dignissimos, officia id quasi quae cupiditate deserunt a eligendi pariatur facilis sapiente voluptatum voluptatibus quia magni tempore! Expedita, omnis ex.</p>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero mollitia laboriosam reprehenderit non veniam, quod atque eum excepturi qui, accusantium eius maiores velit omnis modi delectus dolore, ea illo rem?</p>
             </section>
 
-            <section className="lesson-resources">
-                <h3>Resources</h3>
-                <div className="lesson-resources__grid">
-                    <article>
-                        <span>Reading</span>
-                        <p>Summary notes covering basis changes, standard matrices and worked examples.</p>
-                    </article>
-                </div>
+            <section className="key-resume">
+                <h3>Key Resume</h3>
+                <ul>
+                    <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dicta minus totam officia eligendi.</li>
+                    <li>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut accusamus dignissimos, officia id quasi quae cupiditate deserunt a eligendi pariatur facilis sapiente voluptatum voluptatibus quia magni tempore! Expedita, omnis ex.</li>
+                    <li>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero mollitia laboriosam reprehenderit non veniam, quod atque eum excepturi qui, accusantium eius maiores velit omnis modi delectus dolore, ea illo rem?</li>
+                </ul>
             </section>
-            <button>Next Lesson</button>
+            <footer className="pass-lesson">
+                <button className="next-lesson">Next Lesson</button>
+                <button className="previous-lesson">Previous Lesson</button>
+            </footer>
         </main>
     );
 }

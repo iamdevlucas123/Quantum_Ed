@@ -1,18 +1,17 @@
-import { Routes, Route} from 'react-router-dom'
-import '../src/styles/index.css'
-import HomePage from './pages/home_page'
-import CoursesList from './pages/courses_list'
-import CourseDetail from './pages/course_detail'
-import LessonsViewer from './pages/lessons_viewer'
-import GlobalLoader, { useGlobalLoading } from './components/globalLoader'
-import NotFound from './pages/notFound'
+import { Routes, Route } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
+import './styles/index.css'
+import Loader from './components/loader'
+
+const HomePage = lazy(() => import('./pages/home_page'))
+const CoursesList = lazy(() => import('./pages/courses_list'))
+const CourseDetail = lazy(() => import('./pages/course_detail'))
+const LessonsViewer = lazy(() => import('./pages/lessons_viewer'))
+const NotFound = lazy(() => import('./pages/notFound'))
 
 function App() {
-  const isLoading = useGlobalLoading()
-
   return (
-    <>
-      {isLoading && <GlobalLoader />}
+    <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/courses" element={<CoursesList />} />
@@ -23,7 +22,7 @@ function App() {
         <Route path="/dev/lessons-viewer" element={<LessonsViewer />} />
         <Route path="/dev/course-detail" element={<CourseDetail />} />
       </Routes>
-    </>
+    </Suspense>
   )
 }
 
