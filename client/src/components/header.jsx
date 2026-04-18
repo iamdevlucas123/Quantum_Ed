@@ -5,9 +5,7 @@ import '../styles/header.css';
 export default function Header() {
 
     const handleScroll = () => {
-        document.getElementById("about-section").scrollIntoView({
-        behavior: "smooth"
-        });
+        document.getElementById("about-section").scrollIntoView({behavior: "smooth"});
     };
 
     return (
@@ -21,7 +19,6 @@ export default function Header() {
             <nav className="nav nav--secondary">
                 <ul>
                     <li><a href="#" onClick={handleScroll}>About</a></li>
-                    <li><a href="#">Github</a></li>
                 </ul>
             </nav>
         </header>

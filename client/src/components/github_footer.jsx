@@ -1,9 +1,10 @@
 
 export default function GithubFooter() {
+
     return (
-        <footer className="footer">
+        <footer id="github-footer" className="footer">
             <p>Created by lucasdev</p>
-            <a href="https://github.com/QuantumEd" target="_blank" rel="noopener noreferrer">My github</a>
+            <a href="https://github.com/iamdevlucas123">My github</a>
             <p>Check my profile for more projects!</p>
         </footer>
     )
