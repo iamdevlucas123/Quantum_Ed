@@ -5,6 +5,7 @@ import CoursesList from './pages/courses_list'
 import CourseDetail from './pages/course_detail'
 import LessonsViewer from './pages/lessons_viewer'
 import GlobalLoader, { useGlobalLoading } from './components/globalLoader'
+import NotFound from './pages/notFound'
 
 function App() {
   const isLoading = useGlobalLoading()
@@ -17,6 +18,7 @@ function App() {
         <Route path="/courses" element={<CoursesList />} />
         <Route path="/courses/:id" element={<CourseDetail />} />
         <Route path="/lessons/:id" element={<LessonsViewer />} />
+        <Route path="*" element={<NotFound />} />
         {/* Dev routes */}
         <Route path="/dev/lessons-viewer" element={<LessonsViewer />} />
         <Route path="/dev/course-detail" element={<CourseDetail />} />
