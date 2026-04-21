@@ -11,6 +11,7 @@ const NotFound = lazy(() => import('./pages/notFound'))
 
 function App() {
   return (
+    // The Suspense component is used to show a fallback (Loader) while the lazy-loaded components are being fetched
     <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
