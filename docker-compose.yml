@@ -1,15 +1,16 @@
-version: '3.8'
 
 services: 
   client:
-    build: ./client
-    dockerfile: Dockerfile
+    build:
+      context: ./client
+      dockerfile: dockerfile
     ports:
-      - 3000:3000
+      - 3000:5173
   
   api:
-    build: ./api
-    dockerfile: Dockerfile
+    build:
+      context: ./api
+      dockerfile: dockerfile
     ports:
       - 3001:3000
     environment:
@@ -19,13 +20,13 @@ services:
         condition: service_healthy
     
   db:
-    image: postgres
+    image: postgres:17
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     healthcheck:
-      test: ["pg_isready", "-U", "postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} -h localhost || exit 1"]
       interval: 1m30s
       timeout: 30s
       retries: 5
