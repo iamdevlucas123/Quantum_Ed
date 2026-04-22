@@ -19,6 +19,9 @@ export default function Header() {
             <nav className="nav nav--secondary">
                 <ul>
                     <li><a href="#" onClick={handleScroll}>About</a></li>
+                    <li>
+                        <button id="login">Login</button>
+                    </li>
                 </ul>
             </nav>
         </header>
