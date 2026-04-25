@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  url      = "postgresql://quantum_ed:123456@localhost:5432/quantum_ed"
 }
 
 datasource db {
