@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  app:
+    build: ./app/dockerfile
+    container_name: my_app
+    env_file:
+      - ./app/.env
+    ports:
+      - "3001:5173"
+    depends_on:
+      - api
+    networks:
+      - frontend
+
+  api:
+    build: ./api/dockerfile
+    container_name: my_api
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./api/.env
+    depends_on:
+      - db
+    networks:
+      - frontend
+      - backend
+  db:
+    image: postgres:15
+    container_name: db
+    restart: always
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./api/.env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+volumes:
+  db_data:
+
+networks:
+  frontend:
+  backend:
