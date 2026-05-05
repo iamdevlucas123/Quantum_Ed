@@ -23,6 +23,7 @@ services:
     container_name: my_api
     ports:
       - "3000:3000"
+      - "5555:5555" # Expose the port for the WebSocket server
     env_file:
       - ./api/.env
     volumes:
@@ -38,7 +39,7 @@ services:
     container_name: db
     restart: always
     ports:
-      - "5432:5432"
+      - "5433:5432"
     env_file:
       - ./api/.env
     volumes:
