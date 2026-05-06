@@ -42,6 +42,11 @@ services:
       - "5433:5432"
     env_file:
       - ./api/.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
