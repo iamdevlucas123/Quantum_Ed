@@ -1,3 +1,5 @@
+import type { NavigationMenu } from '../../types';
+
 export const menuItems = {
     Mathematics: {
         'Linear Algebra': ['Vectors', 'Matrices', 'Eigenvalues'],
@@ -20,4 +22,4 @@ export const menuItems = {
         Thermodynamics: ['Laws of Thermodynamics', 'Entropy', 'Statistical Mechanics'],
         Relativity: ['Special Relativity', 'General Relativity', 'Black Holes'],
     },
-} as const;
+} as const satisfies NavigationMenu;

@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { menuItems } from './menuItems';
 
 type MenuSection = keyof typeof menuItems;
+type MenuCourse = keyof (typeof menuItems)[MenuSection];
 
 export default function ExploreMenu() {
     const subjects = Object.keys(menuItems) as MenuSection[];
     const [activeSection, setActiveSection] = useState<MenuSection>(subjects[0]);
+    const courses = Object.keys(menuItems[activeSection]) as MenuCourse[];
 
     return (
         <nav className="nav nav--primary">
@@ -38,7 +40,7 @@ export default function ExploreMenu() {
                         </div>
 
                         <div className="explore-menu__courses">
-                            {Object.keys(menuItems[activeSection]).map((course) => (
+                            {courses.map((course) => (
                                 <a key={course} href="#" className="explore-menu__course">
                                     {course}
                                 </a>

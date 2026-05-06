@@ -1,5 +1,6 @@
 
 import { useState } from 'react'
+import type { RoadmapGroup } from '../../types'
 
 const roadmapGroups = [
     {
@@ -142,10 +143,12 @@ const roadmapGroups = [
             },
         ],
     },
-]
+] satisfies RoadmapGroup[]
+
+type RoadmapGroupId = (typeof roadmapGroups)[number]['id']
 
 export default function CourseSection() {
-    const [activeTab, setActiveTab] = useState(roadmapGroups[0].id)
+    const [activeTab, setActiveTab] = useState<RoadmapGroupId>(roadmapGroups[0].id)
     const activeGroup = roadmapGroups.find((group) => group.id === activeTab) ?? roadmapGroups[0]
 
     return (
