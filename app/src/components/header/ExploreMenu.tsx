@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { menuItems } from './menuItems';
 
+type MenuSection = keyof typeof menuItems;
+
 export default function ExploreMenu() {
-    const subjects = Object.keys(menuItems);
-    const [activeSection, setActiveSection] = useState(subjects[0]);
+    const subjects = Object.keys(menuItems) as MenuSection[];
+    const [activeSection, setActiveSection] = useState<MenuSection>(subjects[0]);
 
     return (
         <nav className="nav nav--primary">

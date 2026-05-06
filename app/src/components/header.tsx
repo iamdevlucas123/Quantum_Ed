@@ -5,7 +5,7 @@ import '../styles/header.css';
 export default function Header() {
 
     const handleScroll = () => {
-        document.getElementById("about-section").scrollIntoView({behavior: "smooth"});
+        document.getElementById("about-section")?.scrollIntoView({ behavior: "smooth" });
     };
 
     return (
