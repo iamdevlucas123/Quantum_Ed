@@ -8,109 +8,189 @@
 .course-hero {
     position: relative;
     overflow: hidden;
-    padding: 64px 56px;
-    border-radius: 34px;
+    width: 100%;
+    padding: 0;
     background:
-        radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.22), transparent 26%),
-        radial-gradient(circle at 82% 18%, rgba(134, 165, 255, 0.22), transparent 24%),
-        linear-gradient(135deg, #12006f 0%, #1800ad 52%, #3b2cff 100%);
-    color: var(--second-color);
-    box-shadow: 0 24px 60px rgba(24, 0, 173, 0.18);
+        radial-gradient(circle at 14% 92%, rgba(108, 121, 255, 0.26), transparent 28%),
+        radial-gradient(circle at 78% 58%, rgba(255, 206, 218, 0.34), transparent 32%),
+        linear-gradient(180deg, #f8faff 0%, #f1f3ff 100%);
+    color: #0b1020;
+    box-shadow: 0 18px 44px rgba(24, 0, 173, 0.1);
+    text-align: center;
 }
 
 .course-hero::before,
 .course-hero::after {
     content: "";
     position: absolute;
-    border-radius: 50%;
-    opacity: 0.4;
+    inset: 0;
+    opacity: 0.28;
     pointer-events: none;
 }
 
 .course-hero::before {
-    top: -70px;
-    right: -30px;
-    width: 220px;
-    height: 220px;
-    background: rgba(255, 255, 255, 0.12);
+    background-image: radial-gradient(rgba(24, 0, 173, 0.22) 0.7px, transparent 0.7px);
+    background-size: 4px 4px;
 }
 
 .course-hero::after {
-    bottom: -110px;
-    left: -70px;
-    width: 280px;
-    height: 280px;
-    background: rgba(146, 178, 255, 0.16);
+    background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.42) 100%);
 }
 
 .course-hero h1 {
-    max-width: 12ch;
-    margin: 0 0 18px;
-    font-size: clamp(2.6rem, 6vw, 4.8rem);
-    line-height: 0.96;
-    letter-spacing: -0.05em;
+    position: relative;
+    max-width: 900px;
+    margin: 26px auto 22px;
+    color: #090e1d;
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: 0;
 }
 
 .course-hero > p {
-    max-width: 620px;
-    margin: 0 0 28px;
-    color: rgba(255, 255, 255, 0.82);
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    line-height: 1.7;
+    position: relative;
+    max-width: 780px;
+    margin: 0 auto 36px;
+    color: #20283a;
+    font-size: clamp(1.08rem, 2vw, 1.35rem);
+    line-height: 1.45;
+}
+
+.course-breadcrumb,
+.course-hero__tools,
+.course-meta,
+.course-actions {
+    position: relative;
+}
+
+.course-breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: #111827;
+    font-size: 1rem;
+}
+
+.course-breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.course-breadcrumb a:hover {
+    color: var(--primary-color);
+}
+
+.course-breadcrumb span {
+    color: #475569;
+}
+
+.course-hero__tools {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.course-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 14px;
+    border: 1px solid rgba(24, 0, 173, 0.28);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.7);
+    color: #0f172a;
+    font-size: 0.9rem;
+}
+
+.course-divider {
+    width: 1px;
+    height: 18px;
+    background: rgba(189, 43, 216, 0.32);
+}
+
+.course-save {
+    border: 0;
+    background: transparent;
+    color: #1f2937;
+    font: inherit;
+    font-size: 1rem;
+    cursor: pointer;
 }
 
 .course-meta {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 14px;
-    padding: 22px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 26px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
 }
 
-.course-meta > span {
+.course-meta__items {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    min-height: 56px;
-    padding: 14px 16px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.92);
-    font-weight: 600;
-    line-height: 1.5;
+    justify-content: center;
+    gap: 34px;
+    color: #1f2937;
+    font-size: 1.05rem;
+}
+
+.course-meta__items span {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 28px;
+}
+
+.course-meta__items i {
+    color: #5551ff;
+    font-style: normal;
+    font-weight: 900;
+}
+
+.course-rating {
+    color: #ff6b00;
+    letter-spacing: 0.08em;
+}
+
+.course-rating strong {
+    color: #1f2937;
+    font-weight: 500;
+    letter-spacing: 0;
 }
 
 .course-actions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    grid-column: 1 / -1;
-    margin-top: 6px;
+    justify-content: center;
+    gap: 18px;
 }
 
 .course-actions button {
-    min-height: 52px;
-    padding: 0 22px;
-    border: 0;
-    border-radius: 999px;
+    min-width: 210px;
+    min-height: 60px;
+    padding: 0 28px;
+    border-radius: 4px;
     font: inherit;
-    font-weight: 700;
+    font-size: 1.1rem;
+    font-weight: 800;
     cursor: pointer;
     transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
 }
 
 .course-actions button:first-child {
-    background: var(--second-color);
-    color: var(--primary-color);
-    box-shadow: 0 18px 30px rgba(8, 12, 30, 0.18);
+    border: 1px solid #5551ff;
+    background: #5551ff;
+    color: #ffffff;
+    box-shadow: 0 18px 30px rgba(85, 81, 255, 0.18);
 }
 
 .course-actions button:last-child {
-    background: rgba(255, 255, 255, 0.12);
-    color: var(--second-color);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid #5551ff;
+    background: rgba(255, 255, 255, 0.6);
+    color: #5551ff;
 }
 
 .course-actions button:hover {
@@ -118,11 +198,11 @@
 }
 
 .course-actions button:first-child:hover {
-    box-shadow: 0 22px 36px rgba(8, 12, 30, 0.24);
+    box-shadow: 0 22px 36px rgba(85, 81, 255, 0.24);
 }
 
 .course-actions button:last-child:hover {
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(85, 81, 255, 0.08);
 }
 
 .course-objectives,

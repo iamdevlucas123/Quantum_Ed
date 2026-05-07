@@ -3,9 +3,16 @@ import CourseMeta from './courseMeta';
 export default function CourseHero() {
   return (
     <section className="course-hero">
-      <h1>Linear Algebra</h1>
 
-      <p>Build strong foundations in linear algebra.</p>
+      <div className="course-hero__tools">
+        <button type="button" className="course-save">♡ Save</button>
+      </div>
+
+      <h1>Lorem Lorem Lorem</h1>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, blanditiis. Excepturi architecto amet, nemo qui laboriosam, error consequuntur est ducimus cumque, veritatis expedita dicta enim cum velit hic vitae eveniet.
+      </p>
 
       <CourseMeta />
     </section>

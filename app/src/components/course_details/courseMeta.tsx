@@ -1,17 +1,18 @@
-
 export default function CourseMeta() {
   return (
     <div className="course-meta">
-      <span>⭐ 5 stars</span>
-      <span>24 lessons</span>
-      <span>12 hours</span>
-      <span>Last updated: Oct 2023</span>
-      <span>Prior knowledge: Basic Algebra</span>
+      <div className="course-meta__items">
+        <span className="course-rating">★★★★☆ <strong>4.5</strong></span>
+        <span><i aria-hidden="true">▣</i> 41 Lessons</span>
+        <span><i aria-hidden="true">▥</i> 2 Breakout Sessions</span>
+        <span><i aria-hidden="true">◔</i> Updated yesterday</span>
+        <span><i aria-hidden="true">◴</i> 6h</span>
+      </div>
 
-    <div className="course-actions">
-      <button>Start Now</button>
-      <button>Course Content</button>
-    </div>
+      <div className="course-actions">
+        <button type="button">Start Learning</button>
+        <button type="button">Course Content <span aria-hidden="true">↓</span></button>
+      </div>
     </div>
   );
 }
