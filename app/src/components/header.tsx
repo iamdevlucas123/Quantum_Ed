@@ -20,7 +20,6 @@ export default function Header() {
                     <ul>
                         <li><a href="/courses">Courses</a></li>
                         <li><a href="#about-section" onClick={handleScroll}>About</a></li>
-                        <li><a href="/lessons/intro">Lessons</a></li>
                     </ul>
                 </nav>
             </div>
