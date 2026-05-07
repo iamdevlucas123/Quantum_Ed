@@ -1,11 +1,58 @@
 .github-footer {
-    background-color: rgb(14, 13, 41);
+    height: 60px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+        linear-gradient(90deg, #0e0d29 0%, #14124a 52%, #0e0d29 100%);
+    box-shadow: 0 -12px 28px rgba(14, 13, 41, 0.18);
 }
 
 .github-footer-content {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    gap: 18px;
+    height: 100%;
+    width: min(1120px, calc(100% - 32px));
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.92rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.github-footer-content p {
+    margin: 0;
+}
+
+.github-footer-content a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+    font-weight: 800;
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.github-footer-content a:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+    .github-footer-content {
+        gap: 10px;
+        justify-content: space-between;
+        font-size: 0.78rem;
+    }
+
+    .github-footer-content a {
+        min-height: 30px;
+        padding: 0 10px;
+    }
 }

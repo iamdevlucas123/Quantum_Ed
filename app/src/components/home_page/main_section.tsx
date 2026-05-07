@@ -2,7 +2,7 @@
 import '../../styles/main_section.css';
 
 export default function Main() {
-    const developerCount = '345';
+    const developerCount: number = 345; // This is a placeholder. You can replace it with actual data from your backend or state management.
 
     return(
         <section>

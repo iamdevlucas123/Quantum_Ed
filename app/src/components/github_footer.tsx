@@ -1,3 +1,4 @@
+import '../styles/footer_github.css';
 
 export default function GithubFooter() {
 
