@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { menuItems } from './menuItems';
 
-type MenuSection = keyof typeof menuItems;
-type MenuCourse = keyof (typeof menuItems)[MenuSection];
+type MenuSection = Extract<keyof typeof menuItems, string>;
+type MenuCourse = Extract<keyof (typeof menuItems)[MenuSection], string>;
 
 export default function ExploreMenu() {
     const subjects = Object.keys(menuItems) as MenuSection[];

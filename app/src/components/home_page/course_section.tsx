@@ -1,6 +1,7 @@
 
 import { useState } from 'react'
 import type { RoadmapGroup } from '../../types'
+import '../../styles/course_section.css'
 
 const roadmapGroups = [
     {

@@ -3,7 +3,6 @@ import ExploreMenu from './header/ExploreMenu';
 import '../styles/header.css';
 
 export default function Header() {
-
     const handleScroll = () => {
         document.getElementById("about-section")?.scrollIntoView({ behavior: "smooth" });
     };
@@ -12,17 +11,27 @@ export default function Header() {
         <header className="header">
             <div className="header__left">
                 <div className="logo">
-                        <a href="/"><img src={logo} alt="Logo" /></a>
+                    <a href="/" aria-label="QuantumEd home">
+                        <img src={logo} alt="QuantumEd" />
+                    </a>
                 </div>
                 <ExploreMenu />
+                <nav className="nav header__links" aria-label="Main navigation">
+                    <ul>
+                        <li><a href="/courses">Courses</a></li>
+                        <li><a href="#about-section" onClick={handleScroll}>About</a></li>
+                        <li><a href="/lessons/intro">Lessons</a></li>
+                    </ul>
+                </nav>
             </div>
-            <nav className="nav nav--secondary">
-                <ul>
-                    <li>
-                        <button id="login">Login</button>
-                    </li>
-                </ul>
-            </nav>
+
+            <div className="header__actions">
+                <label className="header__search">
+                    <span aria-hidden="true">⌕</span>
+                    <input type="search" placeholder="Search" aria-label="Search courses" />
+                </label>
+                <button id="login" type="button">Log In</button>
+            </div>
         </header>
     );
 }
