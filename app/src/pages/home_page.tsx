@@ -4,7 +4,7 @@ import CourseSection from '../components/home_page/course_section'
 import GithubFooter from '../components/github_footer'
 import About from '../components/home_page/about'
 import Comments from '../components/home_page/comments'
-import CreateAccountSection from '../components/home_page/create_account'
+import CreateAccountSection from '../components/home_page/account_form'
 
 function HomePage() {
     return (
