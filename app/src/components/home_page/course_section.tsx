@@ -1,5 +1,5 @@
 
-import '../../styles/course_section.css'
+import '../../styles/home_page_css/course_section.css'
 
 
 

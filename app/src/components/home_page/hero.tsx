@@ -1,5 +1,5 @@
 
-import '../../styles/hero.css';
+import '../../styles/home_page_css/hero.css';
 
 export default function Hero() {
     const developerCount = "<count>"; // This is a placeholder. You can replace it with actual data from your backend or state management.

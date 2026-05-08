@@ -1,12 +1,8 @@
 import logo from '../assets/quantum_logo_1.png';
 import ExploreMenu from './header/ExploreMenu';
-import '../styles/header.css';
+import '../styles/header_css/header.css';
 
 export default function Header() {
-    const handleScroll = () => {
-        document.getElementById("about-section")?.scrollIntoView({ behavior: "smooth" });
-    };
-
     return (
         <header className="header">
             <div className="header__left">
@@ -19,7 +15,6 @@ export default function Header() {
                 <nav className="nav header__links" aria-label="Main navigation">
                     <ul>
                         <li><a href="/courses">Courses</a></li>
-                        <li><a href="#about-section" onClick={handleScroll}>About</a></li>
                     </ul>
                 </nav>
             </div>

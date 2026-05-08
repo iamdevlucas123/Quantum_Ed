@@ -1,5 +1,5 @@
 
-import '../../styles/account_form.css';
+import '../../styles/home_page_css/account_form.css';
 
 export default function CreateAccountSection() {
     return (

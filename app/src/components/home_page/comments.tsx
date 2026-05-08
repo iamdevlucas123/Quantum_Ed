@@ -1,5 +1,5 @@
 
-import '../../styles/comments.css';
+import '../../styles/home_page_css/comments.css';
 
 const testimonials = [
     {

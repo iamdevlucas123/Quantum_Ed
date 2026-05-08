@@ -1,4 +1,4 @@
-import '../styles/lessons_viewer.css';
+import '../styles/lessons_viewer_css/lessons_viewer.css';
 import SideBar from '../components/lessons_viewer/sideBar';
 import MainContent from '../components/lessons_viewer/mainContent';
 import HeaderLessons from '../components/lessons_viewer/header_lessons';
