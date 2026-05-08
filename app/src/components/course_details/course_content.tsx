@@ -1,20 +1,20 @@
 const roadmapModules = [
   {
-    title: 'Agent Design Fundamentals',
+    title: 'Lorem Ipsum Dolor Sit Amet Consectetur',
     description:
-      'Learn core AI agent components, architecture, and how they perceive, reason, and act. Master orchestration, safety, and key design challenges.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     lessons: 6,
   },
   {
-    title: 'Multi-Agent Conversational Recommender System (MACRS)',
+    title: 'Lorem Ipsum Dolor Sit Amet Consectetur',
     description:
-      'Explore MACRS, a multi-agent system for goal-directed conversational recommendations. See how it plans, uses reflection, and achieves superior performance.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     lessons: 4,
   },
   {
-    title: 'Design Your First Agent',
+    title: 'Lorem Lorem Ipsum',
     description:
-      'Turn agent patterns into a practical architecture with tools, memory, planning loops, and evaluation checkpoints.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     lessons: 5,
   },
 ];
