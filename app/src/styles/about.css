@@ -1,8 +1,108 @@
-.about {
-    padding: 2rem;
-    background-color: #f4f4f4;
-    text-align: center;
-    border-radius: 8px;
-    margin: 2rem auto;
-    max-width: 800px;
+.about-section {
+    width: min(1120px, calc(100% - 48px));
+    margin: 28px auto 0;
+    padding: 42px 38px;
+    border: 1px solid rgba(24, 0, 173, 0.12);
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at top right, rgba(85, 81, 255, 0.12), transparent 28%),
+        rgba(255, 255, 255, 0.86);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+    backdrop-filter: blur(14px);
+}
+
+.about-section__intro {
+    max-width: 760px;
+}
+
+.about-section__eyebrow {
+    display: inline-flex;
+    margin: 0 0 12px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(24, 0, 173, 0.08);
+    color: var(--primary-color);
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.about-section__intro h2 {
+    margin: 0;
+    color: #111827;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+}
+
+.about-section__intro p:last-child {
+    margin: 16px 0 0;
+    color: #55627a;
+    font-size: 1.03rem;
+    line-height: 1.75;
+}
+
+.about-section__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 30px;
+}
+
+.about-section__stats div {
+    padding: 20px;
+    border: 1px solid rgba(24, 0, 173, 0.1);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.about-section__stats strong {
+    display: block;
+    color: var(--primary-color);
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.about-section__stats span {
+    display: block;
+    margin-top: 8px;
+    color: #55627a;
+    font-weight: 700;
+}
+
+.about-section__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.about-section__card {
+    min-height: 190px;
+    padding: 22px;
+    border-radius: 18px;
+    background: #111827;
+    color: #ffffff;
+}
+
+.about-section__card h3 {
+    margin: 0 0 12px;
+    font-size: 1.2rem;
+}
+
+.about-section__card p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.74);
+    line-height: 1.65;
+}
+
+@media (max-width: 820px) {
+    .about-section {
+        width: min(100% - 28px, 1120px);
+        padding: 32px 22px;
+    }
+
+    .about-section__stats,
+    .about-section__grid {
+        grid-template-columns: 1fr;
+    }
 }
