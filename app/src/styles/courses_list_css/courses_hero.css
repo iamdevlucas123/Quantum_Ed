@@ -1,0 +1,45 @@
+.courses-hero {
+    width: min(1220px, calc(100% - 48px));
+    margin: 34px auto 0;
+    padding: 64px 56px;
+    border-radius: 30px;
+    background:
+        radial-gradient(circle at 82% 20%, rgba(189, 43, 216, 0.18), transparent 28%),
+        linear-gradient(135deg, #12006f 0%, #1800ad 48%, #3b2cff 100%);
+    color: #ffffff;
+    box-shadow: 0 24px 60px rgba(24, 0, 173, 0.16);
+}
+
+.courses-hero__eyebrow {
+    display: inline-flex;
+    margin: 0 0 18px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.courses-hero h1 {
+    max-width: 880px;
+    margin: 0;
+    font-size: clamp(2.5rem, 5vw, 4.6rem);
+    line-height: 1.02;
+}
+
+.courses-hero > p:last-child {
+    max-width: 680px;
+    margin: 22px 0 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1.15rem;
+    line-height: 1.65;
+}
+
+@media (max-width: 640px) {
+    .courses-hero {
+        width: min(100% - 28px, 1220px);
+        padding: 44px 24px;
+        border-radius: 24px;
+    }
+}
