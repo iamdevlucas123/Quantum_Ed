@@ -25,7 +25,7 @@ services:
       - "3000:3000"
       - "5555:5555" # Expose the port for the WebSocket server
     env_file:
-      - ./api/.env
+      - ./api/src/config/.env
     volumes:
       - ./api:/api
       - /api/node_modules
@@ -41,9 +41,9 @@ services:
     ports:
       - "5433:5432"
     env_file:
-      - ./api/.env
+      - ./api/src/config/.env
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
       interval: 10s
       timeout: 5s
       retries: 5

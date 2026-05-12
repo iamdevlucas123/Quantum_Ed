@@ -1,13 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { env } from './config/env';
 
 const app = express();
 
 app.use(cors({
-  origin: 'https://meusite.com', //Change to frontend URL
+  origin: env.CORS_ORIGIN,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));

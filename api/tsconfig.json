@@ -13,8 +13,9 @@
     "skipLibCheck": true
   },
   "include": [
-    "**/*.ts",
-    "prisma/**/*.ts"
+    "src/**/*.ts",
+    "prisma/**/*.ts",
+    "prisma.config.ts"
   ],
   "exclude": [
     "node_modules",
