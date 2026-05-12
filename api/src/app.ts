@@ -1,14 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import { env } from './config/env';
+import { corsConfig } from './config/cors';
 
 const app = express();
 
-app.use(cors({
-  origin: env.CORS_ORIGIN,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
+app.use(cors(corsConfig));
 
 app.use(express.json());
 
