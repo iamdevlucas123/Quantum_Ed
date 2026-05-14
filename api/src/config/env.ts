@@ -1,13 +1,6 @@
-import { existsSync } from 'node:fs';
-import { resolve } from 'node:path';
 import { config } from 'dotenv';
 
-const envPath = [
-    resolve(process.cwd(), '.env'),
-    resolve(process.cwd(), 'src/config/.env'),
-].find((path) => existsSync(path));
-
-config(envPath ? { path: envPath } : undefined);
+config();
 
 const numberFromEnv = (value: string | undefined, fallback: number) => {
     const parsedValue = Number(value);
@@ -26,6 +19,9 @@ export const env = {
     JWT_SECRET: process.env.JWT_SECRET || '',
     JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '',
 
-    CORS_ORIGIN: process.env.CORS_ORIGIN || 'http://localhost:3001',
+    CORS_ORIGINS: (process.env.CORS_ORIGINS || 'http://localhost:3001,http://localhost:5173')
+        .split(',')
+        .map((origin) => origin.trim())
+        .filter(Boolean),
     NODE_ENV: process.env.NODE_ENV || 'development',
 }

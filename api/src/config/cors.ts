@@ -1,11 +1,8 @@
-
-import { CorsOptions } from "cors";
+import type { CorsOptions } from "cors";
+import { env } from "./env";
 
 export const corsConfig: CorsOptions = {
-  origin: [
-    "http://localhost:5173",
-    "https://meusite.com",
-  ],
+  origin: env.CORS_ORIGINS,
 
   methods: ["GET", "POST", "PUT", "DELETE"],
 
