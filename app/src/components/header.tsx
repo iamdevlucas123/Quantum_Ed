@@ -21,7 +21,7 @@ export default function Header() {
 
             <div className="header__actions">
                 <label className="header__search">
-                    <span aria-hidden="true">⌕</span>
+                    <span aria-hidden="true">âŒ•</span>
                     <input type="search" placeholder="Search" aria-label="Search courses" />
                 </label>
                 <button id="login" type="button">Log In</button>
