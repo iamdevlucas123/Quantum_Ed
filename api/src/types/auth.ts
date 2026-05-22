@@ -1,4 +1,6 @@
-export type UserRole = 'student' | 'admin';
+import type { UserRole } from '@prisma/client';
+
+export type { UserRole };
 
 export interface AuthUser {
   id: string;
