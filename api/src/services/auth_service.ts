@@ -8,7 +8,7 @@ type SignUpData = {
   name?: string;
   email: string;
   password: string;
-  role: UserRole
+  role?: UserRole
 }
 
 type SignInData = {
@@ -29,16 +29,14 @@ type JwtPayload = {
   role: UserRole
 }
 
-//Its define how many times the bcrypt will process the password
 const SALT_ROUNDS = 10
 
 const sanitizeUser = (user: User): AuthUser => {
-  const {passwordHash, ...safeUser} = user;
+  const { passwordHash, ...safeUser } = user
   return safeUser
 }
 
-//Its sign the jwt accessToken
-const signAccessToken = (user:User): string => {
+const signAccessToken = (user: User): string => {
   const payload: JwtPayload = {
     sub: user.id,
     email: user.email,
@@ -54,11 +52,11 @@ const signAccessToken = (user:User): string => {
 
 export const authService = {
   async signUp(data: SignUpData): Promise<AuthResponse> {
-    const existingUser = prisma.user.findUnique({
-      where: {email: data.email}
+    const existingUser = await prisma.user.findUnique({
+      where: { email: data.email },
     })
 
-    if (!existingUser) {
+    if (existingUser) {
       throw new Error('email already exist')
     }
 
@@ -70,36 +68,41 @@ export const authService = {
         email: data.email,
         passwordHash,
         role: data.role,
-      }
+      },
     })
 
     return {
       user: sanitizeUser(user),
-      accessToken: signAccessToken(user)
+      accessToken: signAccessToken(user),
     }
   },
 
   async signIn(data: SignInData): Promise<AuthResponse> {
-    const user = await prisma.user.findUnique({
-      where: { email: data.email },
-    });
-    if (!user) {
-      throw new Error('Invalid credentials');
-    }
-    const isPasswordValid = await bcrypt.compare(data.password, user.passwordHash);
-    if (!isPasswordValid) {
-      throw new Error('Invalid credentials');
-    }
-    return {
-      user: sanitizeUser(user),
-      accessToken: signAccessToken(user),
-    };
-  },
+    const user = await prisma.user.findUnique({
+      where: { email: data.email },
+    })
+
+    if (!user) {
+      throw new Error('Invalid credentials')
+    }
+
+    const isPasswordValid = await bcrypt.compare(data.password, user.passwordHash)
+
+    if (!isPasswordValid) {
+      throw new Error('Invalid credentials')
+    }
+
+    return {
+      user: sanitizeUser(user),
+      accessToken: signAccessToken(user),
+    }
+  },
 
   verifyAccessToken(token: string): JwtPayload {
-    if (!env.JWT_SECRET) {
-      throw new Error('JWT_SECRET is not configured');
-    }
-    return jwt.verify(token, env.JWT_SECRET) as JwtPayload;
-  },
+    if (!env.JWT_SECRET) {
+      throw new Error('JWT_SECRET is not configured')
+    }
+
+    return jwt.verify(token, env.JWT_SECRET) as JwtPayload
+  },
 }
