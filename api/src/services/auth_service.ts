@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { User, UserRole } from '@prisma/client'
-import { env } from '../config/env'
+import { jwtConfig } from '../config/jwt'
 import { prisma } from '../config/prisma'
 
 type SignUpData = {
@@ -44,10 +44,10 @@ const signAccessToken = (user: User): string => {
   }
 
   const options: jwt.SignOptions = {
-    expiresIn: (env.JWT_EXPIRES_IN || '1d') as jwt.SignOptions['expiresIn'],
+    expiresIn: jwtConfig.expiresIn,
   }
 
-  return jwt.sign(payload, env.JWT_SECRET, options)
+  return jwt.sign(payload, jwtConfig.secret, options)
 }
 
 export const authService = {
@@ -99,10 +99,10 @@ export const authService = {
   },
 
   verifyAccessToken(token: string): JwtPayload {
-    if (!env.JWT_SECRET) {
+    if (!jwtConfig.secret) {
       throw new Error('JWT_SECRET is not configured')
     }
 
-    return jwt.verify(token, env.JWT_SECRET) as JwtPayload
+    return jwt.verify(token, jwtConfig.secret) as JwtPayload
   },
 }
