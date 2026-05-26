@@ -1,6 +1,5 @@
 import type { CreateUserData, UpdateUserData, UserDto } from '@quantum-ed/shared-types';
-
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+import { env } from '../config/env';
 
 export type createUserData = CreateUserData;
 export type updateUserType = UpdateUserData;
@@ -8,7 +7,7 @@ export type User = UserDto;
 
 //Its a blueprint of fetch data user.
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await fetch(`${env.API_URL}${path}`, {
     headers: {
       'Content-Type': 'application/json',
       ...options?.headers, 
