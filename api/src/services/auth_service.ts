@@ -1,32 +1,15 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { User, UserRole } from '@prisma/client'
+import { User } from '@prisma/client'
+import type { JwtPayload, SignInData, SignUpData } from '@quantum-ed/shared-types'
 import { jwtConfig } from '../config/jwt'
 import { prisma } from '../config/prisma'
-
-type SignUpData = {
-  name?: string;
-  email: string;
-  password: string;
-  role?: UserRole
-}
-
-type SignInData = {
-  email: string;
-  password: string;
-}
 
 type AuthUser = Omit<User, 'passwordHash'>
 
 type AuthResponse = {
   user: AuthUser;
   accessToken: string;
-}
-
-type JwtPayload = {
-  sub: string;
-  email: string;
-  role: UserRole
 }
 
 const SALT_ROUNDS = 10

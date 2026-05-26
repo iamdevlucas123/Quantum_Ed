@@ -1,25 +1,10 @@
+import type { CreateUserData, UpdateUserData, UserDto } from '@quantum-ed/shared-types';
+
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
 
-export type User = {
-    id: string;
-    name: string | null;
-    email: string;
-    role: 'STUDENT' | 'ADMIN';
-    localStorageKey: string | null;
-    createdAt: string;
-    updatedAt: string;
-}
-
-export type createUserData = {
-    name?: string;
-    email: string;
-    passwordHash: string;
-    role?: 'STUDENT' | 'ADMIN';
-    localStorageKey?: string;
-}
-
-//Used to update an User and turn all informations optional
-export type updateUserType = Partial<createUserData>
+export type createUserData = CreateUserData;
+export type updateUserType = UpdateUserData;
+export type User = UserDto;
 
 //Its a blueprint of fetch data user.
 async function request<T>(path: string, options?: RequestInit): Promise<T> {

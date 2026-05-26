@@ -1,16 +1,5 @@
-import type { UserRole } from '@prisma/client';
+import type { AuthenticatedUser, JwtPayload, UserRole } from '@quantum-ed/shared-types';
 
-export type { UserRole };
+export type { AuthenticatedUser, JwtPayload, UserRole };
 
-export interface AuthUser {
-  id: string;
-  name?: string;
-  email: string;
-  role: UserRole;
-}
-
-export interface JwtPayload {
-  sub: string;
-  email: string;
-  role: UserRole;
-}
+export type AuthUser = AuthenticatedUser;

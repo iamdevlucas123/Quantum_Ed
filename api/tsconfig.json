@@ -10,12 +10,16 @@
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@quantum-ed/shared-types": ["../packages/shared/types/index.d.ts"]
+    }
   },
   "include": [
     "src/**/*.ts",
     "prisma/**/*.ts",
-    "prisma.config.ts"
+    "prisma.config.ts",
+    "../packages/shared/types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules",
