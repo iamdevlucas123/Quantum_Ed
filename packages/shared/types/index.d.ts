@@ -40,10 +40,12 @@ export type AuthenticatedUser = {
 
 export type AuthUserDto = UserDto;
 
-export type AuthResponse = {
+export type AuthSessionResponse = {
   user: AuthUserDto;
   accessToken: string;
 }
+
+export type AuthResponse = AuthSessionResponse;
 
 export type JwtPayload = {
   sub: string;
