@@ -1,6 +1,6 @@
 # QuantumEd
 
-QuantumEd e uma plataforma educacional full stack para organizar cursos, modulos e aulas de temas tecnicos como computacao, ciencia, engenharia e fundamentos de fisica/quantum. O projeto combina uma interface React com uma API Express, autenticacao JWT e persistencia em PostgreSQL via Prisma.
+QuantumEd e uma plataforma educacional full stack para organizar cursos, modulos e aulas de temas tecnicos como computacao, ciencia e engenharia. O projeto combina uma interface React com uma API Express, autenticacao JWT e persistencia em PostgreSQL via Prisma.
 
 ![Tela inicial do QuantumEd](assets/image.png)
 
