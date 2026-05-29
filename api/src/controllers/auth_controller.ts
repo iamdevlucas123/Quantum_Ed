@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { authCookieConfig } from '../config/cookies'
 import { authService } from '../services/auth_service'
 
 export const authController = {
@@ -12,7 +13,9 @@ export const authController = {
         role,
       })
 
-      res.status(201).json(result)
+      const { refreshToken, ...session } = result
+      res.cookie(authCookieConfig.refreshTokenName, refreshToken, authCookieConfig.refreshTokenOptions)
+      res.status(201).json(session)
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Internal Server Error'
       res.status(400).json({ error: message })
@@ -27,7 +30,9 @@ export const authController = {
         password,
       })
 
-      res.status(200).json(result)
+      const { refreshToken, ...session } = result
+      res.cookie(authCookieConfig.refreshTokenName, refreshToken, authCookieConfig.refreshTokenOptions)
+      res.status(200).json(session)
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Internal Server Error'
       res.status(401).json({ error: message })
