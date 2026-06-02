@@ -5,6 +5,8 @@ const authRouter = Router()
 
 authRouter.post('/signup', authController.signUp)
 authRouter.post('/signin', authController.signIn)
+authRouter.post('/refresh', authController.refreshSession)
+authRouter.post('/logout', authController.logout)
 authRouter.get('/verify', authController.verifyToken)
 
 export { authRouter }
