@@ -182,12 +182,26 @@ export const authService = {
   async logout(refreshToken: string): Promise<void> {
     const payload = verifyRefreshToken(refreshToken)
 
-    await prisma.refreshToken.updateMany({
-      where: {
-        id: payload.jti,
-        userId: payload.sub,
-        revokedAt: null,
-      },
+    const storedToken = await prisma.refreshToken.findUnique({
+      where: { id: payload.jti },
+    })
+
+    if (!storedToken || storedToken.userId !== payload.sub) {
+      throw new Error('Invalid refresh token')
+    }
+
+    const isTokenValid = await bcrypt.compare(refreshToken, storedToken.tokenHash)
+
+    if (!isTokenValid) {
+      throw new Error('Invalid refresh token')
+    }
+
+    if (storedToken.revokedAt) {
+      return
+    }
+
+    await prisma.refreshToken.update({
+      where: { id: storedToken.id },
       data: {
         revokedAt: new Date(),
       },
