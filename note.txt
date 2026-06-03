@@ -1,3 +1,0 @@
-- The course detail required be a blueprint of all courses? how solve this?
-- Remember to tensform all the CSS mobile-first
-- Change loader to loading when the requisition is slow

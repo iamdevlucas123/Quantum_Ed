@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import './styles/index.css'
 import Loader from './components/loader'
+import { useAuthStore } from './context/AuthContext'
 
 const HomePage = lazy(() => import('./pages/home_page'))
 const CoursesList = lazy(() => import('./pages/courses_list'))
@@ -10,6 +11,12 @@ const LessonsViewer = lazy(() => import('./pages/lessons_viewer'))
 const NotFound = lazy(() => import('./pages/notFound'))
 
 function App() {
+  const refreshSession = useAuthStore((state) => state.refreshSession)
+
+  useEffect(() => {
+    void refreshSession()
+  }, [refreshSession])
+
   return (
     // The Suspense component is used to show a fallback (Loader) while the lazy-loaded components are being fetched
     <Suspense fallback={<Loader />}>

@@ -1,0 +1,163 @@
+import { useState, type FormEvent } from 'react'
+
+import { useAuth } from '../../context/AuthContext'
+import type { AuthRole } from '../../services/auth_api'
+
+type LoginModalProps = {
+  isOpen: boolean
+  onClose: () => void
+}
+
+type AuthMode = 'signin' | 'signup'
+
+export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
+  // Gets the auth actions from the Zustand auth store.
+  const { signIn, signUp } = useAuth()
+  
+  // Controls whether the modal is in login or signup mode.
+  const [mode, setMode] = useState<AuthMode>('signin')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [role, setRole] = useState<AuthRole>('STUDENT')
+
+  // Stores the latest form error message.
+  const [error, setError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Indicates whether the current form mode is signup.
+  const isSignUp = mode === 'signup'
+
+  // Sends the login form data to the auth store.
+  const submitSignIn = async (): Promise<void> => {
+    await signIn({ email, password })
+  }
+
+  // Sends the signup form data to the auth store.
+  const submitSignUp = async (): Promise<void> => {
+    await signUp({
+      name: name.trim() || undefined,
+      email,
+      password,
+      role,
+    })
+  }
+
+  // Submits either login or signup and handles UI feedback.
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault()
+    setError(null)
+    setIsSubmitting(true)
+
+    try {
+      if (isSignUp) {
+        await submitSignUp()
+      } else {
+        await submitSignIn()
+      }
+
+      onClose()
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Authentication failed'
+      setError(message)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  // Switches between login and signup modes.
+  const switchMode = (nextMode: AuthMode): void => {
+    setMode(nextMode)
+    setError(null)
+  }
+
+  if (!isOpen) {
+    return null
+  }
+
+  return (
+    <div className="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+      <button className="auth-modal__backdrop" type="button" aria-label="Close login modal" onClick={onClose} />
+      <div className="auth-modal__panel">
+        <div className="auth-modal__header">
+          <h2 id="auth-modal-title">{isSignUp ? 'Create account' : 'Log in'}</h2>
+          <button className="auth-modal__close" type="button" aria-label="Close" onClick={onClose}>
+            x
+          </button>
+        </div>
+
+        <div className="auth-modal__tabs" role="tablist" aria-label="Authentication mode">
+          <button
+            type="button"
+            className={mode === 'signin' ? 'is-active' : ''}
+            onClick={() => switchMode('signin')}
+          >
+            Log in
+          </button>
+          <button
+            type="button"
+            className={mode === 'signup' ? 'is-active' : ''}
+            onClick={() => switchMode('signup')}
+          >
+            Sign up
+          </button>
+        </div>
+
+        <form className="auth-modal__form" onSubmit={handleSubmit}>
+          {isSignUp && (
+            <label>
+              Name
+              <input
+                type="text"
+                name="name"
+                autoComplete="name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+              />
+            </label>
+          )}
+
+          <label>
+            Email
+            <input
+              type="email"
+              name="email"
+              autoComplete="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
+            />
+          </label>
+
+          <label>
+            Password
+            <input
+              type="password"
+              name="password"
+              autoComplete={isSignUp ? 'new-password' : 'current-password'}
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+            />
+          </label>
+
+          {isSignUp && (
+            <label>
+              Role
+              <select value={role} onChange={(event) => setRole(event.target.value as AuthRole)}>
+                <option value="STUDENT">Student</option>
+                <option value="ADMIN">Admin</option>
+              </select>
+            </label>
+          )}
+
+          {error && <p className="auth-modal__error">{error}</p>}
+
+          <button className="auth-modal__submit" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Please wait' : isSignUp ? 'Create account' : 'Log in'}
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}
