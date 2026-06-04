@@ -14,6 +14,7 @@ type AuthActions = {
   signIn: (data: SignInPayload) => Promise<void>
   signUp: (data: SignUpPayload) => Promise<void>
   refreshSession: () => Promise<void>
+  clearSession: () => void
   logout: () => Promise<void>
 }
 
@@ -86,12 +87,22 @@ export const useAuthStore = create<AuthStore>((set) => ({
     })
   },
 
+  clearSession: () => {
+    set({
+      ...emptyAuthState,
+      isLoading: false,
+    })
+  },
+
   logout: async () => {
     // Logs out on the API and clears the local auth state.
     try {
       await authApi.logout()
     } finally {
-      set(emptyAuthState)
+      set({
+        ...emptyAuthState,
+        isLoading: false,
+      })
     }
   },
 }))

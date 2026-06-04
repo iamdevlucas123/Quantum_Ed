@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import logo from '../assets/quantum_logo_1.png'
 import { useAuth } from '../context/AuthContext'
+import { AUTH_REQUIRED_EVENT } from '../services/http_client'
 import ExploreMenu from './header/ExploreMenu'
 import LoginModal from './header/loginModal'
 import '../styles/header_css/header.css'
@@ -9,6 +10,16 @@ import '../styles/header_css/header.css'
 export default function Header() {
   const { user, isAuthenticated, isLoading, logout } = useAuth()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+
+  useEffect(() => {
+    const openLoginModal = () => setIsLoginModalOpen(true)
+
+    window.addEventListener(AUTH_REQUIRED_EVENT, openLoginModal)
+
+    return () => {
+      window.removeEventListener(AUTH_REQUIRED_EVENT, openLoginModal)
+    }
+  }, [])
 
   return (
     <header className="header">

@@ -35,6 +35,9 @@ export const env = {
     REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET || process.env.JWT_SECRET || '',
     REFRESH_TOKEN_EXPIRES_IN: process.env.REFRESH_TOKEN_EXPIRES_IN || '7d',
 
-    CORS_ORIGINS: listFromEnv(process.env.CORS_ORIGINS, 'http://localhost:3001,http://localhost:5173'),
+    CORS_ORIGINS: listFromEnv(
+        process.env.CORS_ORIGINS,
+        'http://localhost:3001,http://localhost:5173,http://127.0.0.1:3001,http://127.0.0.1:5173',
+    ),
     NODE_ENV: process.env.NODE_ENV || 'development',
 }
