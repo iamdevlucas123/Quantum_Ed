@@ -1,17 +1,31 @@
 .about-section {
-    width: min(1120px, calc(100% - 48px));
-    margin: 28px auto 0;
+    position: relative;
+    overflow: hidden;
+    width: min(1180px, calc(100% - 48px));
+    margin: 36px auto 0;
     padding: 42px 38px;
-    border: 1px solid rgba(24, 0, 173, 0.12);
-    border-radius: 28px;
+    border: 1px solid rgba(125, 249, 255, 0.14);
+    border-radius: 24px;
     background:
-        radial-gradient(circle at top right, rgba(85, 81, 255, 0.12), transparent 28%),
-        rgba(255, 255, 255, 0.86);
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
-    backdrop-filter: blur(14px);
+        linear-gradient(180deg, rgba(6, 19, 32, 0.94), rgba(4, 14, 24, 0.92)),
+        rgba(5, 14, 24, 0.92);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+}
+
+.about-section::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    right: 22px;
+    width: 132px;
+    height: 132px;
+    background: url("/assets/backgrounds/planet-copper-shadow.png") center / contain no-repeat;
+    opacity: 0.16;
 }
 
 .about-section__intro {
+    position: relative;
+    z-index: 1;
     max-width: 760px;
 }
 
@@ -19,24 +33,27 @@
     display: inline-flex;
     margin: 0 0 12px;
     padding: 8px 14px;
+    border: 1px solid rgba(255, 184, 77, 0.18);
     border-radius: 999px;
-    background: rgba(24, 0, 173, 0.08);
-    color: var(--primary-color);
+    background: rgba(255, 184, 77, 0.08);
+    color: #ffd699;
     font-size: 0.82rem;
     font-weight: 800;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
 .about-section__intro h2 {
     margin: 0;
-    color: #111827;
+    color: #edf8ff;
     font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.05;
+    text-transform: uppercase;
 }
 
 .about-section__intro p:last-child {
     margin: 16px 0 0;
-    color: #55627a;
+    color: #8da8be;
     font-size: 1.03rem;
     line-height: 1.75;
 }
@@ -50,14 +67,14 @@
 
 .about-section__stats div {
     padding: 20px;
-    border: 1px solid rgba(24, 0, 173, 0.1);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(125, 249, 255, 0.12);
+    border-radius: 16px;
+    background: rgba(8, 21, 35, 0.76);
 }
 
 .about-section__stats strong {
     display: block;
-    color: var(--primary-color);
+    color: var(--home-accent);
     font-size: 2rem;
     line-height: 1;
 }
@@ -65,7 +82,7 @@
 .about-section__stats span {
     display: block;
     margin-top: 8px;
-    color: #55627a;
+    color: #89a6be;
     font-weight: 700;
 }
 
@@ -79,19 +96,21 @@
 .about-section__card {
     min-height: 190px;
     padding: 22px;
+    border: 1px solid rgba(125, 249, 255, 0.12);
     border-radius: 18px;
-    background: #111827;
+    background: linear-gradient(180deg, rgba(11, 28, 46, 0.96), rgba(8, 18, 30, 0.92));
     color: #ffffff;
 }
 
 .about-section__card h3 {
     margin: 0 0 12px;
+    color: #edf8ff;
     font-size: 1.2rem;
 }
 
 .about-section__card p {
     margin: 0;
-    color: rgba(255, 255, 255, 0.74);
+    color: #90aabf;
     line-height: 1.65;
 }
 

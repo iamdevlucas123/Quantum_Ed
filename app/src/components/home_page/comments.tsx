@@ -1,27 +1,26 @@
-
 import '../../styles/home_page_css/comments.css';
 
 const testimonials = [
     {
-        title: 'Title of the testimonial',
-        quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel sapien eget nunc efficitur varius.',
-        name: 'name of the person',
-        role: 'role of the person',
+        title: 'The roadmap feels operational',
+        quote: 'QuantumEd made advanced topics feel like a mission log instead of a loose pile of tutorials.',
+        name: 'Avery Brooks',
+        role: 'Embedded systems student',
         initials: 'AB',
     },
     {
-        title: 'Title of the testimonial',
-        quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel sapien eget nunc efficitur varius.',
-        name: 'name of the person',
-        role: 'role of the person',
+        title: 'Strong signal, low noise',
+        quote: 'The lessons cut straight to the models and the exercises feel closer to real engineering work.',
+        name: 'Camila Duarte',
+        role: 'Physics undergrad',
         initials: 'CD',
     },
     {
-        title: 'Title of the testimonial',
-        quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel sapien eget nunc efficitur varius.',
-        name: 'name of the person',
-        role: 'role of the person',
-        initials: 'AB',
+        title: 'A better control panel for self-study',
+        quote: 'I can track where I am, what to review next and which courses deserve deeper time.',
+        name: 'Mason Lee',
+        role: 'Software engineer',
+        initials: 'ML',
     },
 ];
 
@@ -29,7 +28,7 @@ export default function Comments() {
     return (
         <section className="comments">
             <button className="comments__arrow comments__arrow--prev" type="button" aria-label="Previous testimonial">
-                ‹
+                {'<'}
             </button>
 
             <div className="comments__track">
@@ -39,7 +38,7 @@ export default function Comments() {
                         <p className="comments__quote">{testimonial.quote}</p>
 
                         <div className="comments__author">
-                            <div className="" aria-hidden="true">
+                            <div className="comments__avatar" aria-hidden="true">
                                 {testimonial.initials}
                             </div>
                             <div>
@@ -52,7 +51,7 @@ export default function Comments() {
             </div>
 
             <button className="comments__arrow comments__arrow--next" type="button" aria-label="Next testimonial">
-                ›
+                {'>'}
             </button>
 
             <div className="comments__pagination" aria-hidden="true">

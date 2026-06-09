@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 
-import logo from '../assets/quantum_logo_1.png'
 import { useAuth } from '../context/AuthContext'
 import { AUTH_REQUIRED_EVENT } from '../services/http_client'
 import ExploreMenu from './header/ExploreMenu'
@@ -26,8 +25,12 @@ export default function Header() {
       <div className="header__left">
         <div className="logo">
           <a href="/" aria-label="QuantumEd home">
-            <img src={logo} alt="QuantumEd" />
+            <img src="/assets/icons/quantum-atom-mark.png" alt="QuantumEd" />
           </a>
+        </div>
+        <div className="header__status" aria-label="Platform status">
+          <span className="header__status-dot" aria-hidden="true" />
+          <span>Orbital campus online</span>
         </div>
         <ExploreMenu />
         <nav className="nav header__links" aria-label="Main navigation">
@@ -41,6 +44,7 @@ export default function Header() {
 
       <div className="header__actions">
         <label className="header__search">
+          <img className="header__search-icon" src="/assets/icons/quantum-atom-mark.png" alt="" />
           <input type="search" placeholder="Search" aria-label="Search courses" />
         </label>
         {isAuthenticated ? (
