@@ -31,12 +31,12 @@ export default function CourseContent() {
 
       <div className="course-content__toolbar">
         <label className="course-content__search">
-          <span aria-hidden="true">⌕</span>
+          <span aria-hidden="true">[]</span>
           <input type="search" placeholder="Search Lessons" aria-label="Search lessons" />
         </label>
 
         <button type="button" className="course-content__expand">
-          Expand All <span aria-hidden="true">↕</span>
+          Expand All <span aria-hidden="true">+-</span>
         </button>
       </div>
 
@@ -51,7 +51,7 @@ export default function CourseContent() {
 
               <button type="button" className="course-module__toggle" aria-label={`Expand ${module.title}`}>
                 <span>{module.lessons} Lessons</span>
-                <i aria-hidden="true">⌄</i>
+                <i aria-hidden="true">v</i>
               </button>
             </div>
 

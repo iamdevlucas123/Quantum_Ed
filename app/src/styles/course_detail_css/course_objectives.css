@@ -1,22 +1,43 @@
 .course-objectives {
+    position: relative;
+    overflow: hidden;
     width: min(1120px, calc(100% - 48px));
     margin: 28px auto 0;
-    padding: 36px;
-    border: 1px solid rgba(24, 0, 173, 0.12);
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.82);
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
-    backdrop-filter: blur(16px);
+    padding: 34px;
+    border: 1px solid rgba(125, 249, 255, 0.14);
+    border-radius: 24px;
+    background:
+        linear-gradient(180deg, rgba(8, 21, 35, 0.92), rgba(5, 15, 26, 0.9)),
+        rgba(6, 15, 25, 0.9);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+}
+
+.course-objectives::before {
+    content: "";
+    position: absolute;
+    left: -38px;
+    bottom: -50px;
+    width: 160px;
+    height: 160px;
+    background: url("/assets/backgrounds/planet-teal-shadow.png") center / contain no-repeat;
+    opacity: 0.16;
+    pointer-events: none;
 }
 
 .course-objectives h2 {
+    position: relative;
+    z-index: 1;
     margin: 0 0 22px;
-    color: var(--primary-color);
+    color: #edf8ff;
     font-size: clamp(1.8rem, 3vw, 2.4rem);
     letter-spacing: -0.04em;
 }
 
 .course-objectives ul {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 12px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -24,12 +45,26 @@
 
 .course-objectives li {
     position: relative;
-    padding: 18px 18px;
-    color: #243145;
+    padding: 16px 16px 16px 44px;
+    border: 1px solid rgba(125, 249, 255, 0.1);
+    border-radius: 14px;
+    background: rgba(9, 21, 35, 0.64);
+    color: #9cb6ca;
     font-weight: 600;
     line-height: 1.6;
 }
 
+.course-objectives li::before {
+    content: "";
+    position: absolute;
+    top: 21px;
+    left: 18px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--home-accent);
+    box-shadow: 0 0 12px rgba(125, 249, 255, 0.6);
+}
 
 @media (max-width: 900px) {
     .course-objectives {
@@ -40,10 +75,6 @@
 
 @media (max-width: 540px) {
     .course-objectives {
-        border-radius: 24px;
-    }
-
-    .course-objectives li {
-        padding-left: 42px;
+        border-radius: 20px;
     }
 }

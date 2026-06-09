@@ -8,6 +8,7 @@
 }
 
 .courses-filters__search {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -18,15 +19,32 @@
     background: rgba(6, 17, 28, 0.88);
     color: #6b8aa2;
     box-shadow: inset 0 1px 0 rgba(125, 249, 255, 0.04);
+    overflow: hidden;
+}
+
+.courses-filters__search::before {
+    content: "";
+    position: absolute;
+    right: -18px;
+    top: -24px;
+    width: 86px;
+    height: 86px;
+    background: url("/assets/backgrounds/planet-violet-shadow.png") center / contain no-repeat;
+    opacity: 0.14;
+    pointer-events: none;
 }
 
 .courses-filters__search img {
+    position: relative;
+    z-index: 1;
     width: 18px;
     height: 18px;
     opacity: 0.72;
 }
 
 .courses-filters__search input {
+    position: relative;
+    z-index: 1;
     width: 100%;
     border: 0;
     outline: 0;
@@ -51,7 +69,9 @@
     padding: 0 14px;
     border: 1px solid rgba(125, 249, 255, 0.12);
     border-radius: 999px;
-    background: rgba(8, 20, 33, 0.84);
+    background:
+        linear-gradient(180deg, rgba(9, 22, 36, 0.82), rgba(7, 18, 29, 0.8)),
+        rgba(8, 20, 33, 0.84);
     color: #9bb7cc;
     font: inherit;
     font-size: 0.9rem;
@@ -64,7 +84,9 @@
 .courses-filters__subjects button.is-active,
 .courses-filters__subjects button:hover {
     border-color: rgba(125, 249, 255, 0.42);
-    background: rgba(125, 249, 255, 0.12);
+    background:
+        linear-gradient(180deg, rgba(125, 249, 255, 0.14), rgba(125, 249, 255, 0.08)),
+        rgba(125, 249, 255, 0.12);
     color: #edf8ff;
 }
 

@@ -34,6 +34,14 @@
     pointer-events: none;
 }
 
+.courses-card:nth-child(3n + 2)::before {
+    background-image: url("/assets/backgrounds/planet-amber-shadow.png");
+}
+
+.courses-card:nth-child(3n + 3)::before {
+    background-image: url("/assets/backgrounds/planet-forest-shadow.png");
+}
+
 .courses-card::after {
     content: "";
     position: absolute;
@@ -88,6 +96,7 @@
     color: #edf8ff;
     font-size: 1.25rem;
     line-height: 1.25;
+    max-width: 12ch;
 }
 
 .courses-card p {
@@ -102,6 +111,7 @@
     color: #d5e9f6;
     font-size: 0.9rem;
     font-weight: 700;
+    opacity: 0.94;
 }
 
 .courses-card__status img {
@@ -117,6 +127,7 @@
     color: #7df9ff;
     font-size: 0.92rem;
     font-weight: 800;
+    border-top: 1px solid rgba(125, 249, 255, 0.08);
 }
 
 .courses-card a {
