@@ -184,10 +184,7 @@ body {
     min-height: 540px;
 }
 
-.main__planet,
-.main__station,
-.main__rocket,
-.main__thrusters {
+.main__planet {
     position: absolute;
     user-select: none;
     pointer-events: none;
@@ -208,56 +205,6 @@ body {
     animation: drift-slow 15s ease-in-out infinite reverse;
 }
 
-.main__station {
-    top: 84px;
-    left: 8%;
-    width: clamp(138px, 16vw, 206px);
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35));
-    animation: orbit-float 8s ease-in-out infinite;
-}
-
-.main__station--gold {
-    top: 248px;
-    right: 12%;
-    left: auto;
-    width: clamp(138px, 16vw, 206px);
-    animation-delay: -4s;
-}
-
-.main__rocket {
-    right: 18%;
-    bottom: 92px;
-    width: clamp(180px, 22vw, 290px);
-    transform: rotate(-10deg);
-    filter: drop-shadow(0 18px 42px rgba(0, 0, 0, 0.44));
-    animation: launch-hover 5.2s ease-in-out infinite;
-}
-
-.main__thrusters {
-    right: 30%;
-    bottom: 112px;
-    width: clamp(90px, 11vw, 130px);
-    transform: rotate(-10deg);
-    transform-origin: center;
-    opacity: 0.9;
-    animation: thruster-pulse 1.2s ease-in-out infinite;
-}
-
-.main__grid {
-    position: absolute;
-    right: 2%;
-    bottom: 16px;
-    width: 72%;
-    height: 34%;
-    border: 1px solid rgba(125, 249, 255, 0.16);
-    border-radius: 18px 18px 120px 18px;
-    background:
-        linear-gradient(90deg, rgba(125, 249, 255, 0.08) 1px, transparent 1px),
-        linear-gradient(rgba(125, 249, 255, 0.08) 1px, transparent 1px);
-    background-size: 22px 22px;
-    opacity: 0.44;
-}
-
 @keyframes drift-slow {
     0%,
     100% {
@@ -266,41 +213,6 @@ body {
 
     50% {
         transform: translateY(-18px) translateX(10px);
-    }
-}
-
-@keyframes orbit-float {
-    0%,
-    100% {
-        transform: translateY(0) rotate(0deg);
-    }
-
-    50% {
-        transform: translateY(-12px) rotate(2deg);
-    }
-}
-
-@keyframes launch-hover {
-    0%,
-    100% {
-        transform: translateY(0) rotate(-10deg);
-    }
-
-    50% {
-        transform: translateY(-12px) rotate(-8deg);
-    }
-}
-
-@keyframes thruster-pulse {
-    0%,
-    100% {
-        opacity: 0.56;
-        transform: rotate(-10deg) scaleY(0.94);
-    }
-
-    50% {
-        opacity: 1;
-        transform: rotate(-10deg) scaleY(1.08);
     }
 }
 
@@ -323,10 +235,6 @@ body {
 
     .main__scene {
         min-height: 420px;
-    }
-
-    .main__rocket {
-        right: 20%;
     }
 }
 
@@ -357,8 +265,7 @@ body {
     }
 
     .main__planet--secondary,
-    .main__station--gold,
-    .main__grid {
+    .main__scene img:not(.main__planet--primary) {
         display: none;
     }
 }

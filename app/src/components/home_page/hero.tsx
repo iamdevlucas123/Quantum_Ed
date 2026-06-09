@@ -25,11 +25,7 @@ export default function Hero() {
             <div className="main__scene" aria-hidden="true">
                 <img className="main__planet main__planet--primary" src="/assets/backgrounds/planet-indigo-shadow.png" alt="" />
                 <img className="main__planet main__planet--secondary" src="/assets/backgrounds/planet-teal-shadow.png" alt="" />
-                <img className="main__station" src="/assets/sprites/space-station-blue-module.png" alt="" />
-                <img className="main__station main__station--gold" src="/assets/sprites/space-station-gold-module.png" alt="" />
-                <img className="main__rocket" src="/assets/sprites/crew-rocket-front.png" alt="" />
-                <img className="main__thrusters" src="/assets/sprites/rocket-thruster-effects.png" alt="" />
-                <div className="main__grid" />
+    
             </div>
         </section>
     )
