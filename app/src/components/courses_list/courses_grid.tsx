@@ -7,12 +7,17 @@ export default function CoursesGrid() {
       {courses.map((course) => (
         <article className="courses-card" key={course.id}>
           <div className="courses-card__top">
-            <span>{course.subject}</span>
-            <span>{course.level}</span>
+            <span className="courses-card__subject">{course.subject}</span>
+            <span className="courses-card__level">{course.level}</span>
           </div>
 
           <h2>{course.title}</h2>
           <p>{course.description}</p>
+
+          <div className="courses-card__status">
+            <img src="/assets/sprites/laser-projectile-effects.png" alt="" />
+            <span>{course.status}</span>
+          </div>
 
           <div className="courses-card__meta">
             <span>{course.lessons} lessons</span>

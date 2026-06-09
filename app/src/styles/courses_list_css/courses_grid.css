@@ -1,53 +1,122 @@
 .courses-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
     width: min(1220px, calc(100% - 48px));
-    margin: 28px auto 0;
+    margin: 24px auto 0;
 }
 
 .courses-card {
+    position: relative;
     display: flex;
     flex-direction: column;
-    min-height: 340px;
+    min-height: 350px;
     padding: 22px;
-    border: 1px solid rgba(24, 0, 173, 0.1);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.05);
+    border: 1px solid rgba(125, 249, 255, 0.12);
+    border-radius: 20px;
+    background:
+        linear-gradient(180deg, rgba(8, 21, 35, 0.94), rgba(5, 15, 26, 0.92)),
+        rgba(6, 15, 25, 0.92);
+    box-shadow: 0 18px 32px rgba(0, 0, 0, 0.24);
+    overflow: hidden;
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.courses-card::before {
+    content: "";
+    position: absolute;
+    top: -24px;
+    right: -18px;
+    width: 110px;
+    height: 110px;
+    background: url("/assets/backgrounds/planet-teal-shadow.png") center / contain no-repeat;
+    opacity: 0.14;
+    pointer-events: none;
+}
+
+.courses-card::after {
+    content: "";
+    position: absolute;
+    right: 18px;
+    bottom: 74px;
+    width: 88px;
+    height: 88px;
+    background: url("/assets/sprites/space-station-blue-module.png") center / contain no-repeat;
+    opacity: 0.11;
+    pointer-events: none;
+}
+
+.courses-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(125, 249, 255, 0.34);
+    box-shadow: 0 24px 40px rgba(0, 0, 0, 0.3);
 }
 
 .courses-card__top,
-.courses-card__meta {
+.courses-card__meta,
+.courses-card__status {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    color: #64748b;
-    font-size: 0.9rem;
-    font-weight: 700;
 }
 
-.courses-card__top span:first-child {
-    color: #5551ff;
+.courses-card__top {
+    color: #6f94ab;
+    font-size: 0.84rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.courses-card__subject {
+    color: var(--home-accent);
+}
+
+.courses-card__level {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 10px;
+    border: 1px solid rgba(255, 184, 77, 0.2);
+    border-radius: 999px;
+    background: rgba(255, 184, 77, 0.08);
+    color: #ffd699;
 }
 
 .courses-card h2 {
-    margin: 26px 0 14px;
-    color: #111827;
+    margin: 22px 0 14px;
+    color: #edf8ff;
     font-size: 1.25rem;
     line-height: 1.25;
 }
 
 .courses-card p {
     margin: 0;
-    color: #55627a;
+    color: #8faabe;
     line-height: 1.65;
+}
+
+.courses-card__status {
+    margin-top: 20px;
+    justify-content: flex-start;
+    color: #d5e9f6;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.courses-card__status img {
+    width: 88px;
+    height: 18px;
+    object-fit: contain;
+    opacity: 0.88;
 }
 
 .courses-card__meta {
     margin-top: auto;
     padding-top: 22px;
+    color: #7df9ff;
+    font-size: 0.92rem;
+    font-weight: 800;
 }
 
 .courses-card a {
@@ -56,11 +125,19 @@
     align-items: center;
     min-height: 44px;
     margin-top: 18px;
-    border-radius: 8px;
-    background: #111827;
-    color: #ffffff;
+    border: 1px solid rgba(125, 249, 255, 0.24);
+    border-radius: 10px;
+    background: rgba(125, 249, 255, 0.08);
+    color: #edf8ff;
     font-weight: 800;
     text-decoration: none;
+    text-transform: uppercase;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.courses-card a:hover {
+    border-color: rgba(125, 249, 255, 0.42);
+    background: rgba(125, 249, 255, 0.14);
 }
 
 @media (max-width: 1080px) {
