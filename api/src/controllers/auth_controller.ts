@@ -16,13 +16,12 @@ export const authController = {
   // Creates a new user and starts a session.
   async signUp(req: Request, res: Response): Promise<void> {
     try {
-      const { name, email, password, role } = req.body
+      const { name, email, password } = req.body
       // Registers the user through the authentication service.
       const result = await authService.signUp({
         name,
         email,
         password,
-        role,
       })
       const { refreshToken, ...session } = result
       setRefreshTokenCookie(res, refreshToken)

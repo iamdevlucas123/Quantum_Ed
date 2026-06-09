@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { User } from '@prisma/client'
+import { User, UserRole } from '@prisma/client'
 import type { JwtPayload, SignInData, SignUpData } from '@quantum-ed/shared-types'
 import { authCookieConfig } from '../config/cookies'
 import { jwtConfig } from '../config/jwt'
@@ -108,7 +108,7 @@ export const authService = {
         name: data.name,
         email: data.email,
         passwordHash,
-        role: data.role,
+        role: UserRole.STUDENT,
       },
     })
 

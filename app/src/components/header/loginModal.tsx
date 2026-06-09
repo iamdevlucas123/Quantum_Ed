@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from 'react'
 
 import { useAuth } from '../../context/AuthContext'
-import type { AuthRole } from '../../services/auth_api'
 
 type LoginModalProps = {
   isOpen: boolean
@@ -19,7 +18,6 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [role, setRole] = useState<AuthRole>('STUDENT')
 
   // Stores the latest form error message.
   const [error, setError] = useState<string | null>(null)
@@ -39,7 +37,6 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       name: name.trim() || undefined,
       email,
       password,
-      role,
     })
   }
 
@@ -140,17 +137,6 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               required
             />
           </label>
-
-          {isSignUp && (
-            <label>
-              Role
-              <select value={role} onChange={(event) => setRole(event.target.value as AuthRole)}>
-                <option value="STUDENT">Student</option>
-                <option value="ADMIN">Admin</option>
-              </select>
-            </label>
-          )}
-
           {error && <p className="auth-modal__error">{error}</p>}
 
           <button className="auth-modal__submit" type="submit" disabled={isSubmitting}>
