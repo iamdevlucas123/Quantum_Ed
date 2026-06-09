@@ -27,6 +27,26 @@ export const userService = {
     })
   },
 
+  findProgressByUserId(userId: string) {
+    return prisma.progress.findMany({
+      where: { userId },
+      include: {
+        course: {
+          include: {
+            topic: {
+              include: {
+                subject: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        updatedAt: 'desc',
+      },
+    })
+  },
+
   update(id: string, data: updateUserData): Promise<User> {
     return prisma.user.update({
       where: {id},

@@ -45,7 +45,9 @@ export default function Header() {
         </label>
         {isAuthenticated ? (
           <div className="header__session">
-            <span>{user?.name ?? user?.email}</span>
+            <a className="header__profile-link" href="/profile">
+              {user?.name ?? user?.email}
+            </a>
             <button id="login" type="button" onClick={() => void logout()}>
               Log Out
             </button>

@@ -5,6 +5,7 @@ const userRouter = Router()
 
 userRouter.post('/', userController.create);
 userRouter.get('/', userController.findAll);
+userRouter.get('/:id/progress', userController.findProgressByUserId);
 userRouter.get('/:id', userController.findById);
 userRouter.put('/:id', userController.update);
 userRouter.delete('/:id', userController.delete);

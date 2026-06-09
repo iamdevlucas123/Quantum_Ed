@@ -9,6 +9,7 @@ const CoursesList = lazy(() => import('./pages/courses_list'))
 const CourseDetail = lazy(() => import('./pages/course_detail'))
 const LessonsViewer = lazy(() => import('./pages/lessons_viewer'))
 const NotFound = lazy(() => import('./pages/notFound'))
+const Profile = lazy(() => import('./pages/profile'))
 
 function App() {
   const refreshSession = useAuthStore((state) => state.refreshSession)
@@ -25,6 +26,7 @@ function App() {
         <Route path="/courses/:id" element={<CourseDetail />} />
         <Route path="/lessons/:id" element={<LessonsViewer />} />
         <Route path="/courses" element={<CoursesList />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<NotFound />} />
         {/* Dev routes */}
         <Route path="/dev/lessons-viewer" element={<LessonsViewer />} />
