@@ -2,7 +2,8 @@ import { Routes, Route } from 'react-router-dom'
 import { lazy, Suspense, useEffect } from 'react'
 import './styles/index.css'
 import Loader from './components/loader'
-import { useAuthStore } from './context/AuthContext'
+import RequireAuth from './components/require_auth'
+import { useAuthStore } from './context/auth_store'
 
 const HomePage = lazy(() => import('./pages/home_page'))
 const CoursesList = lazy(() => import('./pages/courses_list'))
@@ -23,14 +24,13 @@ function App() {
     <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/courses/:id" element={<CourseDetail />} />
-        <Route path="/lessons/:id" element={<LessonsViewer />} />
-        <Route path="/courses" element={<CoursesList />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/courses" element={<CoursesList />} />
+          <Route path="/courses/:courseSlug" element={<CourseDetail />} />
+          <Route path="/courses/:courseSlug/lessons/:lessonSlug" element={<LessonsViewer />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
-        {/* Dev routes */}
-        <Route path="/dev/lessons-viewer" element={<LessonsViewer />} />
-        <Route path="/dev/course-detail" element={<CourseDetail />} />
       </Routes>
     </Suspense>
   )

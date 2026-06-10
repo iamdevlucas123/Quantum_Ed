@@ -1,5 +1,5 @@
 import { env } from '../config/env'
-import { useAuthStore } from '../context/AuthContext'
+import { useAuthStore } from '../context/auth_store'
 export const AUTH_REQUIRED_EVENT = 'quantum-ed:auth-required'
 
 type ApiErrorResponse = {

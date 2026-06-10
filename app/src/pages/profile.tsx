@@ -11,7 +11,7 @@ import ProfileOverview from '../components/profile/profile_overview';
 import ProfileRecentActivity from '../components/profile/profile_recent_activity';
 import ProfileStats from '../components/profile/profile_stats';
 import type { ProfileSummary } from '../components/profile/profile_types';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/auth_store';
 import { AUTH_REQUIRED_EVENT } from '../services/http_client';
 import { getUserProgress, type UserCourseProgress } from '../services/user_api';
 import '../styles/profile.css';

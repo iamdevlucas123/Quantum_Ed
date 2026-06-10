@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../context/auth_store'
 import { AUTH_REQUIRED_EVENT } from '../services/http_client'
 import ExploreMenu from './header/ExploreMenu'
 import LoginModal from './header/loginModal'
@@ -9,6 +10,7 @@ import '../styles/header_css/header.css'
 export default function Header() {
   const { user, isAuthenticated, isLoading, logout } = useAuth()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
     const openLoginModal = () => setIsLoginModalOpen(true)
@@ -19,6 +21,23 @@ export default function Header() {
       window.removeEventListener(AUTH_REQUIRED_EVENT, openLoginModal)
     }
   }, [])
+
+  useEffect(() => {
+    if (searchParams.get('login') === '1' && !isAuthenticated) {
+      setIsLoginModalOpen(true)
+    }
+  }, [isAuthenticated, searchParams])
+
+  const closeLoginModal = (): void => {
+    if (searchParams.get('login') === '1') {
+      const nextParams = new URLSearchParams(searchParams)
+      nextParams.delete('login')
+      nextParams.delete('next')
+      setSearchParams(nextParams, { replace: true })
+    }
+
+    setIsLoginModalOpen(false)
+  }
 
   return (
     <header className="header">
@@ -63,7 +82,7 @@ export default function Header() {
         )}
       </div>
 
-      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+      <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
     </header>
   )
 }
