@@ -122,18 +122,25 @@ model Course {
 model Module {
   id          Int    @id @default(autoincrement())
   name        String
+  slug        String @default(cuid())
   description String
+  order       Int    @default(0)
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   lessons Lesson[]
+
+  @@index([courseId, order])
+  @@index([courseId, slug])
 }
 
 model Lesson {
   id          Int    @id @default(autoincrement())
   name        String
+  slug        String @default(cuid())
   description String
+  order       Int    @default(0)
 
   moduleId Int
   module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
@@ -141,6 +148,9 @@ model Lesson {
   content      LessonContent?
   activityLogs ActivityLog[]
   quizAttempts QuizAttempt[]
+
+  @@index([moduleId, order])
+  @@index([moduleId, slug])
 }
 
 model LessonContent {
