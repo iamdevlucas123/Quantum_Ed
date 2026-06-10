@@ -12,12 +12,13 @@ import ProfileRecentActivity from '../components/profile/profile_recent_activity
 import ProfileStats from '../components/profile/profile_stats';
 import type { ProfileSummary } from '../components/profile/profile_types';
 import { useAuth } from '../context/auth_store';
-import { AUTH_REQUIRED_EVENT } from '../services/http_client';
+import { useUiStore } from '../context/ui_store';
 import { getUserProgress, type UserCourseProgress } from '../services/user_api';
 import '../styles/profile.css';
 
 export default function Profile() {
   const { user, isAuthenticated, isLoading } = useAuth();
+  const openLoginModal = useUiStore((state) => state.openLoginModal);
   const [progresses, setProgresses] = useState<UserCourseProgress[]>([]);
   const [isProgressLoading, setIsProgressLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +67,7 @@ export default function Profile() {
   }, [progresses, user?.createdAt, user?.email, user?.name, user?.role]);
 
   const openLogin = (): void => {
-    window.dispatchEvent(new Event(AUTH_REQUIRED_EVENT));
+    openLoginModal();
   };
 
   return (

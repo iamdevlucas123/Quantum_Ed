@@ -1,43 +1,35 @@
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
-import { useAuth } from '../context/auth_store'
-import { AUTH_REQUIRED_EVENT } from '../services/http_client'
-import ExploreMenu from './header/ExploreMenu'
-import LoginModal from './header/loginModal'
-import '../styles/header_css/header.css'
+import { useAuth } from '../context/auth_store';
+import { useUiStore } from '../context/ui_store';
+import ExploreMenu from './header/ExploreMenu';
+import LoginModal from './header/loginModal';
+import '../styles/header_css/header.css';
 
 export default function Header() {
-  const { user, isAuthenticated, isLoading, logout } = useAuth()
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  useEffect(() => {
-    const openLoginModal = () => setIsLoginModalOpen(true)
-
-    window.addEventListener(AUTH_REQUIRED_EVENT, openLoginModal)
-
-    return () => {
-      window.removeEventListener(AUTH_REQUIRED_EVENT, openLoginModal)
-    }
-  }, [])
+  const { user, isAuthenticated, isLoading, logout } = useAuth();
+  const isLoginModalOpen = useUiStore((state) => state.isLoginModalOpen);
+  const openLoginModal = useUiStore((state) => state.openLoginModal);
+  const closeLoginModalState = useUiStore((state) => state.closeLoginModal);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     if (searchParams.get('login') === '1' && !isAuthenticated) {
-      setIsLoginModalOpen(true)
+      openLoginModal();
     }
-  }, [isAuthenticated, searchParams])
+  }, [isAuthenticated, openLoginModal, searchParams]);
 
   const closeLoginModal = (): void => {
     if (searchParams.get('login') === '1') {
-      const nextParams = new URLSearchParams(searchParams)
-      nextParams.delete('login')
-      nextParams.delete('next')
-      setSearchParams(nextParams, { replace: true })
+      const nextParams = new URLSearchParams(searchParams);
+      nextParams.delete('login');
+      nextParams.delete('next');
+      setSearchParams(nextParams, { replace: true });
     }
 
-    setIsLoginModalOpen(false)
-  }
+    closeLoginModalState();
+  };
 
   return (
     <header className="header">
@@ -76,7 +68,7 @@ export default function Header() {
             </button>
           </div>
         ) : (
-          <button id="login" type="button" disabled={isLoading} onClick={() => setIsLoginModalOpen(true)}>
+          <button id="login" type="button" disabled={isLoading} onClick={openLoginModal}>
             Log In
           </button>
         )}
@@ -84,5 +76,5 @@ export default function Header() {
 
       <LoginModal isOpen={isLoginModalOpen} onClose={closeLoginModal} />
     </header>
-  )
+  );
 }
