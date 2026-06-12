@@ -1,19 +1,22 @@
+import { Link } from 'react-router-dom';
 
+type HeaderLessonsProps = {
+  backHref: string;
+  courseTitle: string;
+};
 
-export default function HeaderLessons() {
-
-    return (
-        <div className="lesson-viewer__topbar">
-                <div className="lesson-viewer__topbar-left">
-                    <button type="button" className="lesson-viewer__icon-button" aria-label="Go back">
-                        &#8592;
-                    </button>
-                    <div className="lesson-viewer__brand">
-                        <span><img src="/path/to/logo.png" alt="QuantumEd Logo" /></span>
-                        <span>QuantumEd</span>
-                    </div>
-                </div>
-
-            </div>
-    )
+export default function HeaderLessons({ backHref, courseTitle }: HeaderLessonsProps) {
+  return (
+    <div className="lesson-viewer__topbar">
+      <div className="lesson-viewer__topbar-left">
+        <Link className="lesson-viewer__icon-button" to={backHref} aria-label="Go back to course">
+          &#8592;
+        </Link>
+        <div className="lesson-viewer__brand">
+          <span><img src="/assets/icons/quantum-atom-mark.png" alt="QuantumEd Logo" /></span>
+          <span>{courseTitle}</span>
+        </div>
+      </div>
+    </div>
+  );
 }

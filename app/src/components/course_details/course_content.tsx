@@ -1,61 +1,63 @@
-const roadmapModules = [
-  {
-    title: 'Lorem Ipsum Dolor Sit Amet Consectetur',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    lessons: 6,
-  },
-  {
-    title: 'Lorem Ipsum Dolor Sit Amet Consectetur',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    lessons: 4,
-  },
-  {
-    title: 'Lorem Lorem Ipsum',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    lessons: 5,
-  },
-];
+import { Link } from 'react-router-dom';
 
-export default function CourseContent() {
+import type { CourseModuleSummary } from '../../services/course_api';
+
+type CourseContentProps = {
+  courseSlug: string;
+  lessonsCount: number;
+  modules: CourseModuleSummary[];
+};
+
+export default function CourseContent({ courseSlug, lessonsCount, modules }: CourseContentProps) {
   return (
-    <section className="course-content">
+    <section className="course-content" id="course-roadmap">
       <header className="course-content__header">
         <div className="course-content__title">
           <h2>Learning Roadmap</h2>
-          <span>41 Lessons • 8 Quizzes</span>
+          <span>{lessonsCount} lessons across hands-on AI engineering modules</span>
         </div>
       </header>
 
       <div className="course-content__toolbar">
         <label className="course-content__search">
           <span aria-hidden="true">[]</span>
-          <input type="search" placeholder="Search Lessons" aria-label="Search lessons" />
+          <input type="search" placeholder="Search lessons" aria-label="Search lessons" />
         </label>
 
         <button type="button" className="course-content__expand">
-          Expand All <span aria-hidden="true">+-</span>
+          Structured Path <span aria-hidden="true">+-</span>
         </button>
       </div>
 
       <div className="course-content__modules">
-        {roadmapModules.map((module, index) => (
-          <article className="course-module" key={module.title}>
+        {modules.map((module, index) => (
+          <article className="course-module" key={module.id}>
             <div className="course-module__topline">
               <div className="course-module__heading">
                 <span>{index + 1}.</span>
-                <h3>{module.title}</h3>
+                <h3>{module.name}</h3>
               </div>
 
-              <button type="button" className="course-module__toggle" aria-label={`Expand ${module.title}`}>
-                <span>{module.lessons} Lessons</span>
+              <button type="button" className="course-module__toggle" aria-label={`Show lessons from ${module.name}`}>
+                <span>{module.lessons.length} lessons</span>
                 <i aria-hidden="true">v</i>
               </button>
             </div>
 
             <p>{module.description}</p>
+
+            <div className="course-module__lessons">
+              {module.lessons.map((lesson) => (
+                <Link
+                  className="course-module__lesson-link"
+                  key={lesson.id}
+                  to={`/courses/${courseSlug}/lessons/${lesson.slug}`}
+                >
+                  <strong>{lesson.name}</strong>
+                  <span>{lesson.description}</span>
+                </Link>
+              ))}
+            </div>
           </article>
         ))}
       </div>

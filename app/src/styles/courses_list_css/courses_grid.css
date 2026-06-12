@@ -6,6 +6,10 @@
     margin: 24px auto 0;
 }
 
+.courses-grid--empty {
+    grid-template-columns: 1fr;
+}
+
 .courses-card {
     position: relative;
     display: flex;
@@ -149,6 +153,25 @@
 .courses-card a:hover {
     border-color: rgba(125, 249, 255, 0.42);
     background: rgba(125, 249, 255, 0.14);
+}
+
+.courses-empty-state {
+    padding: 28px;
+    border: 1px solid rgba(125, 249, 255, 0.12);
+    border-radius: 20px;
+    background:
+        linear-gradient(180deg, rgba(8, 21, 35, 0.94), rgba(5, 15, 26, 0.92)),
+        rgba(6, 15, 25, 0.92);
+    color: #edf8ff;
+}
+
+.courses-empty-state h2 {
+    margin: 0 0 12px;
+}
+
+.courses-empty-state p {
+    margin: 0;
+    color: #8faabe;
 }
 
 @media (max-width: 1080px) {

@@ -1,19 +1,23 @@
+import type { CourseDetail } from '../../services/course_api';
 import CourseMeta from './course_meta';
 
-export default function CourseHero() {
+type CourseHeroProps = {
+  course: CourseDetail;
+  firstLessonHref: string | null;
+};
+
+export default function CourseHero({ course, firstLessonHref }: CourseHeroProps) {
   return (
     <section className="course-hero">
       <div className="course-hero__tools">
         <button type="button" className="course-save">Save</button>
       </div>
 
-      <h1>Lorem Lorem Lorem</h1>
+      <h1>{course.title}</h1>
 
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, blanditiis. Excepturi architecto amet, nemo qui laboriosam, error consequuntur est ducimus cumque, veritatis expedita dicta enim cum velit hic vitae eveniet.
-      </p>
+      <p>{course.description}</p>
 
-      <CourseMeta />
+      <CourseMeta course={course} firstLessonHref={firstLessonHref} />
     </section>
   );
 }

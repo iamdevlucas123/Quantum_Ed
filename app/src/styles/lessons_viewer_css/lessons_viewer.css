@@ -36,6 +36,7 @@
     color: #475467;
     font-size: 1.35rem;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .lesson-viewer__brand {
@@ -120,7 +121,62 @@
 }
 
 .lesson-sidebar__sections {
+    display: grid;
+    gap: 14px;
     margin-top: 22px;
+}
+
+.lesson-sidebar__section {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 16px;
+    background: #fbfcfe;
+}
+
+.lesson-sidebar__section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.lesson-sidebar__section-header strong {
+    color: #183153;
+}
+
+.lesson-sidebar__section-header span {
+    color: #667085;
+    font-size: 0.88rem;
+}
+
+.lesson-sidebar__section-links {
+    display: grid;
+    gap: 8px;
+}
+
+.lesson-sidebar__section-links a {
+    display: grid;
+    gap: 4px;
+    padding: 12px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    color: #344054;
+    text-decoration: none;
+}
+
+.lesson-sidebar__section-links a span {
+    color: #667085;
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+.lesson-sidebar__section-links a.is-active,
+.lesson-sidebar__section-links a:hover {
+    border-color: rgba(94, 121, 255, 0.18);
+    background: rgba(94, 121, 255, 0.08);
+    color: #183153;
 }
 
 .main-content {
@@ -237,6 +293,9 @@
 }
 
 .lesson-navigation__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     min-width: 180px;
     padding: 15px 22px;
     border: 1px solid rgba(94, 121, 255, 0.22);
@@ -246,6 +305,7 @@
     font-size: 0.98rem;
     font-weight: 700;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .lesson-navigation__button--secondary {

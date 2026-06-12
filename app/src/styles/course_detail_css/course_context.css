@@ -184,6 +184,39 @@
     line-height: 1.62;
 }
 
+.course-module__lessons {
+    display: grid;
+    gap: 12px;
+    margin-top: 22px;
+    margin-left: 28px;
+}
+
+.course-module__lesson-link {
+    display: grid;
+    gap: 6px;
+    padding: 16px;
+    border: 1px solid rgba(125, 249, 255, 0.1);
+    border-radius: 14px;
+    background: rgba(9, 21, 35, 0.58);
+    color: #edf8ff;
+    text-decoration: none;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.course-module__lesson-link strong {
+    font-size: 1rem;
+}
+
+.course-module__lesson-link span {
+    color: #8faabe;
+    line-height: 1.55;
+}
+
+.course-module__lesson-link:hover {
+    transform: translateY(-2px);
+    border-color: rgba(125, 249, 255, 0.32);
+}
+
 @media (max-width: 900px) {
     .course-content {
         width: min(100% - 28px, 1228px);
@@ -208,6 +241,10 @@
     }
 
     .course-module p {
+        margin-left: 0;
+    }
+
+    .course-module__lessons {
         margin-left: 0;
     }
 }

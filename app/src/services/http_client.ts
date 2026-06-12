@@ -1,3 +1,5 @@
+// Centralized the requisition to API and open the login modal id dont pass.
+
 import { env } from '../config/env';
 import { useAuthStore } from '../context/auth_store';
 import { useUiStore } from '../context/ui_store';
@@ -11,6 +13,7 @@ type RequestOptions = RequestInit & {
   retryOnUnauthorized?: boolean;
 };
 
+// Transform the HTTP response into a readable message.
 const readErrorMessage = async (response: Response): Promise<string> => {
   let data: ApiErrorResponse = {};
 
@@ -23,6 +26,7 @@ const readErrorMessage = async (response: Response): Promise<string> => {
   return data.error ?? data.message ?? `Request failed with status ${response.status}`;
 };
 
+// Convert the Response to an expected type.
 const parseResponse = async <T>(response: Response): Promise<T> => {
   if (response.status === 204) {
     return undefined as T;
