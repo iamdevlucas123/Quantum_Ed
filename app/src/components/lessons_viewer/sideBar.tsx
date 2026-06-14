@@ -1,21 +1,55 @@
 import { Link } from 'react-router-dom';
 
-import type { CourseModuleSummary } from '../../services/course_api';
+import type { LessonSidebarModule } from '../../services/lesson_api';
 
 type SideBarProps = {
   courseSlug: string;
+  courseProgress: number;
   courseTitle: string;
   currentLessonSlug: string;
-  modules: CourseModuleSummary[];
+  modules: LessonSidebarModule[];
 };
 
-export default function SideBar({ courseSlug, courseTitle, currentLessonSlug, modules }: SideBarProps) {
+const getLessonStatus = (moduleLesson: LessonSidebarModule['lessons'][number]): string => {
+  const lessonProgress = moduleLesson.lessonProgresses[0];
+
+  if (!lessonProgress) {
+    return 'Not started';
+  }
+
+  if (lessonProgress.completed) {
+    return 'Completed';
+  }
+
+  return `${Math.round(lessonProgress.progress)}% complete`;
+};
+
+export default function SideBar({
+  courseSlug,
+  courseProgress,
+  courseTitle,
+  currentLessonSlug,
+  modules,
+}: SideBarProps) {
+  const totalLessons = modules.reduce((sum, module) => sum + module.lessons.length, 0);
+  const completedLessons = modules.reduce((sum, module) => {
+    return sum + module.lessons.filter((lesson) => lesson.lessonProgresses[0]?.completed).length;
+  }, 0);
+
   return (
     <aside className="lesson-sidebar">
       <div className="lesson-sidebar__header">
         <div>
           <p className="lesson-sidebar__eyebrow">Course</p>
           <h2>{courseTitle}</h2>
+        </div>
+      </div>
+
+      <div className="lesson-sidebar__progress-card">
+        <strong>{Math.round(courseProgress)}%</strong>
+        <span>{completedLessons} of {totalLessons} lessons completed</span>
+        <div aria-hidden="true">
+          <span style={{ width: `${Math.max(0, Math.min(100, courseProgress))}%` }} />
         </div>
       </div>
 
@@ -44,7 +78,7 @@ export default function SideBar({ courseSlug, courseTitle, currentLessonSlug, mo
                   to={`/courses/${courseSlug}/lessons/${lesson.slug}`}
                 >
                   <strong>{lesson.name}</strong>
-                  <span>{lesson.description}</span>
+                  <span>{getLessonStatus(lesson)}</span>
                 </Link>
               ))}
             </div>

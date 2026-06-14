@@ -33,6 +33,7 @@ model User {
   localStorageKey String?  @unique
 
   progresses    Progress[]
+  lessonProgresses LessonProgress[]
   refreshTokens RefreshToken[]
   certificates  Certificate[]
   badges        Badge[]
@@ -146,11 +147,31 @@ model Lesson {
   module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
   content      LessonContent?
+  lessonProgresses LessonProgress[]
   activityLogs ActivityLog[]
   quizAttempts QuizAttempt[]
 
   @@index([moduleId, order])
   @@index([moduleId, slug])
+}
+
+model LessonProgress {
+  id        String   @id @default(uuid())
+  progress  Float    @default(0)
+  completed Boolean  @default(false)
+
+  userId    String
+  lessonId  Int
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, lessonId])
+  @@index([userId, updatedAt])
+  @@index([lessonId])
 }
 
 model LessonContent {

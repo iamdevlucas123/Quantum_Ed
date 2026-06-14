@@ -8,9 +8,16 @@ type NavigationLink = {
 };
 
 type MainContentProps = {
+  courseProgress: number;
+  currentLessonProgress: number;
+  isLessonCompleted: boolean;
+  isSavingProgress: boolean;
   lesson: LessonViewerDetail;
   nextLesson: NavigationLink | null;
+  onMarkCompleted: () => void;
+  onMarkStarted: () => void;
   previousLesson: NavigationLink | null;
+  progressError: string | null;
 };
 
 const createParagraphs = (body: string): string[] => {
@@ -20,10 +27,22 @@ const createParagraphs = (body: string): string[] => {
     .filter(Boolean);
 };
 
-export default function MainContent({ lesson, nextLesson, previousLesson }: MainContentProps) {
+export default function MainContent({
+  courseProgress,
+  currentLessonProgress,
+  isLessonCompleted,
+  isSavingProgress,
+  lesson,
+  nextLesson,
+  onMarkCompleted,
+  onMarkStarted,
+  previousLesson,
+  progressError,
+}: MainContentProps) {
   const paragraphs = createParagraphs(lesson.content?.body ?? lesson.description);
   const overview = lesson.content?.overview ?? lesson.description;
   const resources = lesson.content?.resources ?? [];
+  const lessonStatusLabel = isLessonCompleted ? 'Completed' : currentLessonProgress > 0 ? 'In progress' : 'Not started';
 
   return (
     <main className="main-content">
@@ -51,6 +70,52 @@ export default function MainContent({ lesson, nextLesson, previousLesson }: Main
           <span />
           <span />
         </div>
+      </section>
+
+      <section className="lesson-progress-panel">
+        <div className="lesson-progress-panel__summary">
+          <div>
+            <p className="lesson-progress-panel__label">Lesson progress</p>
+            <strong>{Math.round(currentLessonProgress)}%</strong>
+            <span>{lessonStatusLabel}</span>
+          </div>
+
+          <div>
+            <p className="lesson-progress-panel__label">Course progress</p>
+            <strong>{Math.round(courseProgress)}%</strong>
+            <span>Aggregated from lesson completion</span>
+          </div>
+        </div>
+
+        <div className="lesson-progress-panel__bars" aria-hidden="true">
+          <div>
+            <span style={{ width: `${Math.max(0, Math.min(100, currentLessonProgress))}%` }} />
+          </div>
+          <div>
+            <span style={{ width: `${Math.max(0, Math.min(100, courseProgress))}%` }} />
+          </div>
+        </div>
+
+        <div className="lesson-progress-panel__actions">
+          <button
+            className="lesson-progress-panel__button lesson-progress-panel__button--secondary"
+            disabled={isSavingProgress || isLessonCompleted}
+            onClick={onMarkStarted}
+            type="button"
+          >
+            {isSavingProgress ? 'Saving progress' : 'Mark as started'}
+          </button>
+          <button
+            className="lesson-progress-panel__button"
+            disabled={isSavingProgress || isLessonCompleted}
+            onClick={onMarkCompleted}
+            type="button"
+          >
+            {isLessonCompleted ? 'Lesson completed' : isSavingProgress ? 'Saving progress' : 'Mark as completed'}
+          </button>
+        </div>
+
+        {progressError ? <p className="lesson-progress-panel__error">{progressError}</p> : null}
       </section>
 
       <section className="lesson-article">

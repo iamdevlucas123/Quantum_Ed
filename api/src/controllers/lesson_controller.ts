@@ -10,7 +10,14 @@ export const lessonController = {
     try {
       const courseSlug = getParam(req.params.courseSlug);
       const lessonSlug = getParam(req.params.lessonSlug);
-      const lesson = await lessonService.findByCourseAndLessonSlug(courseSlug, lessonSlug);
+      const userId = req.user?.id;
+
+      if (!userId) {
+        res.status(401).json({ message: 'Unauthorized' });
+        return;
+      }
+
+      const lesson = await lessonService.findByCourseAndLessonSlug(courseSlug, lessonSlug, userId);
 
       if (!lesson) {
         res.status(404).json({ message: 'Lesson not found' });
@@ -20,6 +27,34 @@ export const lessonController = {
       res.status(200).json(lesson);
     } catch {
       res.status(500).json({ message: 'Error fetching lesson' });
+    }
+  },
+
+  async updateProgress(req: Request, res: Response): Promise<void> {
+    try {
+      const courseSlug = getParam(req.params.courseSlug);
+      const lessonSlug = getParam(req.params.lessonSlug);
+      const userId = req.user?.id;
+
+      if (!userId) {
+        res.status(401).json({ message: 'Unauthorized' });
+        return;
+      }
+
+      const { completed, progress } = req.body;
+      const result = await lessonService.updateLessonProgress(courseSlug, lessonSlug, userId, {
+        completed,
+        progress,
+      });
+
+      if (!result) {
+        res.status(404).json({ message: 'Lesson not found' });
+        return;
+      }
+
+      res.status(200).json(result);
+    } catch {
+      res.status(500).json({ message: 'Error updating lesson progress' });
     }
   },
 };
