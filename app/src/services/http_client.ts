@@ -1,4 +1,8 @@
-// Centralized the requisition to API and open the login modal id dont pass.
+// Shared client for authenticated requests to the API.
+// The fetch-related types used here come from the browser Fetch API exposed by TypeScript's DOM lib:
+// - globalThis.RequestInit
+// - globalThis.Response
+// - globalThis.Headers
 
 import { env } from '../config/env';
 import { useAuthStore } from '../context/auth_store';
@@ -9,25 +13,40 @@ type ApiErrorResponse = {
   message?: string;
 };
 
-type RequestOptions = RequestInit & {
+type FetchRequestOptions = globalThis.RequestInit;
+type FetchResponse = globalThis.Response;
+type FetchHeaders = globalThis.Headers;
+
+type RequestOptions = FetchRequestOptions & {
   retryOnUnauthorized?: boolean;
 };
 
-// Transform the HTTP response into a readable message.
-const readErrorMessage = async (response: Response): Promise<string> => {
+// Try to read a JSON error payload. If the response body is empty or is not JSON,
+// fall back to a generic message based on the HTTP status code.
+const readErrorMessage = async (response: FetchResponse): Promise<string> => {
   let data: ApiErrorResponse = {};
 
   try {
     data = await response.json();
   } catch {
-    // Response body is not valid JSON; use the status fallback.
+    // Some API responses have no JSON body, for example an empty 500 response or
+    // a plain-text error. In that case we ignore the body parsing failure and
+    // return a message built from response.status below.
   }
 
-  return data.error ?? data.message ?? `Request failed with status ${response.status}`;
+  if (data.error) {
+    return data.error;
+  }
+
+  if (data.message) {
+    return data.message;
+  }
+
+  return `Request failed with status ${response.status}`;
 };
 
 // Convert the Response to an expected type.
-const parseResponse = async <T>(response: Response): Promise<T> => {
+const parseResponse = async <T>(response: FetchResponse): Promise<T> => {
   if (response.status === 204) {
     return undefined as T;
   }
@@ -35,7 +54,7 @@ const parseResponse = async <T>(response: Response): Promise<T> => {
   return response.json();
 };
 
-const buildHeaders = (options: RequestOptions, accessToken: string | null): Headers => {
+const buildHeaders = (options: RequestOptions, accessToken: string | null): FetchHeaders => {
   const headers = new Headers(options.headers);
 
   if (!headers.has('Content-Type')) {
@@ -49,7 +68,7 @@ const buildHeaders = (options: RequestOptions, accessToken: string | null): Head
   return headers;
 };
 
-const sendRequest = (path: string, options: RequestOptions, accessToken: string | null): Promise<Response> => {
+const sendRequest = (path: string, options: RequestOptions, accessToken: string | null): Promise<FetchResponse> => {
   const { retryOnUnauthorized: _retryOnUnauthorized, ...fetchOptions } = options;
 
   return fetch(`${env.API_URL}${path}`, {
@@ -69,7 +88,12 @@ const refreshAccessToken = async (): Promise<string | null> => {
 };
 
 export async function protectedRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  const shouldRetry = options.retryOnUnauthorized ?? true;
+  let shouldRetry = true;
+
+  if (typeof options.retryOnUnauthorized === 'boolean') {
+    shouldRetry = options.retryOnUnauthorized;
+  }
+
   const accessToken = useAuthStore.getState().accessToken;
   const response = await sendRequest(path, options, accessToken);
 
