@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import type { CourseListItem } from '../../services/course_api';
 import { getCourseLevel, getCourseStatus, getCourseSubject } from './courses_data';
-import '../../styles/courses_list_css/courses_grid.css';
+import '../../styles/courses_list_css/course-list-grid.css';
 
 type CoursesGridProps = {
   courses: CourseListItem[];

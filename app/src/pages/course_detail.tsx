@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import '../styles/course_detail_css/course_hero.css';
-import '../styles/course_detail_css/course_meta.css';
-import '../styles/course_detail_css/course_objectives.css';
-import '../styles/course_detail_css/course_context.css';
+import '../styles/course_detail_css/course-detail-hero.css';
+import '../styles/course_detail_css/course-detail-meta.css';
+import '../styles/course_detail_css/course-detail-objectives.css';
+import '../styles/course_detail_css/course-detail-content.css';
 import Header from '../components/header';
 import GithubFooter from '../components/github_footer';
 import CourseHero from '../components/course_details/courses_hero';

@@ -1,4 +1,4 @@
-import '../../styles/courses_list_css/courses_filters.css';
+import '../../styles/courses_list_css/course-list-filters.css';
 
 type CoursesFiltersProps = {
   activeSubject: string;

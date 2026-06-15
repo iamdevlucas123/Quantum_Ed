@@ -6,7 +6,7 @@ import CoursesFilters from '../components/courses_list/courses_filters';
 import CoursesGrid from '../components/courses_list/courses_grid';
 import { getCourseSubject } from '../components/courses_list/courses_data';
 import { getCourses, type CourseListItem } from '../services/course_api';
-import '../styles/courses_list_css/courses_hero.css';
+import '../styles/courses_list_css/course-list-hero.css';
 
 const ALL_TRACKS = 'All Tracks';
 
