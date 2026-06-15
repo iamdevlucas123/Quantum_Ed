@@ -20,6 +20,11 @@ type RefreshJwtPayload = JwtPayload & {
 }
 
 const SALT_ROUNDS = 10
+const EMAIL_SYNTAX_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+const isValidEmailSyntax = (email: string): boolean => {
+  return EMAIL_SYNTAX_REGEX.test(email)
+}
 
 const sanitizeUser = (user: User): AuthUser => {
   const { passwordHash, ...safeUser } = user
@@ -93,6 +98,10 @@ const verifyRefreshToken = (refreshToken: string): RefreshJwtPayload => {
 
 export const authService = {
   async signUp(data: SignUpData): Promise<AuthResponse> {
+    if (!isValidEmailSyntax(data.email)) {
+      throw new Error('Invalid email format')
+    }
+
     const existingUser = await prisma.user.findUnique({
       where: { email: data.email },
     })
