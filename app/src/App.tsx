@@ -24,9 +24,9 @@ function App() {
     <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/courses" element={<CoursesList />} />
+        <Route path="/courses/:courseSlug" element={<CourseDetail />} />
         <Route element={<RequireAuth />}>
-          <Route path="/courses" element={<CoursesList />} />
-          <Route path="/courses/:courseSlug" element={<CourseDetail />} />
           <Route path="/courses/:courseSlug/lessons/:lessonSlug" element={<LessonsViewer />} />
           <Route path="/profile" element={<Profile />} />
         </Route>

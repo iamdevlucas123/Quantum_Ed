@@ -2,11 +2,13 @@ import { Router } from 'express';
 import { courseController } from '../controllers/course_controller';
 import { lessonController } from '../controllers/lesson_controller';
 
-const courseRouter = Router();
+const publicCourseRouter = Router();
+const protectedCourseRouter = Router();
 
-courseRouter.get('/', courseController.findAll);
-courseRouter.get('/:courseSlug/lessons/:lessonSlug', lessonController.findByCourseAndLessonSlug);
-courseRouter.put('/:courseSlug/lessons/:lessonSlug/progress', lessonController.updateProgress);
-courseRouter.get('/:slug', courseController.findBySlug);
+publicCourseRouter.get('/', courseController.findAll);
+publicCourseRouter.get('/:slug', courseController.findBySlug);
 
-export { courseRouter };
+protectedCourseRouter.get('/:courseSlug/lessons/:lessonSlug', lessonController.findByCourseAndLessonSlug);
+protectedCourseRouter.put('/:courseSlug/lessons/:lessonSlug/progress', lessonController.updateProgress);
+
+export { publicCourseRouter, protectedCourseRouter };
