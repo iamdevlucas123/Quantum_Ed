@@ -9,7 +9,6 @@ import { useAuthStore } from '../context/auth_store';
 import { useUiStore } from '../context/ui_store';
 
 type ApiErrorResponse = {
-  error?: string;
   message?: string;
 };
 
@@ -32,10 +31,6 @@ const readErrorMessage = async (response: FetchResponse): Promise<string> => {
     // Some API responses have no JSON body, for example an empty 500 response or
     // a plain-text error. In that case we ignore the body parsing failure and
     // return a message built from response.status below.
-  }
-
-  if (data.error) {
-    return data.error;
   }
 
   if (data.message) {

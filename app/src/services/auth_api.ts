@@ -26,7 +26,7 @@ export type TokenPayload = JwtPayload
 
 // Shape of API error responses that include a public error message.
 type ApiErrorResponse = {
-  error?: string
+  message?: string
 }
 
 // Sends an auth request with JSON headers and refresh-token cookies.
@@ -42,7 +42,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 
   if (!response.ok) {
     const data = await response.json().catch((): ApiErrorResponse => ({}))
-    throw new Error(data.error ?? `Request failed with status ${response.status}`)
+    throw new Error(data.message ?? `Request failed with status ${response.status}`)
   }
 
   if (response.status === 204) {

@@ -28,7 +28,7 @@ export const authController = {
       res.status(201).json(session)
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Internal Server Error'
-      res.status(400).json({ error: message })
+      res.status(400).json({ message })
     }
   },
 
@@ -46,7 +46,7 @@ export const authController = {
       res.status(200).json(session)
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Internal Server Error'
-      res.status(401).json({ error: message })
+      res.status(401).json({ message })
     }
   },
 
@@ -57,7 +57,7 @@ export const authController = {
       const [schema, token] = authHeader?.split('') ?? []
 
       if (schema !== 'Bearer' || !token) {
-        res.status(401).json('Token not provided')
+        res.status(401).json({ message: 'Token not provided' })
         return
       }
 
@@ -67,7 +67,7 @@ export const authController = {
 
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Invalid token'
-      res.status(401).json({ error: message })
+      res.status(401).json({ message })
     }
   },
 
@@ -77,7 +77,7 @@ export const authController = {
       const refreshToken = getRefreshTokenCookie(req)
 
       if (!refreshToken) {
-        res.status(401).json({ error: 'Refresh Token not provided' })
+        res.status(401).json({ message: 'Refresh Token not provided' })
         return
       }
 
@@ -91,7 +91,7 @@ export const authController = {
       // Clears the refresh token cookie using the configured clear options.
       res.clearCookie(authCookieConfig.refreshTokenName, authCookieConfig.clearRefreshTokenOptions)
       const message = error instanceof Error ? error.message : 'Invalid refresh token'
-      res.status(401).json({ error: message })
+      res.status(401).json({ message })
     }
   },
 

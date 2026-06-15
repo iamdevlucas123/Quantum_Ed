@@ -8,7 +8,7 @@ export const authMiddleware = {
       const [ scheme, token ] = authHeader?.split(' ') ?? [];
 
       if (scheme !== 'Bearer' || !token) {
-        res.status(401).json({error: 'Token not provided'})
+        res.status(401).json({ message: 'Token not provided' })
         return
       }
 
@@ -23,7 +23,7 @@ export const authMiddleware = {
 
     } catch(error) {
       const message = error instanceof Error ? error.message : 'Invalid Token';
-      res.status(401).json({error:message})
+      res.status(401).json({ message })
     }
   }
 }
