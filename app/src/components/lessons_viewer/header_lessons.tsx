@@ -13,7 +13,7 @@ export default function HeaderLessons({ backHref, courseTitle }: HeaderLessonsPr
           &#8592;
         </Link>
         <div className="lesson-viewer__brand">
-          <span><img src="/assets/icons/quantum-atom-mark.png" alt="QuantumEd Logo" /></span>
+          <span></span>
           <span>{courseTitle}</span>
         </div>
       </div>
