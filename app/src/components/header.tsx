@@ -3,8 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 
 import { useAuth } from '../context/auth_store';
 import { useUiStore } from '../context/ui_store';
-import ExploreMenu from './header/ExploreMenu';
-import LoginModal from './header/loginModal';
+import ExploreMenu from './header/explore_menu';
+import LoginModal from './header/login_modal';
 import '../styles/header_css/header.css';
 
 export default function Header() {

@@ -3,14 +3,12 @@ import Hero from '../components/home_page/hero'
 import CourseSection from '../components/home_page/course_section'
 import GithubFooter from '../components/github_footer'
 import About from '../components/home_page/about'
-import Comments from '../components/home_page/comments'
 
 function HomePage() {
     return (
         <>
             <Header />
             <Hero />
-            <Comments />
             <CourseSection />
             <About />
             <GithubFooter />
