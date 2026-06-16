@@ -21,9 +21,33 @@ type RefreshJwtPayload = JwtPayload & {
 
 const SALT_ROUNDS = 10
 const EMAIL_SYNTAX_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const PASSWORD_MIN_LENGTH = 8
+const PASSWORD_LOWERCASE_REGEX = /[a-z]/
+const PASSWORD_UPPERCASE_REGEX = /[A-Z]/
+const PASSWORD_SPECIAL_CHARACTER_REGEX = /[^A-Za-z0-9]/
 
 const isValidEmailSyntax = (email: string): boolean => {
   return EMAIL_SYNTAX_REGEX.test(email)
+}
+
+const meetsPasswordSecurityRequirements = (password: string): boolean => {
+  if (password.length < PASSWORD_MIN_LENGTH) {
+    return false
+  }
+
+  if (!PASSWORD_LOWERCASE_REGEX.test(password)) {
+    return false
+  }
+
+  if (!PASSWORD_UPPERCASE_REGEX.test(password)) {
+    return false
+  }
+
+  if (!PASSWORD_SPECIAL_CHARACTER_REGEX.test(password)) {
+    return false
+  }
+
+  return true
 }
 
 const sanitizeUser = (user: User): AuthUser => {
@@ -100,6 +124,10 @@ export const authService = {
   async signUp(data: SignUpData): Promise<AuthResponse> {
     if (!isValidEmailSyntax(data.email)) {
       throw new Error('Invalid email format')
+    }
+
+    if (!meetsPasswordSecurityRequirements(data.password)) {
+      throw new Error('Password does not meet security requirements')
     }
 
     const existingUser = await prisma.user.findUnique({

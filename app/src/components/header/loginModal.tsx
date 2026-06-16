@@ -8,6 +8,50 @@ type LoginModalProps = {
 }
 
 type AuthMode = 'signin' | 'signup'
+type PasswordRequirement = {
+  id: 'length' | 'lowercase' | 'uppercase' | 'special'
+  label: string
+  isMet: boolean
+}
+
+const getPasswordRequirements = (password: string): PasswordRequirement[] => {
+  return [
+    {
+      id: 'length',
+      label: 'At least 8 characters',
+      isMet: password.length >= 8,
+    },
+    {
+      id: 'lowercase',
+      label: '1 lowercase letter',
+      isMet: /[a-z]/.test(password),
+    },
+    {
+      id: 'uppercase',
+      label: '1 uppercase letter',
+      isMet: /[A-Z]/.test(password),
+    },
+    {
+      id: 'special',
+      label: '1 special character',
+      isMet: /[^A-Za-z0-9]/.test(password),
+    },
+  ]
+}
+
+const getPasswordStrength = (password: string): 'weak' | 'medium' | 'strong' => {
+  const metRequirements = getPasswordRequirements(password).filter((requirement) => requirement.isMet).length
+
+  if (metRequirements <= 1) {
+    return 'weak'
+  }
+
+  if (metRequirements <= 3) {
+    return 'medium'
+  }
+
+  return 'strong'
+}
 
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   // Gets the auth actions from the Zustand auth store.
@@ -25,6 +69,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
 
   // Indicates whether the current form mode is signup.
   const isSignUp = mode === 'signup'
+  const passwordRequirements = getPasswordRequirements(password)
+  const passwordStrength = getPasswordStrength(password)
 
   // Sends the login form data to the auth store.
   const submitSignIn = async (): Promise<void> => {
@@ -137,6 +183,28 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               required
             />
           </label>
+
+          {isSignUp && (
+            <div className="auth-modal__password-feedback" aria-live="polite">
+              <div className="auth-modal__strength">
+                <span>Password strength</span>
+                <strong className={`auth-modal__strength-value auth-modal__strength-value--${passwordStrength}`}>
+                  {passwordStrength}
+                </strong>
+              </div>
+              <ul className="auth-modal__password-rules">
+                {passwordRequirements.map((requirement) => (
+                  <li
+                    key={requirement.id}
+                    className={requirement.isMet ? 'is-met' : ''}
+                  >
+                    {requirement.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {error && <p className="auth-modal__error">{error}</p>}
 
           <button className="auth-modal__submit" type="submit" disabled={isSubmitting}>
