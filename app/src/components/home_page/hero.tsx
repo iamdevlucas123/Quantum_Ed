@@ -40,16 +40,11 @@ export default function Hero() {
     return(
         <section className="main">
             <div className="main__copy">
-                <p className="main__eyebrow">Orbital Academy</p>
                 <h1>Train for the next frontier of engineering.</h1>
                 <p>
                     QuantumEd turns advanced science and computing into a guided mission:
                     structured roadmaps, practical lessons and zero-cost access.
                 </p>
-                <div className="main__actions">
-                    <a href="/courses">Launch Courses</a>
-                    <a className="main__action-secondary" href="#about-section">Mission Brief</a>
-                </div>
                 <p id="developer-counter">
                     Active cadets
                     <span>{developerCount}</span>

@@ -40,10 +40,6 @@ export default function Header() {
             <img src="/assets/icons/quantum-atom-mark.png" alt="QuantumEd" />
           </a>
         </div>
-        <div className="header__status" aria-label="Platform status">
-          <span className="header__status-dot" aria-hidden="true" />
-          <span>Orbital campus online</span>
-        </div>
         <ExploreMenu />
         <nav className="nav header__links" aria-label="Main navigation">
           <ul>
@@ -55,10 +51,6 @@ export default function Header() {
       </div>
 
       <div className="header__actions">
-        <label className="header__search">
-          <img className="header__search-icon" src="/assets/icons/quantum-atom-mark.png" alt="" />
-          <input type="search" placeholder="Search" aria-label="Search courses" />
-        </label>
         {isAuthenticated ? (
           <div className="header__session">
             <a className="header__profile-link" href="/profile">
