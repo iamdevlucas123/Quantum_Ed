@@ -12,6 +12,11 @@ enum UserRole {
   ADMIN
 }
 
+enum OAuthProvider {
+  GOOGLE
+  GITHUB
+}
+
 enum ActivityLogType {
   COURSE_STARTED
   COURSE_PROGRESS
@@ -28,18 +33,19 @@ model User {
   id              String   @id @default(uuid())
   name            String?
   email           String   @unique
-  passwordHash    String
+  passwordHash    String?
   role            UserRole @default(STUDENT)
   localStorageKey String?  @unique
 
-  progresses    Progress[]
+  progresses       Progress[]
   lessonProgresses LessonProgress[]
-  refreshTokens RefreshToken[]
-  certificates  Certificate[]
-  badges        Badge[]
-  activityLogs  ActivityLog[]
-  quizAttempts  QuizAttempt[]
-  studyGoals    StudyGoal[]
+  refreshTokens    RefreshToken[]
+  oauthAccounts    OAuthAccount[]
+  certificates     Certificate[]
+  badges           Badge[]
+  activityLogs     ActivityLog[]
+  quizAttempts     QuizAttempt[]
+  studyGoals       StudyGoal[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -59,6 +65,22 @@ model RefreshToken {
 
   @@index([userId])
   @@index([expiresAt])
+}
+
+model OAuthAccount {
+  id                String        @id @default(uuid())
+  provider          OAuthProvider
+  providerAccountId String
+  email             String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Progress {

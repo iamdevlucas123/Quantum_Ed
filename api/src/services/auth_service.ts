@@ -121,6 +121,14 @@ const verifyRefreshToken = (refreshToken: string): RefreshJwtPayload => {
 }
 
 export const authService = {
+  async createSessionForUser(user: User): Promise<AuthResponse> {
+    return {
+      user: sanitizeUser(user),
+      accessToken: signAccessToken(user),
+      refreshToken: await createRefreshToken(user),
+    }
+  },
+
   async signUp(data: SignUpData): Promise<AuthResponse> {
     if (!isValidEmailSyntax(data.email)) {
       throw new Error('Invalid email format')
@@ -149,11 +157,7 @@ export const authService = {
       },
     })
 
-    return {
-      user: sanitizeUser(user),
-      accessToken: signAccessToken(user),
-      refreshToken: await createRefreshToken(user),
-    }
+    return this.createSessionForUser(user)
   },
 
   async signIn(data: SignInData): Promise<AuthResponse> {
@@ -165,17 +169,17 @@ export const authService = {
       throw new Error('Invalid credentials')
     }
 
+    if (!user.passwordHash) {
+      throw new Error('Invalid credentials')
+    }
+
     const isPasswordValid = await bcrypt.compare(data.password, user.passwordHash)
 
     if (!isPasswordValid) {
       throw new Error('Invalid credentials')
     }
 
-    return {
-      user: sanitizeUser(user),
-      accessToken: signAccessToken(user),
-      refreshToken: await createRefreshToken(user),
-    }
+    return this.createSessionForUser(user)
   },
 
   async refreshSession(refreshToken: string): Promise<AuthResponse> {

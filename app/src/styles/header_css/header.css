@@ -538,6 +538,36 @@
     color: #7df9ff;
 }
 
+.auth-modal__oauth {
+    display: grid;
+    gap: 10px;
+}
+
+.auth-modal__oauth-button {
+    min-height: 42px;
+    border: 1px solid rgba(125, 249, 255, 0.14);
+    border-radius: 10px;
+    background: rgba(125, 249, 255, 0.04);
+    color: #edf8ff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.auth-modal__oauth-button:hover {
+    border-color: rgba(125, 249, 255, 0.34);
+    background: rgba(125, 249, 255, 0.08);
+}
+
+.auth-modal__oauth-button--google {
+    color: #f4fbff;
+}
+
+.auth-modal__oauth-button--github {
+    color: #d3deea;
+}
+
 .auth-modal__submit {
     background: linear-gradient(135deg, rgba(125, 249, 255, 0.94), rgba(14, 143, 230, 0.94));
     color: #04111c;

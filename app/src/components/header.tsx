@@ -25,6 +25,7 @@ export default function Header() {
       const nextParams = new URLSearchParams(searchParams);
       nextParams.delete('login');
       nextParams.delete('next');
+      nextParams.delete('oauth_error');
       setSearchParams(nextParams, { replace: true });
     }
 

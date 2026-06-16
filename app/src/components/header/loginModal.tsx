@@ -1,5 +1,7 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
+import { env } from '../../config/env'
 import { useAuth } from '../../context/auth_store'
 
 type LoginModalProps = {
@@ -56,6 +58,7 @@ const getPasswordStrength = (password: string): 'weak' | 'medium' | 'strong' => 
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   // Gets the auth actions from the Zustand auth store.
   const { signIn, signUp } = useAuth()
+  const [searchParams] = useSearchParams()
   
   // Controls whether the modal is in login or signup mode.
   const [mode, setMode] = useState<AuthMode>('signin')
@@ -71,6 +74,36 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const isSignUp = mode === 'signup'
   const passwordRequirements = getPasswordRequirements(password)
   const passwordStrength = getPasswordStrength(password)
+  const oauthError = searchParams.get('oauth_error')
+
+  useEffect(() => {
+    if (!isOpen || !oauthError) {
+      return
+    }
+
+    setMode('signin')
+    setError(oauthError)
+  }, [isOpen, oauthError])
+
+  const getOAuthTargetPath = (): string => {
+    const nextFromQuery = searchParams.get('next')
+
+    if (nextFromQuery && nextFromQuery.startsWith('/')) {
+      return nextFromQuery
+    }
+
+    const currentUrl = new URL(window.location.href)
+    currentUrl.searchParams.delete('login')
+    currentUrl.searchParams.delete('oauth_error')
+    const currentPath = `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`
+
+    return currentPath || '/'
+  }
+
+  const startOAuth = (provider: 'google' | 'github'): void => {
+    const nextPath = getOAuthTargetPath()
+    window.location.assign(`${env.API_URL}/auth/${provider}?next=${encodeURIComponent(nextPath)}`)
+  }
 
   // Sends the login form data to the auth store.
   const submitSignIn = async (): Promise<void> => {
@@ -206,6 +239,23 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           )}
 
           {error && <p className="auth-modal__error">{error}</p>}
+
+          <div className="auth-modal__oauth">
+            <button
+              className="auth-modal__oauth-button auth-modal__oauth-button--google"
+              type="button"
+              onClick={() => startOAuth('google')}
+            >
+              Continue with Google
+            </button>
+            <button
+              className="auth-modal__oauth-button auth-modal__oauth-button--github"
+              type="button"
+              onClick={() => startOAuth('github')}
+            >
+              Continue with GitHub
+            </button>
+          </div>
 
           <button className="auth-modal__submit" type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Please wait' : isSignUp ? 'Create account' : 'Log in'}
