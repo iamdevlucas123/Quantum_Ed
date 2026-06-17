@@ -1,57 +1,86 @@
-import '../../styles/about.css';
+import '../../styles/home_page_css/about.css';
 
-const aboutCards = [
+const aboutCapabilities = [
   {
-    title: 'Structured Learning',
+    title: 'Guided paths',
     description:
-      'Follow organized paths that connect subjects, modules and lessons without losing the bigger picture.',
+      'Courses are sequenced around foundations, modules and lessons so each topic builds on the previous one.',
   },
   {
-    title: 'Academic Depth',
+    title: 'Technical foundations',
     description:
-      'Study mathematics, physics, computer science and quantum concepts with clear technical foundations.',
+      'Core ideas are introduced with enough theory to support real implementation decisions.',
   },
   {
-    title: 'Practical Progress',
+    title: 'Applied projects',
     description:
-      'Move from theory to application with lessons designed for long-term understanding and real projects.',
+      'Lessons connect concepts to practical work, helping learners move from explanation to usable systems.',
+  },
+  {
+    title: 'Progress continuity',
+    description:
+      'The learning model favors long-term understanding over isolated tutorials and disconnected examples.',
+  },
+];
+
+const aboutMetrics = [
+  {
+    value: '4',
+    label: 'Learning domains',
+  },
+  {
+    value: 'Free',
+    label: 'Access model',
+  },
+  {
+    value: 'Modular',
+    label: 'Course format',
   },
 ];
 
 export default function About() {
   return (
     <section className="about-section" id="about-section">
-      <div className="about-section__intro">
-        <p className="about-section__eyebrow">About QuantumEd</p>
-        <h2>Learn advanced topics with structure, clarity and purpose.</h2>
-        <p>
-          QuantumEd brings together science, engineering and computing in one guided
-          learning environment built for students who want strong foundations and practical direction.
-        </p>
-      </div>
+      <div className="about-section__layout">
+        <div className="about-section__content">
+          <header className="about-section__intro">
+            <p className="about-section__eyebrow">About QuantumEd</p>
+            <h2>Structured learning for advanced technical subjects.</h2>
+            <p>
+              QuantumEd organizes complex computing, science and engineering topics into guided
+              learning paths. Each course connects theory, implementation and long-term practice
+              so students and developers can build durable foundations.
+            </p>
+          </header>
 
-      <div className="about-section__stats" aria-label="QuantumEd highlights">
-        <div>
-          <strong>4</strong>
-          <span>Core areas</span>
-        </div>
-        <div>
-          <strong>100+</strong>
-          <span>Lessons planned</span>
-        </div>
-        <div>
-          <strong>Free</strong>
-          <span>Learning access</span>
-        </div>
-      </div>
-
-      <div className="about-section__grid">
-        {aboutCards.map((card) => (
-          <article className="about-section__card" key={card.title}>
-            <h3>{card.title}</h3>
-            <p>{card.description}</p>
+          <article className="about-section__mission">
+            <span>Mission</span>
+            <p>
+              Make rigorous technical education easier to navigate by replacing scattered
+              tutorials with clear sequencing, focused context and practical application.
+            </p>
           </article>
-        ))}
+        </div>
+
+        <div className="about-section__details">
+          <div className="about-section__capabilities">
+            {aboutCapabilities.map((capability) => (
+              <article className="about-section__capability" key={capability.title}>
+                <h3>{capability.title}</h3>
+                <p>{capability.description}</p>
+              </article>
+            ))}
+          </div>
+
+          <dl className="about-section__metrics" aria-label="QuantumEd highlights">
+            {aboutMetrics.map((metric) => (
+              <div key={metric.label}>
+                <dt>{metric.label}</dt>
+                <dd>{metric.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </div>
     </section>
   );
