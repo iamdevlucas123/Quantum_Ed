@@ -1,32 +1,54 @@
-import '../../styles/home_page_css/course_section.css'
+import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const subjects = ['Quantum Basics', 'Algorithms', 'Physics Core', 'Engineering Lab']
-
-const courses = [
-    {
-        title: 'Quantum Systems Boot Sequence',
-        description: 'Understand qubits, gates and state evolution through structured mission-based lessons.',
-        badge: 'Beginner',
-        lessons: '18 lessons',
-        duration: '12 hours',
-    },
-    {
-        title: 'Orbit Mechanics for Developers',
-        description: 'Connect mathematical modeling with simulation thinking and data-driven reasoning.',
-        badge: 'Intermediate',
-        lessons: '14 lessons',
-        duration: '9 hours',
-    },
-    {
-        title: 'Control Room Architecture',
-        description: 'Design reliable learning systems with software engineering, feedback loops and observability.',
-        badge: 'Advanced',
-        lessons: '22 lessons',
-        duration: '16 hours',
-    },
-]
+import '../../styles/home_page_css/course_section.css';
+import { getHomeCourseCatalog, type HomeCourseSubjectGroup } from '../../services/course_catalog';
 
 export default function CourseSection() {
+    const [subjectGroups, setSubjectGroups] = useState<HomeCourseSubjectGroup[]>([]);
+    const [activeSubject, setActiveSubject] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        getHomeCourseCatalog()
+            .then((groups) => {
+                if (!isMounted) {
+                    return;
+                }
+
+                setSubjectGroups(groups);
+                setActiveSubject((currentSubject) => currentSubject || groups[0]?.subjectName || '');
+            })
+            .catch((currentError) => {
+                if (!isMounted) {
+                    return;
+                }
+
+                const message = currentError instanceof Error ? currentError.message : 'Could not load course tracks';
+                setError(message);
+            })
+            .finally(() => {
+                if (isMounted) {
+                    setIsLoading(false);
+                }
+            });
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    const activeGroup = useMemo(() => {
+        if (subjectGroups.length === 0) {
+            return null;
+        }
+
+        return subjectGroups.find((group) => group.subjectName === activeSubject) ?? subjectGroups[0];
+    }, [activeSubject, subjectGroups]);
+
     return (
         <section className="course-showcase">
             <div className="course-showcase__header">
@@ -35,13 +57,14 @@ export default function CourseSection() {
             </div>
 
             <div className="course-showcase__tabs" role="tablist" aria-label="Course roadmaps">
-                {subjects.map((subject, index) => (
+                {subjectGroups.map((group) => (
                     <button
-                        key={subject}
+                        key={group.subjectName}
                         type="button"
-                        className={`course-showcase__tab ${index === 0 ? 'is-active' : ''}`}
+                        className={`course-showcase__tab ${group.subjectName === activeGroup?.subjectName ? 'is-active' : ''}`}
+                        onClick={() => setActiveSubject(group.subjectName)}
                     >
-                        {subject}
+                        {group.subjectName}
                     </button>
                 ))}
             </div>
@@ -50,25 +73,43 @@ export default function CourseSection() {
                 Each track bundles theory, labs and milestone reviews so progress feels like operating a real command deck.
             </p>
 
-            <div className="course-showcase__grid">
-                {courses.map((course) => (
-                    <article className="course-card" key={course.title}>
-                        <div className="course-card__top">
-                            <span className="course-card__badge">{course.badge}</span>
-                        </div>
+            {isLoading ? (
+                <p className="course-showcase__state">Loading course tracks...</p>
+            ) : null}
 
-                        <div className="course-card__body">
-                            <h3>{course.title}</h3>
-                            <p>{course.description}</p>
-                        </div>
+            {!isLoading && error ? (
+                <p className="course-showcase__state course-showcase__state--error">{error}</p>
+            ) : null}
 
-                        <div className="course-card__meta">
-                            <span>{course.lessons}</span>
-                            <span>{course.duration}</span>
-                        </div>
-                    </article>
-                ))}
-            </div>
+            {!isLoading && !error && activeGroup && activeGroup.courses.length === 0 ? (
+                <p className="course-showcase__state">No courses available for this track yet.</p>
+            ) : null}
+
+            {!isLoading && !error && !activeGroup ? (
+                <p className="course-showcase__state">No course tracks available yet.</p>
+            ) : null}
+
+            {!isLoading && !error && activeGroup ? (
+                <div className="course-showcase__grid">
+                    {activeGroup.courses.map((course) => (
+                        <Link className="course-card" key={course.slug} to={`/courses/${course.slug}`}>
+                            <div className="course-card__top">
+                                <span className="course-card__badge">{course.badge}</span>
+                            </div>
+
+                            <div className="course-card__body">
+                                <h3>{course.title}</h3>
+                                <p>{course.description}</p>
+                            </div>
+
+                            <div className="course-card__meta">
+                                <span>{course.lessonsLabel}</span>
+                                <span>{course.durationLabel}</span>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            ) : null}
         </section>
-    )
+    );
 }
