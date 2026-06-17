@@ -70,16 +70,22 @@ export default function Courses() {
 
   return (
     <>
-      <Header />
-      <CoursesFilters
-        activeSubject={activeSubject}
-        onSearchChange={setSearchTerm}
-        onSubjectChange={setActiveSubject}
-        searchTerm={searchTerm}
-        subjects={subjects}
-        totalCourses={filteredCourses.length}
-      />
-      <CoursesGrid courses={filteredCourses} error={error} isLoading={isLoading} />
+      <div className="courses-route">
+        <Header />
+        <main className="courses-page">
+          <CoursesFilters
+            activeSubject={activeSubject}
+            allCoursesCount={courses.length}
+            isLoading={isLoading}
+            onSearchChange={setSearchTerm}
+            onSubjectChange={setActiveSubject}
+            searchTerm={searchTerm}
+            subjects={subjects}
+            totalCourses={filteredCourses.length}
+          />
+          <CoursesGrid courses={filteredCourses} error={error} isLoading={isLoading} />
+        </main>
+      </div>
       <GithubFooter />
     </>
   );

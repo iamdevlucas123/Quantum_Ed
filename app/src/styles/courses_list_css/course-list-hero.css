@@ -1,1 +1,39 @@
+.courses-route {
+    --home-text: #e8f6ff;
+    --home-accent: #7df9ff;
+    --home-accent-strong: #ffb84d;
 
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    padding-top: 1px;
+    background:
+        radial-gradient(circle at 12% 0%, rgba(22, 125, 173, 0.22), transparent 30%),
+        radial-gradient(circle at 88% 8%, rgba(255, 184, 77, 0.12), transparent 24%),
+        linear-gradient(180deg, #020913 0%, #06131f 46%, #04101a 100%);
+    color: var(--home-text);
+}
+
+.courses-route::before {
+    content: "";
+    position: absolute;
+    top: 86px;
+    right: -72px;
+    width: 220px;
+    height: 220px;
+    background: url("/assets/backgrounds/planet-indigo-shadow.png") center / contain no-repeat;
+    opacity: 0.12;
+    pointer-events: none;
+}
+
+.courses-page {
+    position: relative;
+    z-index: 1;
+    padding: 42px 0 58px;
+}
+
+@media (max-width: 760px) {
+    .courses-page {
+        padding: 28px 0 42px;
+    }
+}

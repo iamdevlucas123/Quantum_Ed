@@ -2,6 +2,8 @@ import '../../styles/courses_list_css/course-list-filters.css';
 
 type CoursesFiltersProps = {
   activeSubject: string;
+  allCoursesCount: number;
+  isLoading: boolean;
   onSearchChange: (value: string) => void;
   onSubjectChange: (value: string) => void;
   searchTerm: string;
@@ -11,14 +13,27 @@ type CoursesFiltersProps = {
 
 export default function CoursesFilters({
   activeSubject,
+  allCoursesCount,
+  isLoading,
   onSearchChange,
   onSubjectChange,
   searchTerm,
   subjects,
   totalCourses,
 }: CoursesFiltersProps) {
+  const trimmedSearchTerm = searchTerm.trim();
+  const resultLabel = isLoading
+    ? 'Loading catalog'
+    : trimmedSearchTerm
+      ? `${totalCourses} ${totalCourses === 1 ? 'result' : 'results'} for "${trimmedSearchTerm}"`
+      : `${totalCourses} ${totalCourses === 1 ? 'course' : 'courses'} available`;
+
   return (
     <section className="courses-filters" aria-label="Course filters">
+      <div className="courses-filters__summary" aria-live="polite">
+        <span>{resultLabel}</span>
+        <strong>{allCoursesCount} total</strong>
+      </div>
 
       <div className="courses-filters__controls">
         <label className="courses-filters__search">
@@ -30,9 +45,19 @@ export default function CoursesFilters({
             value={searchTerm}
             onChange={(event) => onSearchChange(event.target.value)}
           />
+          {searchTerm && (
+            <button
+              className="courses-filters__clear"
+              type="button"
+              aria-label="Clear search"
+              onClick={() => onSearchChange('')}
+            >
+              Clear
+            </button>
+          )}
         </label>
 
-        <div className="courses-filters__subjects">
+        <div className="courses-filters__subjects" role="group" aria-label="Filter courses by track">
           {subjects.map((subject) => (
             <button
               key={subject}

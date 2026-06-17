@@ -7,9 +7,27 @@ import '../../styles/courses_list_css/course-list-grid.css';
 type CoursesGridProps = {
   courses: CourseListItem[];
   error: string | null;
+  isLoading: boolean;
 };
 
-export default function CoursesGrid({ courses, error }: CoursesGridProps) {
+const loadingCards = Array.from({ length: 6 }, (_, index) => `loading-course-${index}`);
+
+export default function CoursesGrid({ courses, error, isLoading }: CoursesGridProps) {
+  if (isLoading) {
+    return (
+      <section className="courses-grid" aria-label="Loading courses" aria-live="polite">
+        {loadingCards.map((card) => (
+          <article className="courses-card courses-card--loading" key={card}>
+            <span />
+            <h2 />
+            <p />
+            <p />
+            <div />
+          </article>
+        ))}
+      </section>
+    );
+  }
 
   if (error) {
     return (
@@ -17,6 +35,17 @@ export default function CoursesGrid({ courses, error }: CoursesGridProps) {
         <article className="courses-empty-state">
           <h2>Could not load courses</h2>
           <p>{error}</p>
+        </article>
+      </section>
+    );
+  }
+
+  if (courses.length === 0) {
+    return (
+      <section className="courses-grid courses-grid--empty" aria-live="polite">
+        <article className="courses-empty-state">
+          <h2>No courses found</h2>
+          <p>Adjust the search term or select All Tracks to browse the full catalog.</p>
         </article>
       </section>
     );
