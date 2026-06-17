@@ -1,13 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import SideBar from '../components/lessons_viewer/sideBar';
-import MainContent from '../components/lessons_viewer/mainContent';
+import SideBar from '../components/lessons_viewer/sidebar';
+import MainContent from '../components/lessons_viewer/main_content';
 import HeaderLessons from '../components/lessons_viewer/header_lessons';
 import {
   getLessonBySlugs,
-  updateLessonProgress,
-  type LessonProgressResponse,
   type LessonViewerDetail,
 } from '../services/lesson_api';
 
@@ -16,50 +14,11 @@ type NavigationLink = {
   label: string;
 };
 
-const applyProgressUpdate = (
-  lesson: LessonViewerDetail,
-  progressResponse: LessonProgressResponse,
-): LessonViewerDetail => {
-  const updatedLessonProgresses = [progressResponse.lessonProgress];
-  const existingCourseProgress = lesson.module.course.progresses[0];
-  const updatedCourseProgresses = [{
-    id: existingCourseProgress ? existingCourseProgress.id : progressResponse.lessonProgress.id,
-    progress: progressResponse.courseProgress,
-  }];
-
-  return {
-    ...lesson,
-    lessonProgresses: updatedLessonProgresses,
-    module: {
-      ...lesson.module,
-      course: {
-        ...lesson.module.course,
-        progresses: updatedCourseProgresses,
-        modules: lesson.module.course.modules.map((module) => ({
-          ...module,
-          lessons: module.lessons.map((currentLesson) => {
-            if (currentLesson.id !== lesson.id) {
-              return currentLesson;
-            }
-
-            return {
-              ...currentLesson,
-              lessonProgresses: updatedLessonProgresses,
-            };
-          }),
-        })),
-      },
-    },
-  };
-};
-
 function LessonsViewer() {
   const { courseSlug, lessonSlug } = useParams<{ courseSlug: string; lessonSlug: string }>();
   const [lesson, setLesson] = useState<LessonViewerDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isSavingProgress, setIsSavingProgress] = useState(false);
-  const [progressError, setProgressError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!courseSlug || !lessonSlug) {
@@ -71,7 +30,6 @@ function LessonsViewer() {
     let isMounted = true;
     setIsLoading(true);
     setError(null);
-    setProgressError(null);
 
     getLessonBySlugs(courseSlug, lessonSlug)
       .then((data) => {
@@ -96,9 +54,7 @@ function LessonsViewer() {
     };
   }, [courseSlug, lessonSlug]);
 
-  const currentLessonProgress = lesson?.lessonProgresses[0]?.progress ?? 0;
   const currentCourseProgress = lesson?.module.course.progresses[0]?.progress ?? 0;
-  const isLessonCompleted = lesson?.lessonProgresses[0]?.completed ?? false;
 
   const navigation = useMemo(() => {
     if (!lesson) {
@@ -149,35 +105,6 @@ function LessonsViewer() {
       totalModules: modules.length,
     };
   }, [lesson]);
-
-  const handleProgressUpdate = async (progress: number, completed: boolean): Promise<void> => {
-    if (!lesson || !courseSlug || !lessonSlug) {
-      return;
-    }
-
-    setIsSavingProgress(true);
-    setProgressError(null);
-
-    try {
-      const result = await updateLessonProgress(courseSlug, lessonSlug, {
-        progress,
-        completed,
-      });
-
-      setLesson((currentLesson) => {
-        if (!currentLesson) {
-          return currentLesson;
-        }
-
-        return applyProgressUpdate(currentLesson, result);
-      });
-    } catch (currentError) {
-      const message = currentError instanceof Error ? currentError.message : 'Could not save lesson progress';
-      setProgressError(message);
-    } finally {
-      setIsSavingProgress(false);
-    }
-  };
 
   if (isLoading) {
     return (
@@ -232,17 +159,10 @@ function LessonsViewer() {
           totalModules={navigation.totalModules}
         />
         <MainContent
-          courseProgress={currentCourseProgress}
-          currentLessonProgress={currentLessonProgress}
-          isLessonCompleted={isLessonCompleted}
-          isSavingProgress={isSavingProgress}
           lesson={lesson}
           nextLesson={navigation.nextLesson}
           nextModule={navigation.nextModule}
-          onMarkCompleted={() => handleProgressUpdate(100, true)}
-          onMarkStarted={() => handleProgressUpdate(Math.max(currentLessonProgress, 25), false)}
           previousLesson={navigation.previousLesson}
-          progressError={progressError}
         />
       </section>
     </section>

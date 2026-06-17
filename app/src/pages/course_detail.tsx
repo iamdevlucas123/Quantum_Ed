@@ -3,12 +3,10 @@ import { useParams } from 'react-router-dom';
 
 import '../styles/course_detail_css/course-detail-hero.css';
 import '../styles/course_detail_css/course-detail-meta.css';
-import '../styles/course_detail_css/course-detail-objectives.css';
 import '../styles/course_detail_css/course-detail-content.css';
 import Header from '../components/header';
 import GithubFooter from '../components/github_footer';
 import CourseHero from '../components/course_details/courses_hero';
-import CourseObjectives from '../components/course_details/course_objectives';
 import CourseContent from '../components/course_details/course_content';
 import { getCourseBySlug, saveCourse, unsaveCourse, type CourseDetail as CourseDetailData } from '../services/course_api';
 
@@ -119,7 +117,6 @@ function CourseDetail() {
               onToggleSave={handleToggleSave}
               saveError={saveError}
             />
-            <CourseObjectives objectives={course.learnObjectives} priorKnowledge={course.priorKnowledge} />
             <CourseContent courseSlug={course.slug} lessonsCount={course.lessonsCount} modules={course.modules} />
           </>
         )}
