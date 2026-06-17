@@ -67,11 +67,11 @@
 }
 
 .course-hero h1 {
-    max-width: 11ch;
+    max-width: min(100%, 1040px);
     margin: 22px auto 20px;
     color: #f2fbff;
     font-size: clamp(3rem, 6vw, 5rem);
-    line-height: 0.98;
+    line-height: 1.02;
     font-weight: 900;
     text-transform: uppercase;
 }
@@ -109,6 +109,27 @@
 .course-save:hover {
     border-color: rgba(255, 184, 77, 0.42);
     background: rgba(255, 184, 77, 0.14);
+}
+
+.course-save[aria-pressed="true"] {
+    border-color: rgba(74, 222, 128, 0.34);
+    background: rgba(20, 83, 45, 0.24);
+    color: #86efac;
+}
+
+.course-save:disabled {
+    cursor: not-allowed;
+    opacity: 0.68;
+}
+
+.course-hero__save-error {
+    position: relative;
+    z-index: 1;
+    max-width: 520px;
+    margin: 12px auto 0;
+    color: #ffb4b4;
+    font-size: 0.94rem;
+    font-weight: 700;
 }
 
 @keyframes detail-drift {

@@ -3,11 +3,17 @@ import { Link } from 'react-router-dom';
 import type { LessonSidebarModule } from '../../services/lesson_api';
 
 type SideBarProps = {
+  activeModule: LessonSidebarModule;
   courseSlug: string;
   courseProgress: number;
   courseTitle: string;
+  currentModuleIndex: number;
   currentLessonSlug: string;
-  modules: LessonSidebarModule[];
+  nextModule: {
+    href: string;
+    label: string;
+  } | null;
+  totalModules: number;
 };
 
 const getLessonStatus = (moduleLesson: LessonSidebarModule['lessons'][number]): string => {
@@ -25,16 +31,18 @@ const getLessonStatus = (moduleLesson: LessonSidebarModule['lessons'][number]): 
 };
 
 export default function SideBar({
+  activeModule,
   courseSlug,
   courseProgress,
   courseTitle,
+  currentModuleIndex,
   currentLessonSlug,
-  modules,
+  nextModule,
+  totalModules,
 }: SideBarProps) {
-  const totalLessons = modules.reduce((sum, module) => sum + module.lessons.length, 0);
-  const completedLessons = modules.reduce((sum, module) => {
-    return sum + module.lessons.filter((lesson) => lesson.lessonProgresses[0]?.completed).length;
-  }, 0);
+  const totalLessons = activeModule.lessons.length;
+  const completedLessons = activeModule.lessons.filter((lesson) => lesson.lessonProgresses[0]?.completed).length;
+  const modulePosition = currentModuleIndex >= 0 ? currentModuleIndex + 1 : 1;
 
   return (
     <aside className="lesson-sidebar">
@@ -47,43 +55,43 @@ export default function SideBar({
 
       <div className="lesson-sidebar__progress-card">
         <strong>{Math.round(courseProgress)}%</strong>
-        <span>{completedLessons} of {totalLessons} lessons completed</span>
+        <span>{completedLessons} of {totalLessons} lessons completed in this module</span>
         <div aria-hidden="true">
           <span style={{ width: `${Math.max(0, Math.min(100, courseProgress))}%` }} />
         </div>
       </div>
 
-      <label className="lesson-sidebar__search">
-        <input type="text" placeholder="Search content" />
-      </label>
-
-      <div className="lesson-sidebar__chips">
-        <button type="button" className="lesson-sidebar__chip is-active">All Lessons</button>
-        <button type="button" className="lesson-sidebar__chip">{modules.length} Modules</button>
-      </div>
-
       <div className="lesson-sidebar__sections">
-        {modules.map((module) => (
-          <section className="lesson-sidebar__section" key={module.id}>
-            <div className="lesson-sidebar__section-header">
-              <strong>{module.name}</strong>
-              <span>{module.lessons.length} lessons</span>
+        <section className="lesson-sidebar__section">
+          <div className="lesson-sidebar__section-header">
+            <div>
+              <span>Module {modulePosition} of {totalModules}</span>
+              <strong>{activeModule.name}</strong>
             </div>
+            <span>{activeModule.lessons.length} lessons</span>
+          </div>
 
-            <div className="lesson-sidebar__section-links">
-              {module.lessons.map((lesson) => (
-                <Link
-                  key={lesson.id}
-                  className={lesson.slug === currentLessonSlug ? 'is-active' : undefined}
-                  to={`/courses/${courseSlug}/lessons/${lesson.slug}`}
-                >
-                  <strong>{lesson.name}</strong>
-                  <span>{getLessonStatus(lesson)}</span>
-                </Link>
-              ))}
-            </div>
-          </section>
-        ))}
+          <div className="lesson-sidebar__section-links">
+            {activeModule.lessons.map((lesson) => (
+              <Link
+                key={lesson.id}
+                className={lesson.slug === currentLessonSlug ? 'is-active' : undefined}
+                to={`/courses/${courseSlug}/lessons/${lesson.slug}`}
+              >
+                <strong>{lesson.name}</strong>
+                <span>{getLessonStatus(lesson)}</span>
+              </Link>
+            ))}
+          </div>
+
+          {nextModule ? (
+            <Link className="lesson-sidebar__next-module" to={nextModule.href}>
+              Next module: {nextModule.label}
+            </Link>
+          ) : (
+            <p className="lesson-sidebar__complete">Final module</p>
+          )}
+        </section>
       </div>
     </aside>
   );

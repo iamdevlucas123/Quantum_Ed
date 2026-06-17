@@ -10,13 +10,15 @@ import GithubFooter from '../components/github_footer';
 import CourseHero from '../components/course_details/courses_hero';
 import CourseObjectives from '../components/course_details/course_objectives';
 import CourseContent from '../components/course_details/course_content';
-import { getCourseBySlug, type CourseDetail as CourseDetailData } from '../services/course_api';
+import { getCourseBySlug, saveCourse, unsaveCourse, type CourseDetail as CourseDetailData } from '../services/course_api';
 
 function CourseDetail() {
   const { courseSlug } = useParams<{ courseSlug: string }>();
   const [course, setCourse] = useState<CourseDetailData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isSavingCourse, setIsSavingCourse] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!courseSlug) {
@@ -28,6 +30,7 @@ function CourseDetail() {
     let isMounted = true;
     setIsLoading(true);
     setError(null);
+    setSaveError(null);
 
     getCourseBySlug(courseSlug)
       .then((data) => {
@@ -63,6 +66,35 @@ function CourseDetail() {
     return firstLesson ? `/courses/${course.slug}/lessons/${firstLesson.slug}` : null;
   }, [course]);
 
+  const handleToggleSave = async (): Promise<void> => {
+    if (!course) {
+      return;
+    }
+
+    setIsSavingCourse(true);
+    setSaveError(null);
+
+    try {
+      const result = course.saved ? await unsaveCourse(course.slug) : await saveCourse(course.slug);
+
+      setCourse((currentCourse) => {
+        if (!currentCourse) {
+          return currentCourse;
+        }
+
+        return {
+          ...currentCourse,
+          saved: result.saved,
+        };
+      });
+    } catch (currentError) {
+      const message = currentError instanceof Error ? currentError.message : 'Could not update saved course';
+      setSaveError(message);
+    } finally {
+      setIsSavingCourse(false);
+    }
+  };
+
   return (
     <>
       <div className="course-detail-route">
@@ -79,7 +111,14 @@ function CourseDetail() {
           </section>
         ) : (
           <>
-            <CourseHero course={course} firstLessonHref={firstLessonHref} />
+            <CourseHero
+              course={course}
+              firstLessonHref={firstLessonHref}
+              isSaved={course.saved ?? false}
+              isSaving={isSavingCourse}
+              onToggleSave={handleToggleSave}
+              saveError={saveError}
+            />
             <CourseObjectives objectives={course.learnObjectives} priorKnowledge={course.priorKnowledge} />
             <CourseContent courseSlug={course.slug} lessonsCount={course.lessonsCount} modules={course.modules} />
           </>

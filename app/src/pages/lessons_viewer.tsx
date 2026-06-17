@@ -103,10 +103,27 @@ function LessonsViewer() {
 
   const navigation = useMemo(() => {
     if (!lesson) {
-      return { nextLesson: null as NavigationLink | null, previousLesson: null as NavigationLink | null };
+      return {
+        activeModule: null,
+        currentModuleIndex: -1,
+        nextLesson: null as NavigationLink | null,
+        nextModule: null as NavigationLink | null,
+        previousLesson: null as NavigationLink | null,
+        totalModules: 0,
+      };
     }
 
-    const flatLessons = lesson.module.course.modules
+    const modules = lesson.module.course.modules;
+    const activeModuleIndex = modules.findIndex((module) => module.id === lesson.module.id);
+    const activeModule = activeModuleIndex >= 0 ? modules[activeModuleIndex] : null;
+    const nextModule = activeModuleIndex >= 0 ? modules[activeModuleIndex + 1] : null;
+    const nextModuleFirstLesson = nextModule?.lessons[0] ?? null;
+    const activeModuleLessons = activeModule?.lessons ?? [];
+    const currentLessonIndexInModule = activeModuleLessons.findIndex((currentLesson) => currentLesson.slug === lesson.slug);
+    const nextLessonInModule = currentLessonIndexInModule >= 0
+      ? activeModuleLessons[currentLessonIndexInModule + 1]
+      : null;
+    const flatLessons = modules
       .flatMap((module) => module.lessons.map((currentLesson) => ({
         href: `/courses/${lesson.module.course.slug}/lessons/${currentLesson.slug}`,
         label: currentLesson.name,
@@ -115,8 +132,22 @@ function LessonsViewer() {
     const currentIndex = flatLessons.findIndex((currentLesson) => currentLesson.slug === lesson.slug);
 
     return {
+      activeModule,
+      currentModuleIndex: activeModuleIndex,
       previousLesson: currentIndex > 0 ? flatLessons[currentIndex - 1] : null,
-      nextLesson: currentIndex >= 0 && currentIndex < flatLessons.length - 1 ? flatLessons[currentIndex + 1] : null,
+      nextLesson: nextLessonInModule
+        ? {
+            href: `/courses/${lesson.module.course.slug}/lessons/${nextLessonInModule.slug}`,
+            label: nextLessonInModule.name,
+          }
+        : null,
+      nextModule: nextModuleFirstLesson
+        ? {
+            href: `/courses/${lesson.module.course.slug}/lessons/${nextModuleFirstLesson.slug}`,
+            label: nextModule?.name ?? 'Next module',
+          }
+        : null,
+      totalModules: modules.length,
     };
   }, [lesson]);
 
@@ -192,11 +223,14 @@ function LessonsViewer() {
       <HeaderLessons backHref={`/courses/${lesson.module.course.slug}`} courseTitle={lesson.module.course.title} />
       <section className="lesson-layout">
         <SideBar
+          activeModule={navigation.activeModule ?? lesson.module.course.modules[0]}
           courseSlug={lesson.module.course.slug}
           courseTitle={lesson.module.course.title}
           courseProgress={currentCourseProgress}
+          currentModuleIndex={navigation.currentModuleIndex}
           currentLessonSlug={lesson.slug}
-          modules={lesson.module.course.modules}
+          nextModule={navigation.nextModule}
+          totalModules={navigation.totalModules}
         />
         <MainContent
           courseProgress={currentCourseProgress}
@@ -205,6 +239,7 @@ function LessonsViewer() {
           isSavingProgress={isSavingProgress}
           lesson={lesson}
           nextLesson={navigation.nextLesson}
+          nextModule={navigation.nextModule}
           onMarkCompleted={() => handleProgressUpdate(100, true)}
           onMarkStarted={() => handleProgressUpdate(Math.max(currentLessonProgress, 25), false)}
           previousLesson={navigation.previousLesson}

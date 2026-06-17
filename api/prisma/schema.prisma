@@ -39,6 +39,7 @@ model User {
 
   progresses       Progress[]
   lessonProgresses LessonProgress[]
+  savedCourses     SavedCourse[]
   refreshTokens    RefreshToken[]
   oauthAccounts    OAuthAccount[]
   certificates     Certificate[]
@@ -134,12 +135,30 @@ model Course {
 
   modules      Module[]
   progresses   Progress[]
+  savedBy      SavedCourse[]
   certificates Certificate[]
   activityLogs ActivityLog[]
   quizAttempts QuizAttempt[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model SavedCourse {
+  id String @id @default(uuid())
+
+  userId   String
+  courseId String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([userId, createdAt])
+  @@index([courseId])
 }
 
 model Module {

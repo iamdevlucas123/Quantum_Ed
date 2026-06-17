@@ -14,6 +14,7 @@ type MainContentProps = {
   isSavingProgress: boolean;
   lesson: LessonViewerDetail;
   nextLesson: NavigationLink | null;
+  nextModule: NavigationLink | null;
   onMarkCompleted: () => void;
   onMarkStarted: () => void;
   previousLesson: NavigationLink | null;
@@ -34,6 +35,7 @@ export default function MainContent({
   isSavingProgress,
   lesson,
   nextLesson,
+  nextModule,
   onMarkCompleted,
   onMarkStarted,
   previousLesson,
@@ -157,8 +159,12 @@ export default function MainContent({
           <Link className="lesson-navigation__button" to={nextLesson.href}>
             Next lesson
           </Link>
+        ) : nextModule ? (
+          <Link className="lesson-navigation__button" to={nextModule.href}>
+            Next module
+          </Link>
         ) : (
-          <span />
+          <p className="lesson-navigation__complete">Course path completed</p>
         )}
       </footer>
     </main>
