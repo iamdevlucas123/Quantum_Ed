@@ -19,15 +19,6 @@ export default function CoursesFilters({
 }: CoursesFiltersProps) {
   return (
     <section className="courses-filters" aria-label="Course filters">
-      <div className="courses-filters__intro">
-        <p className="courses-filters__eyebrow">AI Engineer Catalog</p>
-        <h1>Short, focused courses for developers moving into AI engineering.</h1>
-        <p>
-          Study the smallest useful blocks: model APIs, prompt systems, retrieval, evaluation,
-          production pipelines and shipping assistants that hold up in real products.
-        </p>
-        <span>{totalCourses} active courses</span>
-      </div>
 
       <div className="courses-filters__controls">
         <label className="courses-filters__search">

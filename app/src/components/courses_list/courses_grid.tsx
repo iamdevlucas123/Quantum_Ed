@@ -7,20 +7,9 @@ import '../../styles/courses_list_css/course-list-grid.css';
 type CoursesGridProps = {
   courses: CourseListItem[];
   error: string | null;
-  isLoading: boolean;
 };
 
-export default function CoursesGrid({ courses, error, isLoading }: CoursesGridProps) {
-  if (isLoading) {
-    return (
-      <section className="courses-grid courses-grid--empty" aria-live="polite">
-        <article className="courses-empty-state">
-          <h2>Loading catalog</h2>
-          <p>Syncing the current AI engineering tracks from the platform.</p>
-        </article>
-      </section>
-    );
-  }
+export default function CoursesGrid({ courses, error }: CoursesGridProps) {
 
   if (error) {
     return (
@@ -28,17 +17,6 @@ export default function CoursesGrid({ courses, error, isLoading }: CoursesGridPr
         <article className="courses-empty-state">
           <h2>Could not load courses</h2>
           <p>{error}</p>
-        </article>
-      </section>
-    );
-  }
-
-  if (courses.length === 0) {
-    return (
-      <section className="courses-grid courses-grid--empty" aria-live="polite">
-        <article className="courses-empty-state">
-          <h2>No courses found</h2>
-          <p>Try another search or filter to find the next course in the AI engineer path.</p>
         </article>
       </section>
     );
@@ -57,7 +35,6 @@ export default function CoursesGrid({ courses, error, isLoading }: CoursesGridPr
           <p>{course.description}</p>
 
           <div className="courses-card__status">
-            <img src="/assets/sprites/laser-projectile-effects.png" alt="" />
             <span>{getCourseStatus(course)}</span>
           </div>
 
