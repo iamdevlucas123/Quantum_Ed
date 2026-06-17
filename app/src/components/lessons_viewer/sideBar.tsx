@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import type { LessonSidebarModule } from '../../services/lesson_api';
+import '../../styles/lessons_viewer_css/lesson-sidebar.css';
 
 type SideBarProps = {
   activeModule: LessonSidebarModule;

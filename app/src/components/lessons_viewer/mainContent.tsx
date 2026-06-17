@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import type { LessonViewerDetail } from '../../services/lesson_api';
+import '../../styles/lessons_viewer_css/lesson-main-content.css';
 
 type NavigationLink = {
   href: string;

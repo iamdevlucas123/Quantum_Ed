@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import '../../styles/lessons_viewer_css/lesson-topbar.css';
 
 type HeaderLessonsProps = {
   backHref: string;
