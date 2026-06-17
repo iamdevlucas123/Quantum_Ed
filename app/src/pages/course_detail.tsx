@@ -65,24 +65,26 @@ function CourseDetail() {
 
   return (
     <>
-      <Header />
-      {isLoading ? (
-        <section className="course-hero">
-          <h1>Loading course</h1>
-          <p>Syncing the AI engineering roadmap for this course.</p>
-        </section>
-      ) : error || !course ? (
-        <section className="course-hero">
-          <h1>Course unavailable</h1>
-          <p>{error ?? 'This course could not be found.'}</p>
-        </section>
-      ) : (
-        <>
-          <CourseHero course={course} firstLessonHref={firstLessonHref} />
-          <CourseObjectives objectives={course.learnObjectives} priorKnowledge={course.priorKnowledge} />
-          <CourseContent courseSlug={course.slug} lessonsCount={course.lessonsCount} modules={course.modules} />
-        </>
-      )}
+      <div className="course-detail-route">
+        <Header />
+        {isLoading ? (
+          <section className="course-hero">
+            <h1>Loading course</h1>
+            <p>Syncing the AI engineering roadmap for this course.</p>
+          </section>
+        ) : error || !course ? (
+          <section className="course-hero">
+            <h1>Course unavailable</h1>
+            <p>{error ?? 'This course could not be found.'}</p>
+          </section>
+        ) : (
+          <>
+            <CourseHero course={course} firstLessonHref={firstLessonHref} />
+            <CourseObjectives objectives={course.learnObjectives} priorKnowledge={course.priorKnowledge} />
+            <CourseContent courseSlug={course.slug} lessonsCount={course.lessonsCount} modules={course.modules} />
+          </>
+        )}
+      </div>
       <GithubFooter />
     </>
   );

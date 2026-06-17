@@ -18,17 +18,6 @@ export default function CourseContent({ courseSlug, lessonsCount, modules }: Cou
         </div>
       </header>
 
-      <div className="course-content__toolbar">
-        <label className="course-content__search">
-          <span aria-hidden="true">[]</span>
-          <input type="search" placeholder="Search lessons" aria-label="Search lessons" />
-        </label>
-
-        <button type="button" className="course-content__expand">
-          Structured Path <span aria-hidden="true">+-</span>
-        </button>
-      </div>
-
       <div className="course-content__modules">
         {modules.map((module, index) => (
           <article className="course-module" key={module.id}>
