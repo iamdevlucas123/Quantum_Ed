@@ -59,9 +59,20 @@ export type ProfileHeroProps = {
 export type ProfileIdentityPanelProps = {
   summary: ProfileSummary;
   user: AuthUser;
+  avatarError: string | null;
+  isAvatarSaving: boolean;
+  onAvatarChange: (file: File) => void;
 };
 
 export type ProfileOverviewProps = {
+  bioDraft: string;
+  bioError: string | null;
+  isBioEditing: boolean;
+  isBioSaving: boolean;
+  onBioCancel: () => void;
+  onBioDraftChange: (value: string) => void;
+  onBioEdit: () => void;
+  onBioSave: () => void;
   summary: ProfileSummary;
 };
 

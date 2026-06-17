@@ -12,6 +12,11 @@ type CreateUserData = {
 // That makes all the properties optional
 type updateUserData = Partial<CreateUserData>
 
+type UpdateProfileData = {
+  bio?: string | null;
+  avatarUrl?: string | null;
+}
+
 export const userService = {
   create(data: CreateUserData): Promise<User> {
     return prisma.user.create({ data })
@@ -50,6 +55,13 @@ export const userService = {
   update(id: string, data: updateUserData): Promise<User> {
     return prisma.user.update({
       where: {id},
+      data,
+    })
+  },
+
+  updateProfile(id: string, data: UpdateProfileData): Promise<User> {
+    return prisma.user.update({
+      where: { id },
       data,
     })
   },

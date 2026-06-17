@@ -15,6 +15,10 @@ const canReadUserResource = (req: Request, userId: string): boolean => {
   return req.user?.id === userId || req.user?.role === 'ADMIN';
 };
 
+const BIO_MAX_LENGTH = 280;
+const AVATAR_URL_MAX_LENGTH = 120_000;
+const AVATAR_DATA_URL_PATTERN = /^data:image\/(png|jpeg|jpg|webp|gif);base64,/;
+
 export const userController = {
   async create(req: Request, res: Response): Promise<void> {
     try {
@@ -107,6 +111,60 @@ export const userController = {
       res.status(200).json(sanitizeUser(user));
     } catch {
       res.status(500).json({ message: 'Error updating user' });
+    }
+  },
+
+  async updateCurrentUserProfile(req: Request, res: Response): Promise<void> {
+    try {
+      const userId = req.user?.id;
+
+      if (!userId) {
+        res.status(401).json({ message: 'Authentication required' });
+        return;
+      }
+
+      const { bio, avatarUrl } = req.body as {
+        bio?: unknown;
+        avatarUrl?: unknown;
+      };
+
+      if (typeof bio !== 'undefined' && bio !== null && typeof bio !== 'string') {
+        res.status(400).json({ message: 'bio must be a string' });
+        return;
+      }
+
+      if (typeof avatarUrl !== 'undefined' && avatarUrl !== null && typeof avatarUrl !== 'string') {
+        res.status(400).json({ message: 'avatarUrl must be a string' });
+        return;
+      }
+
+      const trimmedBio = typeof bio === 'string' ? bio.trim() : bio;
+
+      if (typeof trimmedBio === 'string' && trimmedBio.length > BIO_MAX_LENGTH) {
+        res.status(400).json({ message: `bio must be ${BIO_MAX_LENGTH} characters or fewer` });
+        return;
+      }
+
+      if (typeof avatarUrl === 'string') {
+        if (avatarUrl.length > AVATAR_URL_MAX_LENGTH) {
+          res.status(400).json({ message: 'avatarUrl is too large' });
+          return;
+        }
+
+        if (avatarUrl !== '' && !AVATAR_DATA_URL_PATTERN.test(avatarUrl)) {
+          res.status(400).json({ message: 'avatarUrl must be an image data URL' });
+          return;
+        }
+      }
+
+      const user = await userService.updateProfile(userId, {
+        bio: typeof trimmedBio === 'string' ? trimmedBio : trimmedBio ?? undefined,
+        avatarUrl: typeof avatarUrl === 'string' ? avatarUrl : avatarUrl ?? undefined,
+      });
+
+      res.status(200).json(sanitizeUser(user));
+    } catch {
+      res.status(500).json({ message: 'Error updating profile' });
     }
   },
 

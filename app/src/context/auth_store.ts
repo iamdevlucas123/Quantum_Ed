@@ -14,6 +14,7 @@ type AuthActions = {
   signIn: (data: SignInPayload) => Promise<void>
   signUp: (data: SignUpPayload) => Promise<void>
   refreshSession: () => Promise<void>
+  updateUser: (user: AuthUser) => void
   clearSession: () => void
   logout: () => Promise<void>
 }
@@ -84,6 +85,13 @@ export const useAuthStore = create<AuthStore>((set) => ({
     set({
       ...emptyAuthState,
       isLoading: false,
+    })
+  },
+
+  updateUser: (user) => {
+    set({
+      user,
+      isAuthenticated: true,
     })
   },
 

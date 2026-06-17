@@ -7,6 +7,7 @@ type BuildProfileSummaryInput = {
   email?: string;
   createdAt?: string;
   role: string;
+  bio?: string | null;
   items: UserCourseProgress[];
 };
 
@@ -92,6 +93,7 @@ export const buildProfileSummary = ({
   email,
   createdAt,
   role,
+  bio,
   items,
 }: BuildProfileSummaryInput): ProfileSummary => {
   const courses = createCourseCards(items);
@@ -122,7 +124,8 @@ export const buildProfileSummary = ({
   const quizDelta = Math.max(2, Math.min(12, Math.round(quizAverageScore / 14)));
   const username = createUsername(email);
   const learnerName = userName ?? 'This learner';
-  const userDescription = `${learnerName} is focused on ${activeTrackLabel.toLowerCase()}, building a ${learningLevelLabel.toLowerCase()} path with ${streakDays} active day${streakDays === 1 ? '' : 's'} and ${startedCourses || 0} enrolled course${startedCourses === 1 ? '' : 's'}.`;
+  const fallbackDescription = `${learnerName} is focused on ${activeTrackLabel.toLowerCase()}, building a ${learningLevelLabel.toLowerCase()} path with ${streakDays} active day${streakDays === 1 ? '' : 's'} and ${startedCourses || 0} enrolled course${startedCourses === 1 ? '' : 's'}.`;
+  const userDescription = bio?.trim() || fallbackDescription;
 
   return {
     startedCourses,

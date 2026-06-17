@@ -13,15 +13,24 @@ import ProfileStats from '../components/profile/profile_stats';
 import type { ProfileSummary } from '../components/profile/profile_types';
 import { useAuth } from '../context/auth_store';
 import { useUiStore } from '../context/ui_store';
-import { getUserProgress, type UserCourseProgress } from '../services/user_api';
+import { getUserProgress, updateCurrentUserProfile, type UserCourseProgress } from '../services/user_api';
 import '../styles/profile.css';
 
+const BIO_MAX_LENGTH = 280;
+const AVATAR_FILE_MAX_BYTES = 80 * 1024;
+
 export default function Profile() {
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { updateUser, user, isAuthenticated, isLoading } = useAuth();
   const openLoginModal = useUiStore((state) => state.openLoginModal);
   const [progresses, setProgresses] = useState<UserCourseProgress[]>([]);
   const [isProgressLoading, setIsProgressLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isBioEditing, setIsBioEditing] = useState(false);
+  const [bioDraft, setBioDraft] = useState('');
+  const [bioError, setBioError] = useState<string | null>(null);
+  const [isBioSaving, setIsBioSaving] = useState(false);
+  const [avatarError, setAvatarError] = useState<string | null>(null);
+  const [isAvatarSaving, setIsAvatarSaving] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated || !user) {
@@ -62,16 +71,105 @@ export default function Profile() {
       email: user?.email ?? undefined,
       createdAt: user?.createdAt ?? undefined,
       role: user?.role ?? 'STUDENT',
+      bio: user?.bio,
       items: progresses,
     });
-  }, [progresses, user?.createdAt, user?.email, user?.name, user?.role]);
+  }, [progresses, user?.bio, user?.createdAt, user?.email, user?.name, user?.role]);
 
   const openLogin = (): void => {
     openLoginModal();
   };
 
+  const startBioEdit = (): void => {
+    setBioDraft(user?.bio ?? '');
+    setBioError(null);
+    setIsBioEditing(true);
+  };
+
+  const cancelBioEdit = (): void => {
+    setBioDraft(user?.bio ?? '');
+    setBioError(null);
+    setIsBioEditing(false);
+  };
+
+  const saveBio = async (): Promise<void> => {
+    if (!user) {
+      return;
+    }
+
+    const trimmedBio = bioDraft.trim();
+
+    if (trimmedBio.length > BIO_MAX_LENGTH) {
+      setBioError(`Bio must be ${BIO_MAX_LENGTH} characters or fewer.`);
+      return;
+    }
+
+    setIsBioSaving(true);
+    setBioError(null);
+
+    try {
+      const updatedUser = await updateCurrentUserProfile({ bio: trimmedBio });
+      updateUser(updatedUser);
+      setBioDraft(updatedUser.bio ?? '');
+      setIsBioEditing(false);
+    } catch (currentError) {
+      const message = currentError instanceof Error ? currentError.message : 'Could not update bio';
+      setBioError(message);
+    } finally {
+      setIsBioSaving(false);
+    }
+  };
+
+  const updateAvatar = async (file: File): Promise<void> => {
+    if (!user) {
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      setAvatarError('Choose an image file.');
+      return;
+    }
+
+    if (file.size > AVATAR_FILE_MAX_BYTES) {
+      setAvatarError('Choose an image smaller than 80KB.');
+      return;
+    }
+
+    setAvatarError(null);
+    setIsAvatarSaving(true);
+
+    const reader = new FileReader();
+
+    reader.onload = async () => {
+      const avatarUrl = typeof reader.result === 'string' ? reader.result : null;
+
+      if (!avatarUrl) {
+        setAvatarError('Could not read selected image.');
+        setIsAvatarSaving(false);
+        return;
+      }
+
+      try {
+        const updatedUser = await updateCurrentUserProfile({ avatarUrl });
+        updateUser(updatedUser);
+      } catch (currentError) {
+        const message = currentError instanceof Error ? currentError.message : 'Could not update profile photo';
+        setAvatarError(message);
+      } finally {
+        setIsAvatarSaving(false);
+      }
+    };
+
+    reader.onerror = () => {
+      setAvatarError('Could not read selected image.');
+      setIsAvatarSaving(false);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   return (
-    <>
+    <div className="profile-route">
       <Header />
       <main className="profile-page">
         <div className="profile-shell">
@@ -83,10 +181,26 @@ export default function Profile() {
 
           {isAuthenticated && user ? (
             <section className="profile-layout">
-              <ProfileIdentityPanel summary={summary} user={user} />
+              <ProfileIdentityPanel
+                avatarError={avatarError}
+                isAvatarSaving={isAvatarSaving}
+                onAvatarChange={updateAvatar}
+                summary={summary}
+                user={user}
+              />
 
               <section className="profile-dashboard" aria-label="Course dashboard">
-                <ProfileOverview summary={summary} />
+                <ProfileOverview
+                  bioDraft={bioDraft}
+                  bioError={bioError}
+                  isBioEditing={isBioEditing}
+                  isBioSaving={isBioSaving}
+                  onBioCancel={cancelBioEdit}
+                  onBioDraftChange={setBioDraft}
+                  onBioEdit={startBioEdit}
+                  onBioSave={saveBio}
+                  summary={summary}
+                />
                 <ProfileCourseProgress
                   error={error}
                   isLoading={isProgressLoading}
@@ -94,7 +208,7 @@ export default function Profile() {
                   summary={summary}
                 />
                 <ProfileStats summary={summary} />
-                <ProfileBadges summary={summary} />
+                <ProfileBadges />
                 <ProfileRecentActivity summary={summary} />
               </section>
             </section>
@@ -102,6 +216,6 @@ export default function Profile() {
         </div>
       </main>
       <GithubFooter />
-    </>
+    </div>
   );
 }

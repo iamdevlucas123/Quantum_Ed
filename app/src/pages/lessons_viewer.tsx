@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import SideBar from '../components/lessons_viewer/sidebar';
 import MainContent from '../components/lessons_viewer/main_content';
 import HeaderLessons from '../components/lessons_viewer/header_lessons';
 import {
   getLessonBySlugs,
+  updateLessonProgress,
   type LessonViewerDetail,
 } from '../services/lesson_api';
 
@@ -16,9 +17,11 @@ type NavigationLink = {
 
 function LessonsViewer() {
   const { courseSlug, lessonSlug } = useParams<{ courseSlug: string; lessonSlug: string }>();
+  const navigate = useNavigate();
   const [lesson, setLesson] = useState<LessonViewerDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isCompletingModule, setIsCompletingModule] = useState(false);
 
   useEffect(() => {
     if (!courseSlug || !lessonSlug) {
@@ -55,6 +58,25 @@ function LessonsViewer() {
   }, [courseSlug, lessonSlug]);
 
   const currentCourseProgress = lesson?.module.course.progresses[0]?.progress ?? 0;
+
+  const handleNextModule = async (href: string): Promise<void> => {
+    if (!courseSlug || !lessonSlug) {
+      navigate(href);
+      return;
+    }
+
+    setIsCompletingModule(true);
+
+    try {
+      await updateLessonProgress(courseSlug, lessonSlug, {
+        completed: true,
+        progress: 100,
+      });
+    } finally {
+      setIsCompletingModule(false);
+      navigate(href);
+    }
+  };
 
   const navigation = useMemo(() => {
     if (!lesson) {
@@ -159,9 +181,11 @@ function LessonsViewer() {
           totalModules={navigation.totalModules}
         />
         <MainContent
+          isCompletingModule={isCompletingModule}
           lesson={lesson}
           nextLesson={navigation.nextLesson}
           nextModule={navigation.nextModule}
+          onNextModule={handleNextModule}
           previousLesson={navigation.previousLesson}
         />
       </section>

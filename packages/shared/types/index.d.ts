@@ -6,6 +6,8 @@ export type UserDto = {
   email: string;
   role: UserRole;
   localStorageKey: string | null;
+  bio: string | null;
+  avatarUrl: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -19,6 +21,11 @@ export type CreateUserData = {
 }
 
 export type UpdateUserData = Partial<CreateUserData>;
+
+export type UpdateProfileData = {
+  bio?: string | null;
+  avatarUrl?: string | null;
+}
 
 export type SignUpData = {
   name?: string;

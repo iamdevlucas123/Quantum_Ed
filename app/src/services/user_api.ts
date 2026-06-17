@@ -1,8 +1,9 @@
-import type { CreateUserData, UpdateUserData, UserDto } from '@quantum-ed/shared-types'
+import type { CreateUserData, UpdateProfileData, UpdateUserData, UserDto } from '@quantum-ed/shared-types'
 
 import { protectedRequest } from './http_client'
 
 export type CreateUserPayload = CreateUserData
+export type UpdateProfilePayload = UpdateProfileData
 export type UpdateUserPayload = UpdateUserData
 export type User = UserDto
 
@@ -52,6 +53,13 @@ export function getUserProgress(id: string): Promise<UserCourseProgress[]> {
 export function updateUser(id: string, data: UpdateUserPayload): Promise<User> {
   return protectedRequest<User>(`/users/${id}`, {
     method: 'PUT',
+    body: JSON.stringify(data),
+  })
+}
+
+export function updateCurrentUserProfile(data: UpdateProfilePayload): Promise<User> {
+  return protectedRequest<User>('/users/me/profile', {
+    method: 'PATCH',
     body: JSON.stringify(data),
   })
 }

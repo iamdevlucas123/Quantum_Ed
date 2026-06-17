@@ -36,6 +36,8 @@ model User {
   passwordHash    String?
   role            UserRole @default(STUDENT)
   localStorageKey String?  @unique
+  bio             String?
+  avatarUrl       String?
 
   progresses       Progress[]
   lessonProgresses LessonProgress[]

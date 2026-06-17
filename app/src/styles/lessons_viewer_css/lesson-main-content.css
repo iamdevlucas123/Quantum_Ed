@@ -132,6 +132,11 @@
     color: #2743b5;
 }
 
+.lesson-navigation__button[aria-disabled="true"] {
+    cursor: wait;
+    opacity: 0.72;
+}
+
 .lesson-navigation__complete {
     display: inline-flex;
     align-items: center;

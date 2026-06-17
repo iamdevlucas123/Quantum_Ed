@@ -9,9 +9,11 @@ type NavigationLink = {
 };
 
 type MainContentProps = {
+  isCompletingModule: boolean;
   lesson: LessonViewerDetail;
   nextLesson: NavigationLink | null;
   nextModule: NavigationLink | null;
+  onNextModule: (href: string) => Promise<void>;
   previousLesson: NavigationLink | null;
 };
 
@@ -23,9 +25,11 @@ const createParagraphs = (body: string): string[] => {
 };
 
 export default function MainContent({
+  isCompletingModule,
   lesson,
   nextLesson,
   nextModule,
+  onNextModule,
   previousLesson,
 }: MainContentProps) {
   const paragraphs = createParagraphs(lesson.content?.body ?? lesson.description);
@@ -100,8 +104,19 @@ export default function MainContent({
             Next lesson
           </Link>
         ) : nextModule ? (
-          <Link className="lesson-navigation__button" to={nextModule.href}>
-            Next module
+          <Link
+            className="lesson-navigation__button"
+            to={nextModule.href}
+            aria-disabled={isCompletingModule}
+            onClick={(event) => {
+              event.preventDefault();
+
+              if (!isCompletingModule) {
+                void onNextModule(nextModule.href);
+              }
+            }}
+          >
+            {isCompletingModule ? 'Completing module...' : 'Next module'}
           </Link>
         ) : (
           <p className="lesson-navigation__complete">Course path completed</p>

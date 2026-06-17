@@ -43,9 +43,6 @@ export default function ProfileCourseProgress({
 
       {summary.currentCourse ? (
         <article className="profile-current-course">
-          <div className="profile-current-course__media" aria-hidden="true">
-            <img alt="" src="/assets/backgrounds/planet-indigo-shadow.png" />
-          </div>
           <div className="profile-current-course__body">
             <div className="profile-current-course__top">
               <span>Current Course</span>

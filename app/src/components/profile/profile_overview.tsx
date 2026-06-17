@@ -12,7 +12,21 @@ const streakCaption = (days: number): string => {
   return 'Build momentum';
 };
 
-export default function ProfileOverview({ summary }: ProfileOverviewProps) {
+const BIO_MAX_LENGTH = 280;
+
+export default function ProfileOverview({
+  bioDraft,
+  bioError,
+  isBioEditing,
+  isBioSaving,
+  onBioCancel,
+  onBioDraftChange,
+  onBioEdit,
+  onBioSave,
+  summary,
+}: ProfileOverviewProps) {
+  const remainingCharacters = BIO_MAX_LENGTH - bioDraft.length;
+
   return (
     <>
       <section className="profile-main-grid">
@@ -20,15 +34,36 @@ export default function ProfileOverview({ summary }: ProfileOverviewProps) {
           <div className="profile-card__header">
             <h2>About / Learning Journey</h2>
           </div>
-          <p>{summary.userDescription}</p>
-          <div className="profile-card__copy-lines" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-          </div>
-          <button className="profile-card__button" type="button">
-            Update Bio
-          </button>
+          {isBioEditing ? (
+            <div className="profile-bio-editor">
+              <textarea
+                aria-label="Profile bio"
+                maxLength={BIO_MAX_LENGTH}
+                onChange={(event) => onBioDraftChange(event.target.value)}
+                value={bioDraft}
+              />
+              <div className="profile-bio-editor__meta">
+                <span>{remainingCharacters} characters left</span>
+                {bioError ? <strong>{bioError}</strong> : null}
+              </div>
+              <div className="profile-bio-editor__actions">
+                <button className="profile-card__button" disabled={isBioSaving} onClick={onBioSave} type="button">
+                  {isBioSaving ? 'Saving...' : 'Save'}
+                </button>
+                <button className="profile-card__button profile-card__button--ghost" disabled={isBioSaving} onClick={onBioCancel} type="button">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <p>{summary.userDescription}</p>
+              {bioError ? <p className="profile-bio-editor__error">{bioError}</p> : null}
+              <button className="profile-card__button" onClick={onBioEdit} type="button">
+                Update Bio
+              </button>
+            </>
+          )}
         </article>
 
         <div className="profile-main-grid__mini-cards">
