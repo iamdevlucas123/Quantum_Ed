@@ -55,7 +55,6 @@ export default function CourseSection() {
                     <article className="course-card" key={course.title}>
                         <div className="course-card__top">
                             <span className="course-card__badge">{course.badge}</span>
-                            <img src="/assets/sprites/laser-projectile-effects.png" alt="" />
                         </div>
 
                         <div className="course-card__body">

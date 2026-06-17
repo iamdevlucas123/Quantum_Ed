@@ -54,7 +54,9 @@ export default function Hero() {
             <div className="main__scene" aria-hidden="true">
                 <img className="main__planet main__planet--primary" src="/assets/backgrounds/planet-indigo-shadow.png" alt="" />
                 <img className="main__planet main__planet--secondary" src="/assets/backgrounds/planet-teal-shadow.png" alt="" />
-    
+                <img className="main__planet main__planet--tertiary" src="/assets/backgrounds/planet-copper-shadow.png" alt="" />
+                <img className="main__planet main__planet--quaternary" src="/assets/backgrounds/planet-violet-shadow.png" alt="" />
+                <img className="main__planet main__planet--quinary" src="/assets/backgrounds/planet-forest-shadow.png" alt="" />
             </div>
         </section>
     )

@@ -22,19 +22,13 @@ body {
 .main {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
-    align-items: center;
-    gap: 24px;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
     overflow: hidden;
-    width: min(1440px, calc(100% - 48px));
-    margin: 24px auto 0;
+    width: 100%;
+    min-height: 620px;
+    margin: 0;
     padding: 72px 64px;
-    border: 1px solid var(--home-border);
-    border-radius: 28px;
-    background:
-        linear-gradient(180deg, rgba(6, 20, 34, 0.96), rgba(5, 15, 26, 0.92)),
-        rgba(4, 12, 20, 0.92);
-    box-shadow: var(--home-shadow);
     isolation: isolate;
 }
 
@@ -47,24 +41,18 @@ body {
 }
 
 .main::before {
-    background:
-        linear-gradient(90deg, rgba(125, 249, 255, 0.08) 1px, transparent 1px),
-        linear-gradient(rgba(125, 249, 255, 0.06) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.65), transparent 88%);
-    opacity: 0.35;
+    display: none;
 }
 
 .main::after {
-    inset: auto 0 0 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(125, 249, 255, 0.78), transparent);
-    box-shadow: 0 0 18px rgba(125, 249, 255, 0.42);
+    display: none;
 }
 
 .main__copy {
     position: relative;
     z-index: 1;
+    align-self: center;
+    max-width: 640px;
 }
 
 .main h1 {
@@ -125,39 +113,169 @@ body {
 }
 
 .main__scene {
-    position: relative;
-    min-height: 540px;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
 }
 
 .main__planet {
     position: absolute;
     user-select: none;
     pointer-events: none;
+    transform-origin: center;
+    will-change: transform;
+    filter: drop-shadow(0 0 18px rgba(0, 0, 0, 0.16));
 }
 
 .main__planet--primary {
-    top: 22px;
-    right: 8px;
+    top: 30px;
+    right: -42px;
     width: clamp(220px, 26vw, 340px);
-    animation: drift-slow 12s ease-in-out infinite;
+    opacity: 0.96;
+    animation: orbit-primary 20s linear infinite;
 }
 
 .main__planet--secondary {
-    bottom: 26px;
-    left: 36px;
+    bottom: 18px;
+    left: -70px;
     width: clamp(150px, 16vw, 220px);
-    opacity: 0.78;
-    animation: drift-slow 15s ease-in-out infinite reverse;
+    opacity: 0.72;
+    animation: orbit-secondary 24s linear infinite;
 }
 
-@keyframes drift-slow {
-    0%,
-    100% {
-        transform: translateY(0) translateX(0);
+.main__planet--tertiary {
+    top: 44%;
+    left: 12%;
+    width: clamp(130px, 14vw, 190px);
+    opacity: 0.64;
+    animation: orbit-tertiary 18s linear infinite;
+}
+
+.main__planet--quaternary {
+    top: -24px;
+    left: 46%;
+    width: clamp(118px, 13vw, 176px);
+    opacity: 0.48;
+    animation: orbit-quaternary 28s linear infinite;
+}
+
+.main__planet--quinary {
+    bottom: 20%;
+    right: 8%;
+    width: clamp(110px, 12vw, 168px);
+    opacity: 0.44;
+    animation: orbit-quinary 23s linear infinite;
+}
+
+@keyframes orbit-primary {
+    0% {
+        transform: translate3d(16%, -4%, 0) rotate(0deg) scale(1);
+    }
+
+    25% {
+        transform: translate3d(-10%, 8%, 0) rotate(95deg) scale(1.04);
     }
 
     50% {
-        transform: translateY(-18px) translateX(10px);
+        transform: translate3d(-58%, 16%, 0) rotate(185deg) scale(0.98);
+    }
+
+    75% {
+        transform: translate3d(-112%, 6%, 0) rotate(275deg) scale(1.03);
+    }
+
+    100% {
+        transform: translate3d(16%, -4%, 0) rotate(360deg) scale(1);
+    }
+}
+
+@keyframes orbit-secondary {
+    0% {
+        transform: translate3d(-12%, 0, 0) rotate(0deg) scale(0.98);
+    }
+
+    30% {
+        transform: translate3d(34%, -14%, 0) rotate(110deg) scale(1.02);
+    }
+
+    60% {
+        transform: translate3d(92%, -24%, 0) rotate(225deg) scale(1.05);
+    }
+
+    82% {
+        transform: translate3d(140%, -8%, 0) rotate(300deg) scale(0.95);
+    }
+
+    100% {
+        transform: translate3d(-12%, 0, 0) rotate(360deg) scale(0.98);
+    }
+}
+
+@keyframes orbit-tertiary {
+    0% {
+        transform: translate3d(-8%, -8%, 0) rotate(0deg) scale(0.94);
+    }
+
+    20% {
+        transform: translate3d(26%, -24%, 0) rotate(72deg) scale(1);
+    }
+
+    48% {
+        transform: translate3d(86%, -8%, 0) rotate(170deg) scale(1.06);
+    }
+
+    74% {
+        transform: translate3d(128%, 10%, 0) rotate(262deg) scale(0.92);
+    }
+
+    100% {
+        transform: translate3d(-8%, -8%, 0) rotate(360deg) scale(0.94);
+    }
+}
+
+@keyframes orbit-quaternary {
+    0% {
+        transform: translate3d(-14%, -12%, 0) rotate(0deg) scale(0.88);
+    }
+
+    26% {
+        transform: translate3d(18%, 4%, 0) rotate(98deg) scale(0.96);
+    }
+
+    56% {
+        transform: translate3d(74%, 18%, 0) rotate(204deg) scale(1);
+    }
+
+    82% {
+        transform: translate3d(126%, 6%, 0) rotate(300deg) scale(0.9);
+    }
+
+    100% {
+        transform: translate3d(-14%, -12%, 0) rotate(360deg) scale(0.88);
+    }
+}
+
+@keyframes orbit-quinary {
+    0% {
+        transform: translate3d(10%, 0, 0) rotate(0deg) scale(0.9);
+    }
+
+    24% {
+        transform: translate3d(-18%, -10%, 0) rotate(85deg) scale(0.96);
+    }
+
+    52% {
+        transform: translate3d(-66%, -20%, 0) rotate(192deg) scale(1.02);
+    }
+
+    80% {
+        transform: translate3d(-122%, -6%, 0) rotate(295deg) scale(0.88);
+    }
+
+    100% {
+        transform: translate3d(10%, 0, 0) rotate(360deg) scale(0.9);
     }
 }
 
@@ -174,20 +292,45 @@ body {
 
 @media (max-width: 1024px) {
     .main {
-        grid-template-columns: 1fr;
+        min-height: 560px;
         padding: 52px 28px;
     }
 
     .main__scene {
-        min-height: 420px;
+        inset: 0;
+    }
+
+    .main__planet--primary {
+        animation-duration: 22s;
+    }
+
+    .main__planet--secondary {
+        animation-duration: 26s;
+    }
+
+    .main__planet--tertiary {
+        left: 4%;
+        animation-duration: 20s;
+    }
+
+    .main__planet--quaternary {
+        top: -10px;
+        left: 40%;
+        animation-duration: 30s;
+    }
+
+    .main__planet--quinary {
+        right: -2%;
+        bottom: 16%;
+        animation-duration: 25s;
     }
 }
 
 @media (max-width: 640px) {
     .main {
         width: min(100% - 24px, 1440px);
+        min-height: 500px;
         padding: 38px 18px;
-        border-radius: 20px;
     }
 
     #developer-counter {
@@ -198,11 +341,45 @@ body {
     }
 
     .main__scene {
-        min-height: 300px;
+        inset: 0;
     }
 
-    .main__planet--secondary,
-    .main__scene img:not(.main__planet--primary) {
-        display: none;
+    .main__planet--primary {
+        top: 24px;
+        right: -70px;
+        width: clamp(190px, 54vw, 250px);
+        animation-duration: 18s;
+    }
+
+    .main__planet--secondary {
+        left: -88px;
+        bottom: -4px;
+        width: clamp(120px, 34vw, 170px);
+        animation-duration: 22s;
+    }
+
+    .main__planet--tertiary {
+        top: 48%;
+        left: auto;
+        right: -34px;
+        width: clamp(108px, 28vw, 150px);
+        opacity: 0.52;
+        animation-duration: 16s;
+    }
+
+    .main__planet--quaternary {
+        top: 6px;
+        left: 30%;
+        width: clamp(88px, 22vw, 126px);
+        opacity: 0.34;
+        animation-duration: 20s;
+    }
+
+    .main__planet--quinary {
+        bottom: 18%;
+        right: -26px;
+        width: clamp(92px, 24vw, 132px);
+        opacity: 0.3;
+        animation-duration: 18s;
     }
 }
