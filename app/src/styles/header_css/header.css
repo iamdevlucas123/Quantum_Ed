@@ -466,7 +466,12 @@
 }
 
 .auth-modal__oauth-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     min-height: 42px;
+    padding: 0 14px;
     border: 1px solid rgba(125, 249, 255, 0.14);
     border-radius: 10px;
     background: rgba(125, 249, 255, 0.04);
@@ -475,6 +480,14 @@
     font-weight: 700;
     cursor: pointer;
     transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.auth-modal__oauth-button img {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .auth-modal__oauth-button:hover {

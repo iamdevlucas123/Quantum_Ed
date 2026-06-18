@@ -246,6 +246,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               type="button"
               onClick={() => startOAuth('google')}
             >
+              <img alt="" aria-hidden="true" src="/assets/icons/google_image_auth.jpg" />
               Continue with Google
             </button>
             <button
@@ -253,6 +254,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               type="button"
               onClick={() => startOAuth('github')}
             >
+              <img alt="" aria-hidden="true" src="/assets/icons/github_image_auth.png" />
               Continue with GitHub
             </button>
           </div>
