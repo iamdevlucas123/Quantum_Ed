@@ -9,7 +9,7 @@ const OAUTH_STATE_MAX_AGE_MS = 1000 * 60 * 10
 const baseRefreshTokenCookieOptions = {
   httpOnly: true,
   secure: env.NODE_ENV === 'production',
-  sameSite: 'lax',
+  sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax',
   path: '/auth',
 } satisfies CookieOptions // turn the type more strict
 
