@@ -4,7 +4,7 @@ import { env } from "./env";
 export const corsConfig: CorsOptions = {
   origin: env.CORS_ORIGINS,
 
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
 
   allowedHeaders: [
     "Content-Type",
