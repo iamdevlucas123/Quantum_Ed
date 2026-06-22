@@ -13,6 +13,7 @@
     "build": "tsc",
     "postinstall": "prisma generate",
     "prestart": "npm run build",
+    "seed": "node prisma/seed.js",
     "start": "node dist/src/server.js"
   },
   "dependencies": {
