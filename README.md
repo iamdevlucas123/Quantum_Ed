@@ -1,322 +1,398 @@
 # QuantumEd
 
-QuantumEd e uma plataforma educacional full stack para organizar cursos, modulos e aulas de temas tecnicos como computacao, ciencia e engenharia. O projeto combina uma interface React com uma API Express, autenticacao JWT e persistencia em PostgreSQL via Prisma.
-
-![Tela inicial do QuantumEd](assets/image.png)
+QuantumEd e uma plataforma full stack de cursos curtos para Engenharia de IA. O projeto combina uma aplicacao React/Vite, uma API Express com Prisma, autenticacao com JWT + refresh token em cookie `httpOnly`, OAuth Google/GitHub e persistencia em PostgreSQL.
 
 ## Sumario
 
-- [Sobre o projeto](#sobre-o-projeto)
-- [Screenshots](#screenshots)
+- [Sobre](#sobre)
 - [Funcionalidades](#funcionalidades)
-- [Tecnologias](#tecnologias)
+- [Stack](#stack)
 - [Arquitetura](#arquitetura)
-- [Como executar](#como-executar)
-- [Variaveis de ambiente](#variaveis-de-ambiente)
-- [Scripts disponiveis](#scripts-disponiveis)
-- [API](#api)
-- [Estrutura de pastas](#estrutura-de-pastas)
-- [Status do projeto](#status-do-projeto)
+- [Estrutura](#estrutura)
+- [Setup Local](#setup-local)
+- [Prisma E Dados Iniciais](#prisma-e-dados-iniciais)
+- [Variaveis De Ambiente](#variaveis-de-ambiente)
+- [Scripts](#scripts)
+- [Rotas Principais](#rotas-principais)
+- [Deploy Atual](#deploy-atual)
+- [Observacoes](#observacoes)
 
-## Sobre o projeto
+## Sobre
 
-O QuantumEd foi criado como um ambiente de aprendizagem gratuito e estruturado. A aplicacao web apresenta paginas de home, listagem de cursos, detalhes de curso e visualizacao de aulas. No backend, a API centraliza usuarios, autenticacao, papeis de acesso e o modelo de dominio para trilhas de estudo.
+O objetivo do QuantumEd e oferecer uma base evolutiva para publicar cursos organizados por `Subject -> Topic -> Course -> Module -> Lesson -> LessonContent`, acompanhar progresso por usuario e proteger experiencias privadas como profile e lesson viewer.
 
-O objetivo do projeto e oferecer uma base evolutiva para:
-
-- publicacao de cursos organizados por assunto, topico, modulo e aula;
-- acompanhamento de progresso por usuario;
-- autenticacao com cadastro, login e verificacao de token;
-- separacao clara entre frontend, backend e tipos compartilhados.
-
-## Screenshots
-
-### Pagina inicial
-
-![Pagina inicial](assets/image.png)
-
-### Listagem de cursos
-
-![Listagem de cursos](assets/image_courses.png)
-
-### Visualizador de aulas
-
-![Visualizador de aulas](assets/image_lessons.png)
+O catalogo publico de cursos e consumido pelo frontend a partir da API. O detalhe de curso autenticado retorna progresso de licoes e estado de curso salvo. O profile permite editar bio e avatar simples, persistidos no usuario.
 
 ## Funcionalidades
 
-- Home page com proposta da plataforma, areas de estudo e destaques.
-- Listagem de cursos com filtros e cards.
-- Pagina de detalhes do curso com hero, metadados, objetivos e conteudo.
-- Visualizador de aulas com navegacao lateral e conteudo principal.
-- API REST para usuarios.
-- Autenticacao com signup, signin e verificacao de access token.
-- Protecao de rotas privadas por middleware JWT.
-- Modelagem Prisma para usuarios, cursos, modulos, aulas, conteudos e progresso.
-- Tipos compartilhados entre `api` e `app` via pacote local.
-- Ambiente conteinerizado com Docker Compose.
+- Home com hero visual, about section e vitrine de cursos reais.
+- Catalogo publico de cursos em `/courses`.
+- Filtros por trilha/subject e busca textual no catalogo.
+- Detalhe de curso publico em `/courses/:courseSlug`.
+- Detalhe autenticado com `saved`, modulos colapsaveis e progresso por licao.
+- Lesson viewer protegido com sidebar, topbar e conteudo principal.
+- Navegacao de lesson viewer com `Next module` marcando a licao atual como concluida.
+- Profile protegido com update de bio e upload simples de avatar.
+- Signup/signin com politica minima de senha.
+- OAuth Google e GitHub.
+- Refresh token em cookie `httpOnly`.
+- Rate limiting em memoria para rotas sensiveis.
+- Seed manual para catalogo inicial.
 
-## Tecnologias
+## Stack
 
-### Frontend
+Frontend:
 
 - React 19
 - React Router DOM 7
 - Vite 8
 - TypeScript
-- ESLint
-- CSS modularizado por contexto de pagina/componente
+- Zustand
+- CSS por feature/pagina
 
-### Backend
+Backend:
 
 - Node.js
 - Express 5
 - TypeScript
-- Prisma 7
+- Prisma 6
 - PostgreSQL 15
 - JWT
 - bcrypt
-- CORS
+- cookie-parser
+- cors
 
-### Infraestrutura
+Infra/local:
 
-- Docker
 - Docker Compose
-- Pacote local de tipos em `packages/shared/types`
+- PostgreSQL em container
+- Tipos compartilhados em `packages/shared/types`
+
+Deploy gratuito atual:
+
+- Frontend: Vercel Hobby
+- Backend: Render Free Web Service
+- Database: Neon Free Postgres
 
 ## Arquitetura
 
 ```text
-React/Vite App
-    |
-    | HTTP
-    v
+React/Vite app
+  -> HTTP API requests
 Express API
-    |
-    | Prisma Client
-    v
+  -> Prisma Client
 PostgreSQL
 ```
 
-O frontend fica em `app/`, a API em `api/` e os contratos TypeScript compartilhados ficam em `packages/shared/types/`. A API usa Prisma para acessar o banco e expoe rotas REST para autenticacao e usuarios.
+Autenticacao:
 
-## Como executar
-
-### Pre-requisitos
-
-- Node.js 20+
-- npm
-- Docker e Docker Compose, caso utilize o ambiente conteinerizado
-- PostgreSQL local, caso execute a API sem Docker
-
-### Executando com Docker Compose
-
-1. Crie os arquivos de ambiente indicados em [Variaveis de ambiente](#variaveis-de-ambiente).
-2. Suba os servicos:
-
-```bash
-docker compose up --build
+```text
+Access token: Authorization: Bearer <token>
+Refresh token: cookie httpOnly em /auth
+OAuth callbacks: /auth/google/callback e /auth/github/callback
 ```
 
-3. Acesse:
-
-- Frontend: `http://localhost:3001`
-- API: `http://localhost:3000`
-- PostgreSQL: `localhost:5433`
-
-### Executando localmente
-
-Instale as dependencias da API:
-
-```bash
-cd api
-npm install
-```
-
-Instale as dependencias do frontend:
-
-```bash
-cd ../app
-npm install
-```
-
-Configure o banco e aplique as migrations:
-
-```bash
-cd ../api
-npx prisma migrate dev
-```
-
-Inicie a API:
-
-```bash
-npm run dev
-```
-
-Em outro terminal, inicie o frontend:
-
-```bash
-cd app
-npm run dev
-```
-
-Por padrao:
-
-- API: `http://localhost:3000`
-- Frontend Vite: `http://localhost:5173`
-
-## Variaveis de ambiente
-
-O `docker-compose.yml` referencia:
-
-- `./app/.env`
-- `./api/src/config/.env`
-
-Para executar a API localmente a partir da pasta `api/`, crie tambem um `api/.env` com as mesmas variaveis, ou exporte essas variaveis no terminal antes de iniciar o servidor.
-
-Exemplo para `api/src/config/.env` no Docker:
-
-```env
-PORT=3000
-DATABASE_URL="postgresql://quantum:quantum@db:5432/quantum_ed?schema=public"
-POSTGRES_USER=quantum
-POSTGRES_PASSWORD=quantum
-POSTGRES_DB=quantum_ed
-POSTGRES_PORT=5432
-JWT_SECRET=replace-with-a-secure-secret
-JWT_EXPIRES_IN=1d
-CORS_ORIGINS=http://localhost:3001,http://localhost:5173
-NODE_ENV=development
-```
-
-Para execucao local sem Docker, use as mesmas variaveis em `api/.env` e ajuste o host do `DATABASE_URL` para o host do seu PostgreSQL, por exemplo `localhost`.
-
-Exemplo para `app/.env`:
-
-```env
-VITE_API_URL=http://localhost:3000
-```
-
-## Scripts disponiveis
-
-### API
-
-Executar em desenvolvimento:
-
-```bash
-cd api
-npm run dev
-```
-
-Validar tipos:
-
-```bash
-npm run typecheck
-```
-
-Build TypeScript:
-
-```bash
-npm run build
-```
-
-Iniciar build compilado:
-
-```bash
-npm start
-```
-
-### App
-
-Executar em desenvolvimento:
-
-```bash
-cd app
-npm run dev
-```
-
-Validar tipos:
-
-```bash
-npm run typecheck
-```
-
-Executar lint:
-
-```bash
-npm run lint
-```
-
-Build de producao:
-
-```bash
-npm run build
-```
-
-Preview do build:
-
-```bash
-npm run preview
-```
-
-## API
-
-### Autenticacao
-
-| Metodo | Rota | Descricao |
-| --- | --- | --- |
-| `POST` | `/auth/signup` | Cria uma conta e retorna usuario e access token. |
-| `POST` | `/auth/signin` | Autentica usuario e retorna usuario e access token. |
-| `GET` | `/auth/verify` | Valida um token enviado em `Authorization: Bearer <token>`. |
-
-### Usuarios
-
-As rotas abaixo ficam protegidas pelo middleware de autenticacao.
-
-| Metodo | Rota | Descricao |
-| --- | --- | --- |
-| `POST` | `/users` | Cria um usuario. |
-| `GET` | `/users` | Lista usuarios. |
-| `GET` | `/users/:id` | Busca usuario por ID. |
-| `PUT` | `/users/:id` | Atualiza usuario por ID. |
-| `DELETE` | `/users/:id` | Remove usuario por ID. |
-
-## Estrutura de pastas
+## Estrutura
 
 ```text
 .
 |-- api/
 |   |-- prisma/
 |   |   |-- migrations/
-|   |   `-- schema.prisma
-|   `-- src/
-|       |-- config/
-|       |-- controllers/
-|       |-- middlewares/
-|       |-- routes/
-|       |-- services/
-|       `-- types/
+|   |   |-- schema.prisma
+|   |   `-- seed.js
+|   |-- src/
+|   |   |-- config/
+|   |   |-- controllers/
+|   |   |-- middlewares/
+|   |   |-- routes/
+|   |   |-- services/
+|   |   `-- types/
+|   |-- package.json
+|   `-- Procfile
 |-- app/
 |   |-- public/
-|   `-- src/
-|       |-- assets/
-|       |-- components/
-|       |-- pages/
-|       |-- services/
-|       |-- styles/
-|       `-- types/
-|-- assets/
+|   |-- src/
+|   |   |-- components/
+|   |   |-- context/
+|   |   |-- pages/
+|   |   |-- services/
+|   |   `-- styles/
+|   |-- package.json
+|   `-- vercel.json
+|-- docs/
 |-- packages/
-|   `-- shared/
-|       `-- types/
+|   `-- shared/types/
 |-- docker-compose.yml
 `-- README.md
 ```
 
-## Status do projeto
+## Setup Local
 
-O projeto ja possui a base visual, rotas principais do frontend, autenticacao no backend, modelos Prisma e ambiente Docker. Alguns conteudos de cursos ainda estao mockados no frontend e podem ser conectados ao banco conforme as rotas de cursos, modulos e aulas forem implementadas na API.
+Instale dependencias:
+
+```bash
+cd app
+npm install
+
+cd ../api
+npm install
+```
+
+Suba com Docker:
+
+```bash
+docker compose up -d db api app
+```
+
+Portas:
+
+```text
+Frontend Docker: http://localhost:3001
+Frontend Vite local: http://localhost:5173
+API: http://localhost:3000
+PostgreSQL: localhost:5433
+```
+
+Rodar sem Docker:
+
+```bash
+cd api
+npm run dev
+
+cd ../app
+npm run dev
+```
+
+## Prisma E Dados Iniciais
+
+Comandos uteis:
+
+```bash
+cd api
+npx prisma format
+npx prisma generate
+```
+
+Criar migration em desenvolvimento:
+
+```bash
+docker compose exec api npx prisma migrate dev --name <migration_name>
+```
+
+Aplicar migrations em producao:
+
+```bash
+npx prisma migrate deploy
+```
+
+Popular catalogo inicial:
+
+```bash
+cd api
+npm run seed
+```
+
+O seed manual fica em `api/prisma/seed.js` e cria estes cursos base:
+
+- `prompt-engineering-foundations`
+- `rag-systems-essentials`
+- `linear-algebra-basics`
+
+As migrations criam as tabelas, mas nao populam cursos automaticamente. Em producao com Neon, rode o seed apontando `DATABASE_URL` para a connection string do Neon.
+
+Exemplo no PowerShell:
+
+```powershell
+cd "C:\Users\lucas\OneDrive\Area de Trabalho\Computing\PROJECTS\Quantum_Ed\api"
+$env:DATABASE_URL="postgresql://...neon.tech/quantum_ed?sslmode=require"
+npx.cmd prisma migrate deploy
+npm.cmd run seed
+Remove-Item Env:DATABASE_URL
+```
+
+Nao exponha `DATABASE_URL` real, JWT secrets ou OAuth secrets em chats, commits ou logs publicos.
+
+## Variaveis De Ambiente
+
+Frontend (`app/.env` ou Vercel):
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+Backend (`api/src/config/.env`, `api/.env` ou Render):
+
+```env
+PORT=3000
+DATABASE_URL=postgresql://quantum:quantum@db:5432/quantum_ed?schema=public
+
+JWT_SECRET=replace-with-a-secure-secret
+ACCESS_TOKEN_EXPIRES_IN=15m
+REFRESH_TOKEN_SECRET=replace-with-another-secure-secret
+REFRESH_TOKEN_EXPIRES_IN=7d
+
+FRONTEND_URL=http://localhost:5173
+CORS_ORIGINS=http://localhost:3001,http://localhost:5173,http://127.0.0.1:3001,http://127.0.0.1:5173
+NODE_ENV=development
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_CALLBACK_URL=
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+GITHUB_CALLBACK_URL=
+```
+
+Em producao com Vercel + Render:
+
+```env
+NODE_ENV=production
+FRONTEND_URL=https://quantum-ed-76g2.vercel.app
+CORS_ORIGINS=https://quantum-ed-76g2.vercel.app
+GOOGLE_CALLBACK_URL=https://quantum-ed-api.onrender.com/auth/google/callback
+GITHUB_CALLBACK_URL=https://quantum-ed-api.onrender.com/auth/github/callback
+```
+
+Cookies de auth usam `sameSite: 'none'` e `secure: true` em producao para funcionar com frontend e backend em dominios diferentes.
+
+## Scripts
+
+API:
+
+```bash
+cd api
+npm run dev
+npm run typecheck
+npm run build
+npm run seed
+npm start
+```
+
+App:
+
+```bash
+cd app
+npm run dev
+npm run lint
+npm run typecheck
+npm run build
+npm run preview
+```
+
+## Rotas Principais
+
+Publicas:
+
+```text
+GET  /public/stats
+GET  /courses
+GET  /courses/:slug
+POST /auth/signup
+POST /auth/signin
+POST /auth/refresh
+POST /auth/logout
+GET  /auth/google
+GET  /auth/google/callback
+GET  /auth/github
+GET  /auth/github/callback
+GET  /auth/verify
+```
+
+Protegidas:
+
+```text
+GET    /users
+GET    /users/:id
+PUT    /users/:id
+DELETE /users/:id
+GET    /users/:id/progress
+PATCH  /users/me/profile
+
+GET    /courses/:courseSlug/detail
+PUT    /courses/:courseSlug/save
+DELETE /courses/:courseSlug/save
+GET    /courses/:courseSlug/lessons/:lessonSlug
+PUT    /courses/:courseSlug/lessons/:lessonSlug/progress
+```
+
+Admin:
+
+```text
+/admin/*
+```
+
+## Deploy Atual
+
+Frontend na Vercel:
+
+```text
+Root Directory: app
+Build Command: npm run build
+Output Directory: dist
+Environment:
+  VITE_API_URL=https://quantum-ed-api.onrender.com
+```
+
+`app/vercel.json` mantem rewrite SPA para React Router:
+
+```json
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
+}
+```
+
+Backend no Render:
+
+```text
+Root Directory: api
+Build Command: npm install && npx prisma migrate deploy && npm run build
+Start Command: node dist/src/server.js
+```
+
+Render envs principais:
+
+```text
+NODE_ENV=production
+DATABASE_URL=<Neon connection string>
+FRONTEND_URL=https://quantum-ed-76g2.vercel.app
+CORS_ORIGINS=https://quantum-ed-76g2.vercel.app
+JWT_SECRET=<secret>
+REFRESH_TOKEN_SECRET=<secret>
+```
+
+OAuth:
+
+```text
+Google JavaScript origin:
+https://quantum-ed-76g2.vercel.app
+
+Google redirect URI:
+https://quantum-ed-api.onrender.com/auth/google/callback
+
+GitHub OAuth App homepage:
+https://quantum-ed-76g2.vercel.app
+
+GitHub OAuth App callback:
+https://quantum-ed-api.onrender.com/auth/github/callback
+```
+
+Use GitHub OAuth App, nao GitHub App. Se a tela pedir Webhook URL, e a tela errada para este projeto.
+
+## Observacoes
+
+- `api/npm test` ainda e placeholder.
+- Nao ha suite automatizada real de testes identificada no projeto atual.
+- Neon Auth nao deve ser usado, porque o projeto ja possui auth proprio.
+- Upload de avatar usa data URL pequeno enquanto nao houver storage dedicado.
+- O seed inicial e manual para evitar reset involuntario de conteudo/progresso em deploys futuros.
+- Este README nao usa imagens por decisao do projeto.
 
 ## Licenca
 
-Este repositorio ainda nao possui uma licenca definida.
+Licenca ainda nao definida.
