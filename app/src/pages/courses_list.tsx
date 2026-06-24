@@ -4,11 +4,9 @@ import Header from '../components/header';
 import GithubFooter from '../components/github_footer';
 import CoursesFilters from '../components/courses_list/courses_filters';
 import CoursesGrid from '../components/courses_list/courses_grid';
-import { getCourseSubject } from '../components/courses_list/courses_data';
+import { ALL_TRACKS, filterCourses, getCourseSubjects } from '../components/courses_list/course_filters';
 import { getCourses, type CourseListItem } from '../services/course_api';
 import '../styles/courses_list_css/course-list-hero.css';
-
-const ALL_TRACKS = 'All Tracks';
 
 export default function Courses() {
   const [courses, setCourses] = useState<CourseListItem[]>([]);
@@ -44,28 +42,11 @@ export default function Courses() {
   }, []);
 
   const subjects = useMemo(() => {
-    const uniqueSubjects = [...new Set(courses.map((course) => getCourseSubject(course)))];
-    return [ALL_TRACKS, ...uniqueSubjects];
+    return getCourseSubjects(courses);
   }, [courses]);
 
   const filteredCourses = useMemo(() => {
-    const normalizedSearch = searchTerm.trim().toLowerCase();
-
-    return courses.filter((course) => {
-      const matchesSubject = activeSubject === ALL_TRACKS || getCourseSubject(course) === activeSubject;
-      const searchableContent = [
-        course.title,
-        course.description,
-        course.topic?.name,
-        course.topic?.subject?.name,
-      ]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
-      const matchesSearch = normalizedSearch.length === 0 || searchableContent.includes(normalizedSearch);
-
-      return matchesSubject && matchesSearch;
-    });
+    return filterCourses(courses, activeSubject, searchTerm);
   }, [activeSubject, courses, searchTerm]);
 
   return (
