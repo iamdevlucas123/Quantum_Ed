@@ -6,7 +6,7 @@ import type {
   LessonInput,
   ModuleInput,
   ReorderItem,
-} from './authoring_types';
+} from './types/authoring_types';
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 

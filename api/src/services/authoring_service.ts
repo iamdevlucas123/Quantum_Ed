@@ -12,7 +12,7 @@ import {
   normalizeReorderItems,
   syncCourseMetrics,
 } from './authoring_rules';
-import type { CourseInput, LessonContentInput, LessonInput, ModuleInput } from './authoring_types';
+import type { CourseInput, LessonContentInput, LessonInput, ModuleInput } from './types/authoring_types';
 
 export const authoringService = {
   async createCourse(input: CourseInput) {

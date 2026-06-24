@@ -2,10 +2,10 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 
-import { prisma } from '../config/prisma';
-import { authService } from './auth_service';
+import { prisma } from '../../config/prisma';
+import { authService } from '../auth_service';
 
-vi.mock('../config/prisma', () => ({
+vi.mock('../../config/prisma', () => ({
   prisma: {
     user: {
       create: vi.fn(),
@@ -19,7 +19,7 @@ vi.mock('../config/prisma', () => ({
   },
 }));
 
-vi.mock('../config/jwt', () => ({
+vi.mock('../../config/jwt', () => ({
   jwtConfig: {
     accessToken: {
       secret: 'access-secret',
@@ -32,7 +32,7 @@ vi.mock('../config/jwt', () => ({
   },
 }));
 
-vi.mock('../config/cookies', () => ({
+vi.mock('../../config/cookies', () => ({
   authCookieConfig: {
     refreshTokenMaxAgeMs: 604800000,
   },

@@ -1,14 +1,14 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { AuthoringError } from './authoring_errors';
+import { AuthoringError } from '../authoring_errors';
 import {
   mapLessonContentInput,
   mapLessonInput,
   mapModuleInput,
   normalizeReorderItems,
-} from './authoring_rules';
+} from '../authoring_rules';
 
-vi.mock('../config/prisma', () => ({
+vi.mock('../../config/prisma', () => ({
   prisma: {},
 }));
 

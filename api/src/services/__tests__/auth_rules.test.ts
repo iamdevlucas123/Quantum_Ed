@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { isValidEmailSyntax, meetsPasswordSecurityRequirements, sanitizeUser } from './auth_rules';
+import { isValidEmailSyntax, meetsPasswordSecurityRequirements, sanitizeUser } from '../auth_rules';
 
 const createUser = () => ({
   id: 'user-1',
