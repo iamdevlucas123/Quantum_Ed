@@ -20,6 +20,11 @@ export const createRateLimiter = ({ maxRequests, windowMs }: RateLimitOptions) =
   const buckets = new Map<string, Bucket>();
 
   return (req: Request, res: Response, next: NextFunction): void => {
+    if (process.env.NODE_ENV === 'test') {
+      next();
+      return;
+    }
+
     const now = Date.now();
     const key = getClientKey(req);
     const currentBucket = buckets.get(key);

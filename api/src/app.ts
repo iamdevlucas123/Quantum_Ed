@@ -19,7 +19,9 @@ app.use(express.json());
 app.use(cookieParser())
 app.use(globalRateLimiter)
 
-void publicStatsService.start();
+if (env.NODE_ENV !== 'test') {
+  void publicStatsService.start();
+}
 
 app.use('/auth', authRouter)
 app.use('/public', publicRouter)
