@@ -41,7 +41,7 @@ export default defineConfig({
       command: 'npm run dev',
       cwd: apiDir,
       url: `${apiUrl}/public/stats`,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
       timeout: 120000,
       env: {
         ...process.env,
@@ -60,7 +60,7 @@ export default defineConfig({
       command: 'npm run dev -- --host 127.0.0.1 --port 5173',
       cwd: dirname,
       url: appUrl,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
       timeout: 120000,
       env: {
         ...process.env,

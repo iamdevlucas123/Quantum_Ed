@@ -2,8 +2,12 @@ name: E2E
 
 on:
   pull_request:
+    branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *'
 
 jobs:
   e2e:
@@ -50,6 +54,26 @@ jobs:
         working-directory: api
         run: npm ci
 
+      - name: Migrate and seed database
+        working-directory: api
+        run: |
+          npx prisma generate
+          npx prisma migrate deploy
+          npm run import:courses:integration
+
+      - name: Start API
+        working-directory: api
+        run: |
+          npm run dev > ../api-e2e.log 2>&1 &
+          for i in {1..60}; do
+            if curl -fsS http://localhost:3000/public/stats > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat ../api-e2e.log
+          exit 1
+
       - name: Install app dependencies
         working-directory: app
         run: npm ci
@@ -58,19 +82,25 @@ jobs:
         working-directory: app
         run: npx playwright install --with-deps chromium
 
-      - name: Prepare database
-        working-directory: api
+      - name: Start app
+        working-directory: app
         run: |
-          npx prisma generate
-          npx prisma migrate deploy
-          npm run import:courses:integration
+          npm run dev -- --host 127.0.0.1 --port 5173 > ../app-e2e.log 2>&1 &
+          for i in {1..60}; do
+            if curl -fsS http://localhost:5173 > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat ../app-e2e.log
+          exit 1
 
       - name: Run E2E
         working-directory: app
-        run: npm run test:e2e
+        run: npx playwright test
 
       - name: Upload Playwright report
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
@@ -83,4 +113,14 @@ jobs:
         with:
           name: playwright-test-results
           path: app/test-results/
+          retention-days: 14
+
+      - name: Upload E2E server logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-server-logs
+          path: |
+            api-e2e.log
+            app-e2e.log
           retention-days: 14
