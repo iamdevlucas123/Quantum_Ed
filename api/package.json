@@ -16,6 +16,8 @@
     "build": "tsc",
     "postinstall": "prisma generate",
     "prestart": "npm run build",
+    "import:courses": "node scripts/import_courses.js --source ../docs/courses/catalog",
+    "import:courses:integration": "node scripts/import_courses.js --source ../docs/courses/integration --mode test",
     "seed": "node prisma/seed.js",
     "start": "node dist/src/server.js"
   },

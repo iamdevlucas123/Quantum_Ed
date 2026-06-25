@@ -2,4 +2,11 @@ node_modules
 .env
 note.txt
 # .gitignore
-docs
+docs/*
+docs/AGENTS.md
+!docs/courses/
+docs/courses/*
+!docs/courses/catalog/
+!docs/courses/catalog/**
+!docs/courses/integration/
+!docs/courses/integration/**

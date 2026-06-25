@@ -1,0 +1,56 @@
+{
+  "subject": {
+    "name": "Integration Testing",
+    "description": "Minimal subject used by API integration tests."
+  },
+  "topic": {
+    "name": "API Integration",
+    "description": "Small catalog fixture for HTTP and persistence tests."
+  },
+  "course": {
+    "title": "Integration Test Course",
+    "slug": "integration-test-course",
+    "stars": 5,
+    "description": "A minimal course imported only for integration tests.",
+    "priorKnowledge": ["Basic API concepts"],
+    "learnObjectives": ["Validate course import and API integration flows"]
+  },
+  "modules": [
+    {
+      "name": "Integration Test Module",
+      "slug": "integration-test-module",
+      "description": "Minimal module for integration scenarios.",
+      "order": 1,
+      "lessons": [
+        {
+          "name": "Integration Test Lesson",
+          "slug": "integration-test-lesson",
+          "description": "First lesson used by integration tests.",
+          "order": 1,
+          "content": {
+            "overview": "This lesson exists to verify imported lesson content.",
+            "videoUrl": null,
+            "body": "Integration tests use this lesson to validate course detail and lesson progress flows.",
+            "resources": ["Integration testing checklist"],
+            "exerciseCount": 1,
+            "durationMinutes": 15
+          }
+        },
+        {
+          "name": "Integration Next Lesson",
+          "slug": "integration-next-lesson",
+          "description": "Second lesson used to validate ordered lessons.",
+          "order": 2,
+          "content": {
+            "overview": "This second lesson keeps the fixture realistic enough for navigation tests.",
+            "videoUrl": null,
+            "body": "The integration catalog intentionally stays small, stable, and idempotent.",
+            "resources": ["Fixture design notes"],
+            "exerciseCount": 0,
+            "durationMinutes": 20
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "subject": {
+    "name": "Mathematics",
+    "description": "Mathematical foundations for computing, AI, and data systems."
+  },
+  "topic": {
+    "name": "Linear Algebra",
+    "description": "Vectors, matrices, transformations, and the math behind modern AI."
+  },
+  "course": {
+    "title": "Linear Algebra Basics",
+    "slug": "linear-algebra-basics",
+    "stars": 5,
+    "description": "Study vectors, matrices, systems of equations, and transformations with examples connected to computing and AI.",
+    "priorKnowledge": ["High-school algebra", "Basic functions and graphs"],
+    "learnObjectives": [
+      "Use vectors and matrices to represent data",
+      "Solve basic systems of linear equations",
+      "Connect linear transformations to practical computing examples"
+    ]
+  },
+  "modules": [
+    {
+      "name": "Vectors and Matrices",
+      "slug": "vectors-and-matrices",
+      "description": "Learn the basic objects of linear algebra and how they represent data.",
+      "order": 1,
+      "lessons": [
+        {
+          "name": "Vectors as Data",
+          "slug": "vectors-as-data",
+          "description": "Understand vectors as ordered lists of values with direction and magnitude.",
+          "order": 1,
+          "content": {
+            "overview": "Vectors are a compact way to represent points, features, and directions.",
+            "videoUrl": null,
+            "body": "A vector can represent a point in space, an image embedding, a product profile, or the features of a house.\n\nOperations such as addition and scaling help transform and compare these representations.",
+            "resources": ["Vector notation guide"],
+            "exerciseCount": 3,
+            "durationMinutes": 20
+          }
+        },
+        {
+          "name": "Matrix Operations",
+          "slug": "matrix-operations",
+          "description": "Learn how matrices organize numbers and transform vectors.",
+          "order": 2,
+          "content": {
+            "overview": "Matrices can store structured data and represent transformations.",
+            "videoUrl": null,
+            "body": "A matrix is a table of numbers. In computing, matrices appear in graphics, neural networks, optimization, and data analysis.\n\nMatrix multiplication is especially important because it composes transformations.",
+            "resources": ["Matrix multiplication examples"],
+            "exerciseCount": 3,
+            "durationMinutes": 26
+          }
+        }
+      ]
+    },
+    {
+      "name": "Linear Systems",
+      "slug": "linear-systems",
+      "description": "Represent and solve systems of equations with matrix notation.",
+      "order": 2,
+      "lessons": [
+        {
+          "name": "Systems in Matrix Form",
+          "slug": "systems-in-matrix-form",
+          "description": "Convert equations into AX = B notation.",
+          "order": 1,
+          "content": {
+            "overview": "Matrix notation gives a compact way to represent many equations at once.",
+            "videoUrl": null,
+            "body": "A system of linear equations can be written as AX = B, where A stores coefficients, X stores unknowns, and B stores outputs.\n\nThis form lets computers solve large systems efficiently.",
+            "resources": ["AX = B worksheet"],
+            "exerciseCount": 2,
+            "durationMinutes": 24
+          }
+        }
+      ]
+    }
+  ]
+}

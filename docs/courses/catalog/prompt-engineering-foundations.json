@@ -1,0 +1,82 @@
+{
+  "subject": {
+    "name": "AI Engineering",
+    "description": "Production-focused tracks for building, evaluating, and operating AI systems."
+  },
+  "topic": {
+    "name": "Prompt Engineering",
+    "description": "Practical prompting patterns for reliable LLM behavior."
+  },
+  "course": {
+    "title": "Prompt Engineering Foundations",
+    "slug": "prompt-engineering-foundations",
+    "stars": 5,
+    "description": "Learn practical prompt structures, context design, and iteration techniques for building dependable LLM workflows.",
+    "priorKnowledge": ["Basic programming concepts", "Interest in AI products"],
+    "learnObjectives": [
+      "Structure prompts for clarity and repeatability",
+      "Design context windows for better model responses",
+      "Evaluate and iterate prompts with practical criteria"
+    ]
+  },
+  "modules": [
+    {
+      "name": "Prompting Fundamentals",
+      "slug": "prompting-fundamentals",
+      "description": "Core concepts for instructions, context, constraints, and examples.",
+      "order": 1,
+      "lessons": [
+        {
+          "name": "What Makes a Prompt Reliable",
+          "slug": "what-makes-a-prompt-reliable",
+          "description": "Understand the parts of a prompt that make model output more consistent.",
+          "order": 1,
+          "content": {
+            "overview": "A reliable prompt gives the model a clear task, enough context, explicit constraints, and a target output shape.",
+            "videoUrl": null,
+            "body": "A prompt is not just a question. In production workflows, a prompt is an interface between user intent, business rules, and model behavior.\n\nGood prompts define the role, task, context, constraints, and expected output. This reduces ambiguity and makes results easier to evaluate.\n\nStart simple, observe failures, then add only the constraints that improve behavior.",
+            "resources": ["Prompt structure checklist", "Failure-mode notes"],
+            "exerciseCount": 2,
+            "durationMinutes": 18
+          }
+        },
+        {
+          "name": "Instructions, Context, and Output Shape",
+          "slug": "instructions-context-output-shape",
+          "description": "Separate task instructions from background context and response formatting.",
+          "order": 2,
+          "content": {
+            "overview": "Clear separation helps the model understand what to do, what information to use, and how to respond.",
+            "videoUrl": null,
+            "body": "Instructions describe the action. Context provides the facts. Output shape defines how the answer should be returned.\n\nMixing these concerns makes prompts harder to debug. Keep each part explicit so you can adjust one piece without changing everything else.",
+            "resources": ["Prompt anatomy reference"],
+            "exerciseCount": 2,
+            "durationMinutes": 22
+          }
+        }
+      ]
+    },
+    {
+      "name": "Prompt Evaluation",
+      "slug": "prompt-evaluation",
+      "description": "Test and improve prompts with expected outputs and edge cases.",
+      "order": 2,
+      "lessons": [
+        {
+          "name": "Testing Prompt Behavior",
+          "slug": "testing-prompt-behavior",
+          "description": "Create small test sets to compare prompt versions.",
+          "order": 1,
+          "content": {
+            "overview": "Prompt quality should be measured with real examples, not only intuition.",
+            "videoUrl": null,
+            "body": "Build a small set of representative inputs. Include common cases, edge cases, and known failure cases.\n\nCompare prompt versions against the same set. Track correctness, format compliance, latency, and cost.",
+            "resources": ["Prompt test-set template"],
+            "exerciseCount": 3,
+            "durationMinutes": 24
+          }
+        }
+      ]
+    }
+  ]
+}
