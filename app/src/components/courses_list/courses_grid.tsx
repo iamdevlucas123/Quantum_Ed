@@ -54,7 +54,7 @@ export default function CoursesGrid({ courses, error, isLoading }: CoursesGridPr
   return (
     <section className="courses-grid" aria-label="Available courses">
       {courses.map((course) => (
-        <article className="courses-card" key={course.id}>
+        <article className="courses-card" data-testid={`course-card-${course.slug}`} key={course.id}>
           <div className="courses-card__top">
             <span className="courses-card__subject">{getCourseSubject(course)}</span>
             <span className="courses-card__level">{getCourseLevel(course)}</span>

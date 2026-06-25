@@ -259,7 +259,12 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </button>
           </div>
 
-          <button className="auth-modal__submit" type="submit" disabled={isSubmitting}>
+          <button
+            className="auth-modal__submit"
+            data-testid={isSignUp ? 'auth-signup-submit' : 'auth-signin-submit'}
+            type="submit"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? 'Please wait' : isSignUp ? 'Create account' : 'Log in'}
           </button>
         </form>

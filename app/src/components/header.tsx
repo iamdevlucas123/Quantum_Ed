@@ -56,12 +56,12 @@ export default function Header() {
             <a className="header__profile-link" href="/profile">
               {user?.name ?? user?.email}
             </a>
-            <button id="login" type="button" onClick={() => void logout()}>
+            <button id="login" data-testid="logout-button" type="button" onClick={() => void logout()}>
               Log Out
             </button>
           </div>
         ) : (
-          <button id="login" type="button" disabled={isLoading} onClick={openLoginModal}>
+          <button id="login" data-testid="auth-open-button" type="button" disabled={isLoading} onClick={openLoginModal}>
             Log In
           </button>
         )}

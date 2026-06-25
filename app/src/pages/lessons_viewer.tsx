@@ -21,6 +21,7 @@ function LessonsViewer() {
   const [lesson, setLesson] = useState<LessonViewerDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isCompletingLesson, setIsCompletingLesson] = useState(false);
   const [isCompletingModule, setIsCompletingModule] = useState(false);
 
   useEffect(() => {
@@ -75,6 +76,59 @@ function LessonsViewer() {
     } finally {
       setIsCompletingModule(false);
       navigate(href);
+    }
+  };
+
+  const handleCompleteLesson = async (): Promise<void> => {
+    if (!courseSlug || !lessonSlug || !lesson) {
+      return;
+    }
+
+    setIsCompletingLesson(true);
+
+    try {
+      const result = await updateLessonProgress(courseSlug, lessonSlug, {
+        completed: true,
+        progress: 100,
+      });
+
+      setLesson((currentLesson) => {
+        if (!currentLesson) {
+          return currentLesson;
+        }
+
+        return {
+          ...currentLesson,
+          lessonProgresses: [result.lessonProgress],
+          module: {
+            ...currentLesson.module,
+            course: {
+              ...currentLesson.module.course,
+              progresses: [
+                {
+                  id: result.lessonProgress.id,
+                  progress: result.courseProgress,
+                },
+              ],
+              modules: currentLesson.module.course.modules.map((module) => ({
+                ...module,
+                lessons: module.lessons.map((moduleLesson) => {
+                  if (moduleLesson.slug !== currentLesson.slug) {
+                    return moduleLesson;
+                  }
+
+                  return {
+                    ...moduleLesson,
+                    lessonProgresses: [result.lessonProgress],
+                  };
+                }),
+              })),
+            },
+          },
+        };
+      });
+    } finally {
+      setIsCompletingLesson(false);
     }
   };
 
@@ -181,10 +235,12 @@ function LessonsViewer() {
           totalModules={navigation.totalModules}
         />
         <MainContent
+          isCompletingLesson={isCompletingLesson}
           isCompletingModule={isCompletingModule}
           lesson={lesson}
           nextLesson={navigation.nextLesson}
           nextModule={navigation.nextModule}
+          onCompleteLesson={handleCompleteLesson}
           onNextModule={handleNextModule}
           previousLesson={navigation.previousLesson}
         />

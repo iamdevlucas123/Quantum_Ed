@@ -56,6 +56,7 @@ export default function ProfileIdentityPanel({
         <input
           accept="image/*"
           className="profile-sidebar__avatar-input"
+          data-testid="profile-avatar-input"
           disabled={isAvatarSaving}
           onChange={handleFileChange}
           ref={inputRef}

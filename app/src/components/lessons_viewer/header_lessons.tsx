@@ -14,7 +14,7 @@ export default function HeaderLessons({ backHref, courseTitle }: HeaderLessonsPr
           &#8592;
         </Link>
         <div className="lesson-viewer__brand">
-          <span><img src="" alt="" /></span>
+          <span aria-hidden="true" />
           <span>{courseTitle}</span>
         </div>
       </div>

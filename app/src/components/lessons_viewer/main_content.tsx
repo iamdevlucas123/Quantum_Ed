@@ -9,10 +9,12 @@ type NavigationLink = {
 };
 
 type MainContentProps = {
+  isCompletingLesson: boolean;
   isCompletingModule: boolean;
   lesson: LessonViewerDetail;
   nextLesson: NavigationLink | null;
   nextModule: NavigationLink | null;
+  onCompleteLesson: () => Promise<void>;
   onNextModule: (href: string) => Promise<void>;
   previousLesson: NavigationLink | null;
 };
@@ -25,16 +27,19 @@ const createParagraphs = (body: string): string[] => {
 };
 
 export default function MainContent({
+  isCompletingLesson,
   isCompletingModule,
   lesson,
   nextLesson,
   nextModule,
+  onCompleteLesson,
   onNextModule,
   previousLesson,
 }: MainContentProps) {
   const paragraphs = createParagraphs(lesson.content?.body ?? lesson.description);
   const overview = lesson.content?.overview ?? lesson.description;
   const resources = lesson.content?.resources ?? [];
+  const isLessonCompleted = lesson.lessonProgresses[0]?.completed === true;
 
   return (
     <main className="main-content">
@@ -68,6 +73,19 @@ export default function MainContent({
         {paragraphs.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
+      </section>
+
+      <section className="lesson-keypoints">
+        <h3>Progress</h3>
+        <button
+          className="lesson-navigation__button"
+          data-testid="lesson-complete-toggle"
+          disabled={isCompletingLesson || isLessonCompleted}
+          onClick={() => void onCompleteLesson()}
+          type="button"
+        >
+          {isCompletingLesson ? 'Saving progress...' : isLessonCompleted ? 'Lesson completed' : 'Mark lesson complete'}
+        </button>
       </section>
 
       <section className="lesson-keypoints">
