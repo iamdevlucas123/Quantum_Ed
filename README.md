@@ -396,6 +396,3 @@ Use GitHub OAuth App, nao GitHub App. Se a tela pedir Webhook URL, e a tela erra
 ## Licenca
 
 Licenca ainda nao definida.
-
-
-TEste deploy com CI/CD!!
