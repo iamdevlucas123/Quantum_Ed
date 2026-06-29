@@ -13,6 +13,7 @@ QuantumEd e uma plataforma full stack de cursos curtos para Engenharia de IA. O 
 - [Prisma E Dados Iniciais](#prisma-e-dados-iniciais)
 - [Variaveis De Ambiente](#variaveis-de-ambiente)
 - [Scripts](#scripts)
+- [Testes E CI/CD](#testes-e-cicd)
 - [Rotas Principais](#rotas-principais)
 - [Deploy Atual](#deploy-atual)
 - [Observacoes](#observacoes)
@@ -37,7 +38,7 @@ O catalogo publico de cursos e consumido pelo frontend a partir da API. O detalh
 - OAuth Google e GitHub.
 - Refresh token em cookie `httpOnly`.
 - Rate limiting em memoria para rotas sensiveis.
-- Seed manual para catalogo inicial.
+- Importador versionado para catalogo inicial.
 
 ## Stack
 
@@ -190,16 +191,16 @@ Popular catalogo inicial:
 
 ```bash
 cd api
-npm run seed
+npm run import:courses
 ```
 
-O seed manual fica em `api/prisma/seed.js` e cria estes cursos base:
+Os cursos base ficam em JSON versionado em `docs/courses/catalog/` e sao importados por `api/scripts/import_courses.js`. O catalogo atual inclui:
 
 - `prompt-engineering-foundations`
 - `rag-systems-essentials`
 - `linear-algebra-basics`
 
-As migrations criam as tabelas, mas nao populam cursos automaticamente. Em producao com Neon, rode o seed apontando `DATABASE_URL` para a connection string do Neon.
+As migrations criam as tabelas, mas nao populam cursos automaticamente. Em producao com Neon, rode o importador apontando `DATABASE_URL` para a connection string do Neon.
 
 Exemplo no PowerShell:
 
@@ -207,7 +208,7 @@ Exemplo no PowerShell:
 cd "C:\Users\lucas\OneDrive\Area de Trabalho\Computing\PROJECTS\Quantum_Ed\api"
 $env:DATABASE_URL="postgresql://...neon.tech/quantum_ed?sslmode=require"
 npx.cmd prisma migrate deploy
-npm.cmd run seed
+npm.cmd run import:courses
 Remove-Item Env:DATABASE_URL
 ```
 
@@ -263,9 +264,12 @@ API:
 ```bash
 cd api
 npm run dev
+npm run test:unit
+npm run test:integration
+npm run test:coverage
 npm run typecheck
 npm run build
-npm run seed
+npm run import:courses
 npm start
 ```
 
@@ -275,10 +279,45 @@ App:
 cd app
 npm run dev
 npm run lint
+npm run test:unit
+npm run test:e2e
+npm run test:coverage
 npm run typecheck
 npm run build
 npm run preview
 ```
+
+## Testes E CI/CD
+
+Branch padrao remota: `main`.
+
+GitHub Actions:
+
+- `.github/workflows/ci.yml`: roda em PRs/pushes para `main` com `api-quality`, `app-quality` e `api-integration`.
+- `.github/workflows/e2e.yml`: roda em PRs/pushes para `main`, `workflow_dispatch` e nightly, com Playwright e PostgreSQL 15.
+- `.github/workflows/security.yml`: roda em PRs, push em `main`, weekly schedule e manualmente; executa CodeQL e `npm audit --audit-level=high` em `app` e `api`.
+
+Fluxo atual sem staging:
+
+```text
+feature branch -> pull request para main -> CI/E2E/Security + Vercel Preview -> merge -> production
+```
+
+O deploy de producao nao fica em GitHub Actions. A Vercel e o Render ficam conectados ao GitHub e publicam producao quando a branch `main` muda. Em PR, a Vercel pode criar Preview Deploy; isso nao e producao.
+
+Checks esperados em PR:
+
+```text
+CI / api-quality
+CI / app-quality
+CI / api-integration
+E2E / e2e
+Security / CodeQL
+Security / npm audit
+Vercel Preview
+```
+
+A API usa `api/tsconfig.build.json` no `npm run build` para excluir testes do build de producao. Isso evita depender de `vitest` e `supertest` no Render. O workflow de seguranca define uma `DATABASE_URL` de teste no job `npm-audit` apenas para permitir o `postinstall` da API (`prisma generate`).
 
 ## Rotas Principais
 
@@ -327,6 +366,7 @@ Admin:
 Frontend na Vercel:
 
 ```text
+Production Branch: main
 Root Directory: app
 Build Command: npm run build
 Output Directory: dist
@@ -350,6 +390,7 @@ Environment:
 Backend no Render:
 
 ```text
+Branch: main
 Root Directory: api
 Build Command: npm install && npx prisma migrate deploy && npm run build
 Start Command: node dist/src/server.js
@@ -386,16 +427,11 @@ Use GitHub OAuth App, nao GitHub App. Se a tela pedir Webhook URL, e a tela erra
 
 ## Observacoes
 
-- `api/npm test` ainda e placeholder.
-- Nao ha suite automatizada real de testes identificada no projeto atual.
 - Neon Auth nao deve ser usado, porque o projeto ja possui auth proprio.
 - Upload de avatar usa data URL pequeno enquanto nao houver storage dedicado.
-- O seed inicial e manual para evitar reset involuntario de conteudo/progresso em deploys futuros.
+- O importador de catalogo faz upsert e nao apaga conteudo por padrao, evitando reset involuntario de conteudo/progresso em deploys futuros.
 - Este README nao usa imagens por decisao do projeto.
 
 ## Licenca
 
 Licenca ainda nao definida.
-
-
-validando testes
