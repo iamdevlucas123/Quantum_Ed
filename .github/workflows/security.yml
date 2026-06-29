@@ -31,6 +31,8 @@ jobs:
   npm-audit:
     name: npm audit
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://quantum:quantum@localhost:5432/quantum_ed_test?schema=public
     steps:
       - uses: actions/checkout@v4
 
