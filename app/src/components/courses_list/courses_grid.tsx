@@ -1,8 +1,9 @@
 import Link from 'next/link';
 
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { CourseListItem } from '../../services/course_api';
 import { getCourseLevel, getCourseStatus, getCourseSubject } from './courses_data';
-import '../../styles/courses_list_css/course-list-grid.css';
 
 type CoursesGridProps = {
   courses: CourseListItem[];
@@ -15,15 +16,21 @@ const loadingCards = Array.from({ length: 6 }, (_, index) => `loading-course-${i
 export default function CoursesGrid({ courses, error, isLoading }: CoursesGridProps) {
   if (isLoading) {
     return (
-      <section className="courses-grid" aria-label="Loading courses" aria-live="polite">
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Loading courses" aria-live="polite">
         {loadingCards.map((card) => (
-          <article className="courses-card courses-card--loading" key={card}>
-            <span />
-            <h2 />
-            <p />
-            <p />
-            <div />
-          </article>
+          <Card className="animate-pulse" key={card}>
+            <CardHeader>
+              <div className="h-4 w-24 rounded bg-muted" />
+              <div className="h-7 w-4/5 rounded bg-muted" />
+            </CardHeader>
+            <CardContent className="grid gap-3">
+              <div className="h-4 rounded bg-muted" />
+              <div className="h-4 w-2/3 rounded bg-muted" />
+            </CardContent>
+            <CardFooter>
+              <div className="h-9 w-28 rounded bg-muted" />
+            </CardFooter>
+          </Card>
         ))}
       </section>
     );
@@ -31,49 +38,65 @@ export default function CoursesGrid({ courses, error, isLoading }: CoursesGridPr
 
   if (error) {
     return (
-      <section className="courses-grid courses-grid--empty" aria-live="polite">
-        <article className="courses-empty-state">
-          <h2>Could not load courses</h2>
-          <p>{error}</p>
-        </article>
+      <section className="grid" aria-live="polite">
+        <Card>
+          <CardHeader>
+            <CardTitle>Could not load courses</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">{error}</p>
+          </CardContent>
+        </Card>
       </section>
     );
   }
 
   if (courses.length === 0) {
     return (
-      <section className="courses-grid courses-grid--empty" aria-live="polite">
-        <article className="courses-empty-state">
-          <h2>No courses found</h2>
-          <p>Adjust the search term or select All Tracks to browse the full catalog.</p>
-        </article>
+      <section className="grid" aria-live="polite">
+        <Card>
+          <CardHeader>
+            <CardTitle>No courses found</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">Adjust the search term or select All Tracks to browse the full catalog.</p>
+          </CardContent>
+        </Card>
       </section>
     );
   }
 
   return (
-    <section className="courses-grid" aria-label="Available courses">
+    <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Available courses">
       {courses.map((course) => (
-        <article className="courses-card" data-testid={`course-card-${course.slug}`} key={course.id}>
-          <div className="courses-card__top">
-            <span className="courses-card__subject">{getCourseSubject(course)}</span>
-            <span className="courses-card__level">{getCourseLevel(course)}</span>
-          </div>
+        <Card className="h-full gap-4 rounded-lg" data-testid={`course-card-${course.slug}`} key={course.id}>
+          <CardHeader>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-md bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground">{getCourseSubject(course)}</span>
+              <span className="rounded-md border px-2 py-1 text-xs font-medium text-muted-foreground">{getCourseLevel(course)}</span>
+            </div>
 
-          <h2>{course.title}</h2>
-          <p>{course.description}</p>
+            <h2 className="text-xl font-semibold leading-tight tracking-normal">{course.title}</h2>
+          </CardHeader>
+          <CardContent className="grid flex-1 gap-4">
+            <p className="text-sm leading-6 text-muted-foreground">{course.description}</p>
 
-          <div className="courses-card__status">
-            <span>{getCourseStatus(course)}</span>
-          </div>
+            <div>
+              <span className="rounded-md bg-muted px-2 py-1 text-xs font-medium">{getCourseStatus(course)}</span>
+            </div>
 
-          <div className="courses-card__meta">
-            <span>{course.lessonsCount} lessons</span>
-            <span>{course.hoursCount}h</span>
-          </div>
+            <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
+              <span>{course.lessonsCount} lessons</span>
+              <span>{course.hoursCount}h</span>
+            </div>
+          </CardContent>
 
-          <Link href={`/courses/${course.slug}`}>View course</Link>
-        </article>
+          <CardFooter>
+            <Button asChild>
+              <Link href={`/courses/${course.slug}`}>View course</Link>
+            </Button>
+          </CardFooter>
+        </Card>
       ))}
     </section>
   );

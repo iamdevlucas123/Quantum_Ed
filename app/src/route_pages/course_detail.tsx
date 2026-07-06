@@ -3,9 +3,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 
-import '../styles/course_detail_css/course-detail-hero.css';
-import '../styles/course_detail_css/course-detail-meta.css';
-import '../styles/course_detail_css/course-detail-content.css';
 import Header from '../components/header';
 import GithubFooter from '../components/github_footer';
 import CourseHero from '../components/course_details/courses_hero';
@@ -97,35 +94,35 @@ function CourseDetail() {
   };
 
   return (
-    <>
-      <div className="course-detail-route">
+    <div className="min-h-screen bg-background text-foreground">
         <Header />
-        {isLoading ? (
-          <section className="course-hero">
-            <h1>Loading course</h1>
-            <p>Syncing the AI engineering roadmap for this course.</p>
-          </section>
-        ) : error || !course ? (
-          <section className="course-hero">
-            <h1>Course unavailable</h1>
-            <p>{error ?? 'This course could not be found.'}</p>
-          </section>
-        ) : (
-          <>
-            <CourseHero
-              course={course}
-              firstLessonHref={firstLessonHref}
-              isSaved={course.saved ?? false}
-              isSaving={isSavingCourse}
-              onToggleSave={handleToggleSave}
-              saveError={saveError}
-            />
-            <CourseContent courseSlug={course.slug} lessonsCount={course.lessonsCount} modules={course.modules} />
-          </>
-        )}
-      </div>
+        <main className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-8 sm:px-6 lg:px-8">
+          {isLoading ? (
+            <section className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm sm:p-8">
+              <h1 className="text-3xl font-semibold tracking-normal">Loading course</h1>
+              <p className="mt-3 text-muted-foreground">Syncing the AI engineering roadmap for this course.</p>
+            </section>
+          ) : error || !course ? (
+            <section className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm sm:p-8">
+              <h1 className="text-3xl font-semibold tracking-normal">Course unavailable</h1>
+              <p className="mt-3 text-muted-foreground">{error ?? 'This course could not be found.'}</p>
+            </section>
+          ) : (
+            <>
+              <CourseHero
+                course={course}
+                firstLessonHref={firstLessonHref}
+                isSaved={course.saved ?? false}
+                isSaving={isSavingCourse}
+                onToggleSave={handleToggleSave}
+                saveError={saveError}
+              />
+              <CourseContent courseSlug={course.slug} lessonsCount={course.lessonsCount} modules={course.modules} />
+            </>
+          )}
+        </main>
       <GithubFooter />
-    </>
+    </div>
   );
 }
 

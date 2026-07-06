@@ -1,13 +1,17 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
 export default function ProfileBadges() {
   return (
-    <section className="profile-card">
-      <div className="profile-card__header profile-card__header--split">
-        <h2>Badges &amp; Certificates</h2>
-      </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Badges &amp; Certificates</CardTitle>
+      </CardHeader>
 
-      <div className="profile-message profile-message--placeholder">
-        <p>Functionality to be implemented</p>
-      </div>
-    </section>
+      <CardContent>
+        <div className="rounded-lg border border-dashed bg-background p-4 text-sm text-muted-foreground">
+          <p>Functionality to be implemented</p>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

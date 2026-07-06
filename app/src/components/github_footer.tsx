@@ -1,12 +1,10 @@
-import '../styles/footer_github.css';
-
 export default function GithubFooter() {
 
     return (
-        <footer className="github-footer">
-            <section className="github-footer-content">
+        <footer className="border-t border-border bg-background text-foreground">
+            <section className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-4 py-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
                 <p>Created by lucasdev</p>
-                <a href="https://github.com/iamdevlucas123">My github</a>
+                <a className="font-medium text-foreground underline-offset-4 hover:underline" href="https://github.com/iamdevlucas123">My github</a>
                 <p>Check my profile for more projects!</p>
             </section>
         </footer>

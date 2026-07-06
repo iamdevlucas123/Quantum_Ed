@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { Button } from '@/components/ui/button';
 import type { CourseDetail } from '../../services/course_api';
 
 type CourseMetaProps = {
@@ -9,37 +10,36 @@ type CourseMetaProps = {
 
 export default function CourseMeta({ course, firstLessonHref }: CourseMetaProps) {
   return (
-    <div className="course-meta">
-      <div className="course-meta__items">
-        <span className="course-rating">
-          <i aria-hidden="true">*</i>
+    <div className="grid gap-6">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <span className="rounded-lg border bg-background p-3 text-sm">
           <strong>{course.stars.toFixed(1)} rating</strong>
         </span>
-        <span>
-          <i aria-hidden="true">[]</i>
+        <span className="rounded-lg border bg-background p-3 text-sm">
           <strong>{course.lessonsCount} lessons</strong>
         </span>
-        <span>
-          <i aria-hidden="true">::</i>
+        <span className="rounded-lg border bg-background p-3 text-sm">
           <strong>{course.modules.length} modules</strong>
         </span>
-        <span>
-          <i aria-hidden="true">+</i>
+        <span className="rounded-lg border bg-background p-3 text-sm">
           <strong>{course.topic?.subject?.name ?? 'AI Engineering'}</strong>
         </span>
-        <span>
-          <i aria-hidden="true">~</i>
+        <span className="rounded-lg border bg-background p-3 text-sm">
           <strong>{course.hoursCount}h</strong>
         </span>
       </div>
 
-      <div className="course-actions">
+      <div className="flex flex-wrap gap-3">
         {firstLessonHref ? (
-          <Link href={firstLessonHref}>Start Learning</Link>
+          <Button asChild>
+            <Link href={firstLessonHref}>Start Learning</Link>
+          </Button>
         ) : (
-          <button type="button">Start Learning</button>
+          <Button type="button">Start Learning</Button>
         )}
-        <a href="#course-roadmap">Course Content</a>
+        <Button asChild variant="outline">
+          <a href="#course-roadmap">Course Content</a>
+        </Button>
       </div>
     </div>
   );

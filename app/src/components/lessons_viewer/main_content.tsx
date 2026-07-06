@@ -1,7 +1,8 @@
 import Link from 'next/link';
 
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { LessonViewerDetail } from '../../services/lesson_api';
-import '../../styles/lessons_viewer_css/lesson-main-content.css';
 
 type NavigationLink = {
   href: string;
@@ -42,8 +43,8 @@ export default function MainContent({
   const isLessonCompleted = lesson.lessonProgresses[0]?.completed === true;
 
   return (
-    <main className="main-content">
-      <nav className="main-content__breadcrumb" aria-label="Breadcrumb">
+    <main className="grid gap-5">
+      <nav className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground" aria-label="Breadcrumb">
         <span>Home</span>
         <span>&#8250;</span>
         <span>Courses</span>
@@ -53,79 +54,86 @@ export default function MainContent({
         <span>{lesson.name}</span>
       </nav>
 
-      <section className="lesson-hero">
-        <div className="lesson-hero__copy">
-          <p className="lesson-hero__eyebrow">Current Lesson</p>
-          <h1>{lesson.name}</h1>
-          <p>{overview}</p>
-        </div>
-
-        <div className="lesson-hero__tools" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-          <span />
-          <span />
+      <section className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm sm:p-8">
+        <div className="max-w-3xl">
+          <p className="text-xs font-medium uppercase text-muted-foreground">Current Lesson</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-normal sm:text-4xl">{lesson.name}</h1>
+          <p className="mt-4 text-base leading-7 text-muted-foreground">{overview}</p>
         </div>
       </section>
 
-      <section className="lesson-article">
+      <Card>
+        <CardContent className="grid gap-4 pt-0 text-base leading-7 text-muted-foreground">
         {paragraphs.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
-      </section>
+        </CardContent>
+      </Card>
 
-      <section className="lesson-keypoints">
-        <h3>Progress</h3>
-        <button
-          className="lesson-navigation__button"
+      <Card>
+        <CardHeader>
+          <CardTitle>Progress</CardTitle>
+        </CardHeader>
+        <CardContent>
+        <Button
           data-testid="lesson-complete-toggle"
           disabled={isCompletingLesson || isLessonCompleted}
           onClick={() => void onCompleteLesson()}
           type="button"
         >
           {isCompletingLesson ? 'Saving progress...' : isLessonCompleted ? 'Lesson completed' : 'Mark lesson complete'}
-        </button>
-      </section>
+        </Button>
+        </CardContent>
+      </Card>
 
-      <section className="lesson-keypoints">
-        <h3>Lesson details</h3>
-        <ul>
+      <Card>
+        <CardHeader>
+          <CardTitle>Lesson details</CardTitle>
+        </CardHeader>
+        <CardContent>
+        <ul className="grid gap-2 text-sm text-muted-foreground">
           <li>{lesson.module.name}</li>
           <li>{lesson.content?.durationMinutes ? `${lesson.content.durationMinutes} minutes of study time` : 'Duration not yet defined'}</li>
           <li>{lesson.content?.exerciseCount ? `${lesson.content.exerciseCount} exercises in this lesson` : 'Exercises will be added with the lesson content'}</li>
           <li>{lesson.module.course.topic?.name ?? 'AI Engineering track'}</li>
         </ul>
-      </section>
+        </CardContent>
+      </Card>
 
       {resources.length > 0 ? (
-        <section className="lesson-keypoints">
-          <h3>Resources</h3>
-          <ul>
+        <Card>
+          <CardHeader>
+            <CardTitle>Resources</CardTitle>
+          </CardHeader>
+          <CardContent>
+          <ul className="grid gap-2 text-sm text-muted-foreground">
             {resources.map((resource) => (
               <li key={resource}>{resource}</li>
             ))}
           </ul>
-        </section>
+          </CardContent>
+        </Card>
       ) : null}
 
-      <footer className="lesson-navigation">
+      <footer className="flex items-center justify-between gap-3">
         {previousLesson ? (
-          <Link className="lesson-navigation__button lesson-navigation__button--secondary" href={previousLesson.href}>
-            Previous lesson
-          </Link>
+          <Button asChild variant="outline">
+            <Link href={previousLesson.href}>Previous lesson</Link>
+          </Button>
         ) : (
           <span />
         )}
         {nextLesson ? (
-          <Link className="lesson-navigation__button" href={nextLesson.href}>
-            Next lesson
-          </Link>
+          <Button asChild>
+            <Link href={nextLesson.href}>Next lesson</Link>
+          </Button>
         ) : nextModule ? (
-          <Link
-            className="lesson-navigation__button"
-            href={nextModule.href}
+          <Button
+            asChild
             aria-disabled={isCompletingModule}
+          >
+            <Link
+            href={nextModule.href}
             onClick={(event) => {
               event.preventDefault();
 
@@ -133,11 +141,12 @@ export default function MainContent({
                 void onNextModule(nextModule.href);
               }
             }}
-          >
-            {isCompletingModule ? 'Completing module...' : 'Next module'}
-          </Link>
+            >
+              {isCompletingModule ? 'Completing module...' : 'Next module'}
+            </Link>
+          </Button>
         ) : (
-          <p className="lesson-navigation__complete">Course path completed</p>
+          <p className="rounded-md bg-muted px-3 py-2 text-sm text-muted-foreground">Course path completed</p>
         )}
       </footer>
     </main>

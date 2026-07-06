@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import '../../styles/lessons_viewer_css/lesson-topbar.css';
+
+import { Button } from '@/components/ui/button';
 
 type HeaderLessonsProps = {
   backHref: string;
@@ -8,14 +9,16 @@ type HeaderLessonsProps = {
 
 export default function HeaderLessons({ backHref, courseTitle }: HeaderLessonsProps) {
   return (
-    <div className="lesson-viewer__topbar">
-      <div className="lesson-viewer__topbar-left">
-        <Link className="lesson-viewer__icon-button" href={backHref} aria-label="Go back to course">
-          &#8592;
-        </Link>
-        <div className="lesson-viewer__brand">
-          <span aria-hidden="true" />
-          <span>{courseTitle}</span>
+    <div className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <div className="mx-auto flex min-h-14 w-full max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
+        <Button asChild variant="outline" size="icon-sm">
+          <Link href={backHref} aria-label="Go back to course">
+            <span aria-hidden="true">&#8592;</span>
+          </Link>
+        </Button>
+        <div className="flex min-w-0 items-center gap-2">
+          <span className="size-2 shrink-0 rounded-full bg-primary" aria-hidden="true" />
+          <span className="truncate text-sm font-medium">{courseTitle}</span>
         </div>
       </div>
     </div>

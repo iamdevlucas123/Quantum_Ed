@@ -1,4 +1,7 @@
-import '../../styles/courses_list_css/course-list-filters.css';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
 type CoursesFiltersProps = {
   activeSubject: string;
@@ -29,16 +32,18 @@ export default function CoursesFilters({
       : `${totalCourses} ${totalCourses === 1 ? 'course' : 'courses'} available`;
 
   return (
-    <section className="courses-filters" aria-label="Course filters">
-      <div className="courses-filters__summary" aria-live="polite">
-        <span>{resultLabel}</span>
-        <strong>{allCoursesCount} total</strong>
+    <section className="grid gap-5 rounded-lg border bg-card p-4 text-card-foreground shadow-sm sm:p-6" aria-label="Course filters">
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between" aria-live="polite">
+        <span className="text-sm text-muted-foreground">{resultLabel}</span>
+        <strong className="text-sm font-semibold">{allCoursesCount} total</strong>
       </div>
 
-      <div className="courses-filters__controls">
-        <label className="courses-filters__search">
-          <img src="/assets/icons/quantum-atom-mark.png" alt="" />
-          <input
+      <div className="grid gap-4">
+        <Label className="relative block">
+          <span className="sr-only">Search courses</span>
+          <img className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 rounded-sm" src="/assets/icons/quantum-atom-mark.png" alt="" />
+          <Input
+            className="h-11 pl-10 pr-20"
             type="search"
             placeholder="Search AI engineering courses"
             aria-label="Search courses"
@@ -46,28 +51,32 @@ export default function CoursesFilters({
             onChange={(event) => onSearchChange(event.target.value)}
           />
           {searchTerm && (
-            <button
-              className="courses-filters__clear"
+            <Button
+              className="absolute right-1 top-1/2 -translate-y-1/2"
+              variant="ghost"
+              size="sm"
               type="button"
               aria-label="Clear search"
               onClick={() => onSearchChange('')}
             >
               Clear
-            </button>
+            </Button>
           )}
-        </label>
+        </Label>
 
-        <div className="courses-filters__subjects" role="group" aria-label="Filter courses by track">
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Filter courses by track">
           {subjects.map((subject) => (
-            <button
+            <Button
               key={subject}
               type="button"
-              className={subject === activeSubject ? 'is-active' : ''}
+              variant={subject === activeSubject ? 'default' : 'outline'}
+              size="sm"
+              className={cn('max-w-full whitespace-normal text-left', subject !== activeSubject && 'bg-background')}
               aria-pressed={subject === activeSubject}
               onClick={() => onSubjectChange(subject)}
             >
               {subject}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
