@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import type { CourseDetail } from '../../services/course_api';
 import CourseMeta from './course_meta';
 
@@ -19,23 +20,25 @@ export default function CourseHero({
   saveError,
 }: CourseHeroProps) {
   return (
-    <section className="course-hero">
-      <div className="course-hero__tools">
-        <button
+    <section className="grid gap-6 rounded-lg border bg-card p-6 text-card-foreground shadow-sm sm:p-8">
+      <div className="flex justify-end">
+        <Button
           type="button"
-          className="course-save"
+          variant={isSaved ? 'secondary' : 'outline'}
           aria-pressed={isSaved}
           disabled={isSaving}
           onClick={onToggleSave}
         >
           {isSaving ? 'Saving...' : isSaved ? 'Saved' : 'Save'}
-        </button>
+        </Button>
       </div>
-      {saveError ? <p className="course-hero__save-error" aria-live="polite">{saveError}</p> : null}
+      {saveError ? <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive" aria-live="polite">{saveError}</p> : null}
 
-      <h1>{course.title}</h1>
+      <div className="max-w-4xl">
+        <h1 className="text-3xl font-semibold tracking-normal sm:text-5xl">{course.title}</h1>
 
-      <p>{course.description}</p>
+        <p className="mt-4 text-base leading-7 text-muted-foreground sm:text-lg">{course.description}</p>
+      </div>
 
       <CourseMeta course={course} firstLessonHref={firstLessonHref} />
     </section>

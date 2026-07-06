@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { CourseModuleSummary } from '../../services/course_api';
 
 type CourseContentProps = {
@@ -38,59 +40,58 @@ export default function CourseContent({ courseSlug, lessonsCount, modules }: Cou
   };
 
   return (
-    <section className="course-content" id="course-roadmap">
-      <header className="course-content__header">
-        <div className="course-content__title">
-          <h2>Learning Roadmap</h2>
-          <span>{lessonsCount} lessons across hands-on AI engineering modules</span>
-        </div>
+    <section className="grid gap-5" id="course-roadmap">
+      <header>
+        <h2 className="text-2xl font-semibold tracking-normal">Learning Roadmap</h2>
+        <span className="mt-1 block text-sm text-muted-foreground">{lessonsCount} lessons across hands-on AI engineering modules</span>
       </header>
 
-      <div className="course-content__modules">
+      <div className="grid gap-4">
         {modules.map((module, index) => {
           const isExpanded = expandedModuleIds.has(module.id);
           const isCompleted = isModuleCompleted(module);
           const lessonsId = `course-module-lessons-${module.id}`;
 
           return (
-            <article className={`course-module ${isCompleted ? 'course-module--completed' : ''}`} key={module.id}>
-              <div className="course-module__topline">
-                <div className="course-module__heading">
-                  <span>{index + 1}.</span>
-                  <h3>{module.name}</h3>
-                  {isCompleted ? <strong className="course-module__status">Completed</strong> : null}
+            <Card className={isCompleted ? 'border-emerald-800/30 bg-emerald-950/5' : undefined} key={module.id}>
+              <CardHeader className="gap-4 sm:flex sm:flex-row sm:items-start sm:justify-between">
+                <div className="grid gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-medium text-muted-foreground">{index + 1}.</span>
+                    <CardTitle className="text-xl">{module.name}</CardTitle>
+                    {isCompleted ? <strong className="rounded-md bg-emerald-900 px-2 py-1 text-xs font-medium text-white">Completed</strong> : null}
+                  </div>
+                  <p className="text-sm leading-6 text-muted-foreground">{module.description}</p>
                 </div>
 
-                <button
+                <Button
                   type="button"
-                  className="course-module__toggle"
+                  variant="outline"
+                  size="sm"
                   aria-controls={lessonsId}
                   aria-expanded={isExpanded}
                   aria-label={`${isExpanded ? 'Hide' : 'Show'} lessons from ${module.name}`}
                   onClick={() => toggleModule(module.id)}
                 >
                   <span>{isExpanded ? 'Hide lessons' : `${module.lessons.length} lessons`}</span>
-                  <i aria-hidden="true">v</i>
-                </button>
-              </div>
-
-              <p>{module.description}</p>
+                </Button>
+              </CardHeader>
 
               {isExpanded ? (
-                <div className="course-module__lessons" id={lessonsId}>
+                <CardContent className="grid gap-2" id={lessonsId}>
                   {module.lessons.map((lesson) => (
                     <Link
-                      className="course-module__lesson-link"
+                      className="grid gap-1 rounded-md border bg-background p-3 transition hover:bg-accent hover:text-accent-foreground"
                       key={lesson.id}
                       href={`/courses/${courseSlug}/lessons/${lesson.slug}`}
                     >
-                      <strong>{lesson.name}</strong>
-                      <span>{lesson.description}</span>
+                      <strong className="text-sm">{lesson.name}</strong>
+                      <span className="text-sm text-muted-foreground">{lesson.description}</span>
                     </Link>
                   ))}
-                </div>
+                </CardContent>
               ) : null}
-            </article>
+            </Card>
           );
         })}
       </div>

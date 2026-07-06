@@ -8,13 +8,15 @@ import About from '../components/home_page/about'
 
 function HomePage() {
     return (
-        <>
+        <div className="min-h-screen bg-background text-foreground">
             <Header />
-            <Hero />
-            <CourseSection />
-            <About />
+            <main>
+                <Hero />
+                <CourseSection />
+                <About />
+            </main>
             <GithubFooter />
-        </>
+        </div>
     )
 }
 

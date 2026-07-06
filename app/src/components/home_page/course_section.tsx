@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 
-import '../../styles/home_page_css/course_section.css';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { getHomeCourseCatalog, type HomeCourseSubjectGroup } from '../../services/course_catalog';
 
 export default function CourseSection() {
@@ -52,63 +53,69 @@ export default function CourseSection() {
     }, [activeSubject, subjectGroups]);
 
     return (
-        <section className="course-showcase">
-            <div className="course-showcase__header">
-                <p className="course-showcase__eyebrow">Roadmaps</p>
-                <h2>Mission tracks for high-signal learners</h2>
+        <section className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-12 sm:px-6 lg:px-8">
+            <div>
+                <p className="text-xs font-medium uppercase text-muted-foreground">Roadmaps</p>
+                <h2 className="mt-2 text-3xl font-semibold tracking-normal">Mission tracks for high-signal learners</h2>
             </div>
 
-            <div className="course-showcase__tabs" role="tablist" aria-label="Course roadmaps">
+            <div className="flex flex-wrap gap-2" role="tablist" aria-label="Course roadmaps">
                 {subjectGroups.map((group) => (
-                    <button
+                    <Button
                         key={group.subjectName}
                         type="button"
-                        className={`course-showcase__tab ${group.subjectName === activeGroup?.subjectName ? 'is-active' : ''}`}
+                        variant={group.subjectName === activeGroup?.subjectName ? 'default' : 'outline'}
+                        size="sm"
                         onClick={() => setActiveSubject(group.subjectName)}
                     >
                         {group.subjectName}
-                    </button>
+                    </Button>
                 ))}
             </div>
 
-            <p className="course-showcase__description">
+            <p className="max-w-3xl text-sm leading-6 text-muted-foreground">
                 Each track bundles theory, labs and milestone reviews so progress feels like operating a real command deck.
             </p>
 
             {isLoading ? (
-                <p className="course-showcase__state">Loading course tracks...</p>
+                <p className="rounded-lg border bg-card p-4 text-sm text-muted-foreground">Loading course tracks...</p>
             ) : null}
 
             {!isLoading && error ? (
-                <p className="course-showcase__state course-showcase__state--error">{error}</p>
+                <p className="rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">{error}</p>
             ) : null}
 
             {!isLoading && !error && activeGroup && activeGroup.courses.length === 0 ? (
-                <p className="course-showcase__state">No courses available for this track yet.</p>
+                <p className="rounded-lg border bg-card p-4 text-sm text-muted-foreground">No courses available for this track yet.</p>
             ) : null}
 
             {!isLoading && !error && !activeGroup ? (
-                <p className="course-showcase__state">No course tracks available yet.</p>
+                <p className="rounded-lg border bg-card p-4 text-sm text-muted-foreground">No course tracks available yet.</p>
             ) : null}
 
             {!isLoading && !error && activeGroup ? (
-                <div className="course-showcase__grid">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {activeGroup.courses.map((course) => (
-                        <Link className="course-card" key={course.slug} href={`/courses/${course.slug}`}>
-                            <div className="course-card__top">
-                                <span className="course-card__badge">{course.badge}</span>
-                            </div>
+                        <Card className="h-full rounded-lg" key={course.slug}>
+                            <CardHeader>
+                                <span className="w-fit rounded-md bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground">{course.badge}</span>
 
-                            <div className="course-card__body">
-                                <h3>{course.title}</h3>
-                                <p>{course.description}</p>
-                            </div>
+                                <CardTitle className="text-xl leading-tight">{course.title}</CardTitle>
+                            </CardHeader>
+                            <CardContent className="grid flex-1 gap-4">
+                                <p className="text-sm leading-6 text-muted-foreground">{course.description}</p>
 
-                            <div className="course-card__meta">
+                            <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
                                 <span>{course.lessonsLabel}</span>
                                 <span>{course.durationLabel}</span>
                             </div>
-                        </Link>
+                            </CardContent>
+                            <CardFooter>
+                                <Button asChild>
+                                    <Link href={`/courses/${course.slug}`}>View course</Link>
+                                </Button>
+                            </CardFooter>
+                        </Card>
                     ))}
                 </div>
             ) : null}

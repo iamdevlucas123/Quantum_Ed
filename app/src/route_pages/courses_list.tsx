@@ -8,7 +8,6 @@ import CoursesFilters from '../components/courses_list/courses_filters';
 import CoursesGrid from '../components/courses_list/courses_grid';
 import { ALL_TRACKS, filterCourses, getCourseSubjects } from '../components/courses_list/course_filters';
 import { getCourses, type CourseListItem } from '../services/course_api';
-import '../styles/courses_list_css/course-list-hero.css';
 
 export default function Courses() {
   const [courses, setCourses] = useState<CourseListItem[]>([]);
@@ -52,10 +51,9 @@ export default function Courses() {
   }, [activeSubject, courses, searchTerm]);
 
   return (
-    <>
-      <div className="courses-route">
+    <div className="min-h-screen bg-background text-foreground">
         <Header />
-        <main className="courses-page">
+        <main className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-8 sm:px-6 lg:px-8">
           <CoursesFilters
             activeSubject={activeSubject}
             allCoursesCount={courses.length}
@@ -68,8 +66,7 @@ export default function Courses() {
           />
           <CoursesGrid courses={filteredCourses} error={error} isLoading={isLoading} />
         </main>
-      </div>
       <GithubFooter />
-    </>
+    </div>
   );
 }
