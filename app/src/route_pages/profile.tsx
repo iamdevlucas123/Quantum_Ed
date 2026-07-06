@@ -16,7 +16,6 @@ import type { ProfileSummary } from '../components/profile/profile_types';
 import { useAuth } from '../context/auth_store';
 import { useUiStore } from '../context/ui_store';
 import { getUserProgress, updateCurrentUserProfile, type UserCourseProgress } from '../services/user_api';
-import '../styles/profile.css';
 
 const BIO_MAX_LENGTH = 280;
 const AVATAR_FILE_MAX_BYTES = 80 * 1024;
@@ -171,10 +170,10 @@ export default function Profile() {
   };
 
   return (
-    <div className="profile-route">
+    <div className="min-h-screen bg-background text-foreground">
       <Header />
-      <main className="profile-page">
-        <div className="profile-shell">
+      <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="grid gap-8">
           <ProfileHero
             isAuthenticated={isAuthenticated}
             isLoading={isLoading}
@@ -182,7 +181,7 @@ export default function Profile() {
           />
 
           {isAuthenticated && user ? (
-            <section className="profile-layout">
+            <section className="grid gap-6 lg:grid-cols-[20rem_1fr]">
               <ProfileIdentityPanel
                 avatarError={avatarError}
                 isAvatarSaving={isAvatarSaving}
@@ -191,7 +190,7 @@ export default function Profile() {
                 user={user}
               />
 
-              <section className="profile-dashboard" aria-label="Course dashboard">
+              <section className="grid gap-6" aria-label="Course dashboard">
                 <ProfileOverview
                   bioDraft={bioDraft}
                   bioError={bioError}

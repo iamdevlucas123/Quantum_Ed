@@ -188,16 +188,14 @@ function LessonsViewer() {
 
   if (isLoading) {
     return (
-      <section className="lesson-viewer">
+      <section className="min-h-screen bg-background text-foreground">
         <HeaderLessons backHref="/courses" courseTitle="Loading lesson" />
-        <section className="lesson-layout">
-          <main className="main-content">
-            <section className="lesson-hero">
-              <div className="lesson-hero__copy">
-                <p className="lesson-hero__eyebrow">Current Lesson</p>
-                <h1>Loading lesson</h1>
-                <p>Syncing the lesson content and navigation path.</p>
-              </div>
+        <section className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-8 sm:px-6 lg:px-8">
+          <main>
+            <section className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm sm:p-8">
+              <p className="text-xs font-medium uppercase text-muted-foreground">Current Lesson</p>
+              <h1 className="mt-2 text-3xl font-semibold tracking-normal">Loading lesson</h1>
+              <p className="mt-3 text-muted-foreground">Syncing the lesson content and navigation path.</p>
             </section>
           </main>
         </section>
@@ -207,16 +205,14 @@ function LessonsViewer() {
 
   if (error || !lesson) {
     return (
-      <section className="lesson-viewer">
+      <section className="min-h-screen bg-background text-foreground">
         <HeaderLessons backHref="/courses" courseTitle="Lesson unavailable" />
-        <section className="lesson-layout">
-          <main className="main-content">
-            <section className="lesson-hero">
-              <div className="lesson-hero__copy">
-                <p className="lesson-hero__eyebrow">Current Lesson</p>
-                <h1>Lesson unavailable</h1>
-                <p>{error ?? 'The requested lesson could not be found.'}</p>
-              </div>
+        <section className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-8 sm:px-6 lg:px-8">
+          <main>
+            <section className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm sm:p-8">
+              <p className="text-xs font-medium uppercase text-muted-foreground">Current Lesson</p>
+              <h1 className="mt-2 text-3xl font-semibold tracking-normal">Lesson unavailable</h1>
+              <p className="mt-3 text-muted-foreground">{error ?? 'The requested lesson could not be found.'}</p>
             </section>
           </main>
         </section>
@@ -225,9 +221,9 @@ function LessonsViewer() {
   }
 
   return (
-    <section className="lesson-viewer">
+    <section className="min-h-screen bg-background text-foreground">
       <HeaderLessons backHref={`/courses/${lesson.module.course.slug}`} courseTitle={lesson.module.course.title} />
-      <section className="lesson-layout">
+      <section className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[20rem_1fr] lg:px-8">
         <SideBar
           activeModule={navigation.activeModule ?? lesson.module.course.modules[0]}
           courseSlug={lesson.module.course.slug}
