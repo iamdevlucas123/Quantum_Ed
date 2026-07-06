@@ -1,4 +1,8 @@
 import { useState } from 'react';
+import Link from 'next/link';
+
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { useExploreMenuCourses } from './use_explore_menu_courses';
 
 export default function ExploreMenu() {
@@ -8,28 +12,25 @@ export default function ExploreMenu() {
     const courses = activeSubject?.courses ?? [];
 
     return (
-        <nav className="nav nav--primary">
-            <ul>
-                <li
-                    className="explore-menu"
-                    onMouseEnter={() => setActiveSection((currentValue) => currentValue || subjects[0]?.subjectName || '')}
-                >
-                    <button
-                        type="button"
-                        className="explore-menu__toggle"
-                        aria-expanded="true"
-                        aria-haspopup="true"
-                    >
-                        Explore
-                    </button>
+        <nav className="relative hidden sm:block" aria-label="Explore catalog">
+            <div
+                className="group"
+                onMouseEnter={() => setActiveSection((currentValue) => currentValue || subjects[0]?.subjectName || '')}
+            >
+                <Button type="button" variant="ghost" size="sm" aria-expanded="true" aria-haspopup="true">
+                    Explore
+                </Button>
 
-                    <div className="explore-menu__dropdown">
-                        <div className="explore-menu__subjects">
+                <div className="invisible absolute left-0 top-full z-50 grid w-[min(42rem,calc(100vw-2rem))] grid-cols-[13rem_1fr] overflow-hidden rounded-md border bg-popover text-popover-foreground opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100">
+                    <div className="border-r bg-muted/40 p-2">
                             {subjects.map((subject) => (
                                 <button
                                     key={subject.subjectName}
                                     type="button"
-                                    className={`explore-menu__subject ${activeSubject?.subjectName === subject.subjectName ? 'is-active' : ''}`}
+                                    className={cn(
+                                        'block w-full rounded-md px-3 py-2 text-left text-sm transition hover:bg-accent hover:text-accent-foreground',
+                                        activeSubject?.subjectName === subject.subjectName && 'bg-accent text-accent-foreground'
+                                    )}
                                     onMouseEnter={() => setActiveSection(subject.subjectName)}
                                 >
                                     {subject.subjectName}
@@ -37,20 +38,19 @@ export default function ExploreMenu() {
                             ))}
                         </div>
 
-                        <div className="explore-menu__courses">
+                    <div className="grid gap-1 p-3">
                             {courses.length > 0 ? (
                                 courses.map((course) => (
-                                    <a key={course.slug} href={`/courses/${course.slug}`} className="explore-menu__course">
+                                    <Link key={course.slug} href={`/courses/${course.slug}`} className="rounded-md px-3 py-2 text-sm font-medium transition hover:bg-accent hover:text-accent-foreground">
                                         {course.title}
-                                    </a>
+                                    </Link>
                                 ))
                             ) : (
-                                <span className="explore-menu__course">No courses available</span>
+                                <span className="px-3 py-2 text-sm text-muted-foreground">No courses available</span>
                             )}
                         </div>
                     </div>
-                </li>
-            </ul>
+            </div>
         </nav>
     );
 }

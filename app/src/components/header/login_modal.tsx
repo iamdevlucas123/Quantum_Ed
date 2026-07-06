@@ -3,6 +3,16 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { useSearchParams } from 'next/navigation'
 
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { cn } from '@/lib/utils'
 import { env } from '../../config/env'
 import { useAuth } from '../../context/auth_store'
 
@@ -149,55 +159,59 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     setError(null)
   }
 
-  if (!isOpen) {
-    return null
-  }
-
   return (
-    <div className="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
-      <button className="auth-modal__backdrop" type="button" aria-label="Close login modal" onClick={onClose} />
-      <div className="auth-modal__panel">
-        <div className="auth-modal__header">
-          <h2 id="auth-modal-title">{isSignUp ? 'Create account' : 'Log in'}</h2>
-          <button className="auth-modal__close" type="button" aria-label="Close" onClick={onClose}>
-            x
-          </button>
-        </div>
+    <Dialog open={isOpen} onOpenChange={(open) => {
+      if (!open) {
+        onClose()
+      }
+    }}>
+      <DialogContent className="max-h-[min(44rem,calc(100vh-2rem))] overflow-y-auto sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle id="auth-modal-title">{isSignUp ? 'Create account' : 'Log in'}</DialogTitle>
+        </DialogHeader>
 
-        <div className="auth-modal__tabs" role="tablist" aria-label="Authentication mode">
-          <button
+        <div className="grid grid-cols-2 rounded-md bg-muted p-1" role="tablist" aria-label="Authentication mode">
+          <Button
             type="button"
-            className={mode === 'signin' ? 'is-active' : ''}
+            variant={mode === 'signin' ? 'secondary' : 'ghost'}
+            size="sm"
             onClick={() => switchMode('signin')}
           >
             Log in
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
-            className={mode === 'signup' ? 'is-active' : ''}
+            variant={mode === 'signup' ? 'secondary' : 'ghost'}
+            size="sm"
             onClick={() => switchMode('signup')}
           >
             Sign up
-          </button>
+          </Button>
         </div>
 
-        <form className="auth-modal__form" onSubmit={handleSubmit}>
+        <form className="grid gap-4" onSubmit={handleSubmit}>
           {isSignUp && (
-            <label>
+            <div className="grid gap-2">
+              <Label htmlFor="auth-name">
               Name
-              <input
+              </Label>
+              <Input
+                id="auth-name"
                 type="text"
                 name="name"
                 autoComplete="name"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
               />
-            </label>
+            </div>
           )}
 
-          <label>
+          <div className="grid gap-2">
+            <Label htmlFor="auth-email">
             Email
-            <input
+            </Label>
+            <Input
+              id="auth-email"
               type="email"
               name="email"
               autoComplete="email"
@@ -205,11 +219,14 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               onChange={(event) => setEmail(event.target.value)}
               required
             />
-          </label>
+          </div>
 
-          <label>
+          <div className="grid gap-2">
+            <Label htmlFor="auth-password">
             Password
-            <input
+            </Label>
+            <Input
+              id="auth-password"
               type="password"
               name="password"
               autoComplete={isSignUp ? 'new-password' : 'current-password'}
@@ -217,21 +234,26 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
               onChange={(event) => setPassword(event.target.value)}
               required
             />
-          </label>
+          </div>
 
           {isSignUp && (
-            <div className="auth-modal__password-feedback" aria-live="polite">
-              <div className="auth-modal__strength">
+            <div className="rounded-md border bg-muted/30 p-3 text-sm" aria-live="polite">
+              <div className="flex items-center justify-between gap-3">
                 <span>Password strength</span>
-                <strong className={`auth-modal__strength-value auth-modal__strength-value--${passwordStrength}`}>
+                <strong className={cn(
+                  'capitalize',
+                  passwordStrength === 'strong' && 'text-emerald-700',
+                  passwordStrength === 'medium' && 'text-amber-700',
+                  passwordStrength === 'weak' && 'text-destructive'
+                )}>
                   {passwordStrength}
                 </strong>
               </div>
-              <ul className="auth-modal__password-rules">
+              <ul className="mt-3 grid gap-1 text-muted-foreground">
                 {passwordRequirements.map((requirement) => (
                   <li
                     key={requirement.id}
-                    className={requirement.isMet ? 'is-met' : ''}
+                    className={cn(requirement.isMet && 'text-emerald-700')}
                   >
                     {requirement.label}
                   </li>
@@ -240,37 +262,36 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </div>
           )}
 
-          {error && <p className="auth-modal__error">{error}</p>}
+          {error && <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
 
-          <div className="auth-modal__oauth">
-            <button
-              className="auth-modal__oauth-button auth-modal__oauth-button--google"
+          <div className="grid gap-2">
+            <Button
+              variant="outline"
               type="button"
               onClick={() => startOAuth('google')}
             >
-              <img alt="" aria-hidden="true" src="/assets/icons/google_image_auth.jpg" />
+              <img className="size-4 rounded-sm" alt="" aria-hidden="true" src="/assets/icons/google_image_auth.jpg" />
               Continue with Google
-            </button>
-            <button
-              className="auth-modal__oauth-button auth-modal__oauth-button--github"
+            </Button>
+            <Button
+              variant="outline"
               type="button"
               onClick={() => startOAuth('github')}
             >
-              <img alt="" aria-hidden="true" src="/assets/icons/github_image_auth.png" />
+              <img className="size-4 rounded-sm" alt="" aria-hidden="true" src="/assets/icons/github_image_auth.png" />
               Continue with GitHub
-            </button>
+            </Button>
           </div>
 
-          <button
-            className="auth-modal__submit"
+          <Button
             data-testid={isSignUp ? 'auth-signup-submit' : 'auth-signin-submit'}
             type="submit"
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Please wait' : isSignUp ? 'Create account' : 'Log in'}
-          </button>
+          </Button>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   )
 }
