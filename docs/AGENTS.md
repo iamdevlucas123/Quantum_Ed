@@ -122,7 +122,7 @@ Suite de testes unitarios inicial implementada:
 - `packages/shared/types/`: contratos TypeScript compartilhados
 - `docs/`: documentacao, specs e cursos JSON versionados
 - `docker-compose.yml`: orquestracao local
-- `app/vercel.json`: rewrites legados da Vercel para SPA
+- `app/vercel.json`: configuracao Vercel minima; nao usar rewrites SPA para rotas do Next App Router
 
 Frontend (`app/src`):
 
@@ -164,8 +164,8 @@ Backend (`api/src`):
 - Rotas protegidas no App Router devem envolver o conteudo com `RequireAuth` usando `children`
 - Componentes/paginas client-side da migracao usam `'use client'`; navegacao deve usar `next/link` e `next/navigation`, nao React Router
 - `/courses` e `/courses/:courseSlug` sao publicas; lesson viewer e profile continuam protegidos
-- Deploy Vercel precisa manter rewrite SPA em `app/vercel.json` para rotas diretas como `/courses` voltarem para `/`
-- Migração inicial para Next usa `app/next.config.mjs` com `distDir: './dist'` para preservar o output esperado pela Vercel sem ativar `output: 'export'`
+- Deploy Vercel deve usar o roteamento nativo do Next App Router; nao configurar rewrite SPA para `/(.*)` -> `/`
+- `app/next.config.mjs` nao deve customizar `distDir` no deploy Vercel; manter o output padrao do Next (`.next`) e deixar Output Directory em branco nas configuracoes da Vercel
 - `app/next.config.mjs` define `turbopack.root` para `app/` por causa dos multiplos lockfiles do repositorio
 - Componentes legados de pagina reutilizados pelo App Router ficam em `app/src/route_pages/`; nao usar `app/src/pages/`, porque o Next interpreta essa pasta como Pages Router
 - Assets do frontend ficam em `app/public/` e devem ser referenciados por URL absoluta, por exemplo `/assets/icons/quantum-atom-mark.png`; avaliar `next/image` depois para imagens criticas
@@ -241,7 +241,7 @@ Configuracoes importantes:
 - Pull requests para `main` devem rodar `CI`, `E2E`, `Security` e Preview Deploy da Vercel antes do merge
 - Nao ha staging no fluxo atual; depois do merge em `main`, Vercel e Render fazem deploy de producao diretamente
 - Vercel env: `NEXT_PUBLIC_API_URL=https://quantum-ed-api.onrender.com`
-- Mesmo com `distDir: './dist'`, validar cuidadosamente o deploy na Vercel porque o fluxo padrao da plataforma espera `.next`
+- Validar cuidadosamente o deploy na Vercel se qualquer configuracao de Output Directory for alterada; o fluxo padrao da plataforma espera o output nativo do Next
 - Render envs principais: `NODE_ENV=production`, `DATABASE_URL`, `FRONTEND_URL=https://quantum-ed-76g2.vercel.app`, `CORS_ORIGINS=https://quantum-ed-76g2.vercel.app`, secrets JWT/OAuth
 - Render build command recomendado: `npm install && npx prisma migrate deploy && npm run build`
 - Render start command recomendado: `node dist/src/server.js`
