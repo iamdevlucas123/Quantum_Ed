@@ -38,10 +38,12 @@ describe('LoginModal', () => {
     const user = userEvent.setup();
     renderLoginModal();
 
+    expect(screen.getByRole('dialog', { name: 'Log in' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Log in' })).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Sign up' }));
 
+    expect(screen.getByRole('dialog', { name: 'Create account' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Create account' })).toBeInTheDocument();
     expect(screen.getByText('At least 8 characters')).toBeInTheDocument();
   });

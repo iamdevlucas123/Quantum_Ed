@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import type { CourseModuleSummary } from '../../services/course_api';
 
 type CourseContentProps = {
@@ -58,7 +58,7 @@ export default function CourseContent({ courseSlug, lessonsCount, modules }: Cou
                 <div className="grid gap-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-sm font-medium text-muted-foreground">{index + 1}.</span>
-                    <CardTitle className="text-xl">{module.name}</CardTitle>
+                    <h3 className="text-xl font-semibold leading-tight tracking-normal">{module.name}</h3>
                     {isCompleted ? <strong className="rounded-md bg-emerald-900 px-2 py-1 text-xs font-medium text-white">Completed</strong> : null}
                   </div>
                   <p className="text-sm leading-6 text-muted-foreground">{module.description}</p>

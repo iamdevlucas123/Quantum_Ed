@@ -165,7 +165,10 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         onClose()
       }
     }}>
-      <DialogContent className="max-h-[min(44rem,calc(100vh-2rem))] overflow-y-auto sm:max-w-md">
+      <DialogContent
+        aria-label={isSignUp ? 'Create account' : 'Log in'}
+        className="max-h-[min(44rem,calc(100vh-2rem))] overflow-y-auto sm:max-w-md"
+      >
         <DialogHeader>
           <DialogTitle id="auth-modal-title">{isSignUp ? 'Create account' : 'Log in'}</DialogTitle>
         </DialogHeader>

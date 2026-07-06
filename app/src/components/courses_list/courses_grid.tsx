@@ -76,7 +76,7 @@ export default function CoursesGrid({ courses, error, isLoading }: CoursesGridPr
               <span className="rounded-md border px-2 py-1 text-xs font-medium text-muted-foreground">{getCourseLevel(course)}</span>
             </div>
 
-            <CardTitle className="text-xl leading-tight">{course.title}</CardTitle>
+            <h2 className="text-xl font-semibold leading-tight tracking-normal">{course.title}</h2>
           </CardHeader>
           <CardContent className="grid flex-1 gap-4">
             <p className="text-sm leading-6 text-muted-foreground">{course.description}</p>
