@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import type { LessonSidebarModule } from '../../services/lesson_api';
 import '../../styles/lessons_viewer_css/lesson-sidebar.css';
@@ -77,7 +77,7 @@ export default function SideBar({
               <Link
                 key={lesson.id}
                 className={lesson.slug === currentLessonSlug ? 'is-active' : undefined}
-                to={`/courses/${courseSlug}/lessons/${lesson.slug}`}
+                href={`/courses/${courseSlug}/lessons/${lesson.slug}`}
               >
                 <strong>{lesson.name}</strong>
                 <span>{getLessonStatus(lesson)}</span>
@@ -86,7 +86,7 @@ export default function SideBar({
           </div>
 
           {nextModule ? (
-            <Link className="lesson-sidebar__next-module" to={nextModule.href}>
+            <Link className="lesson-sidebar__next-module" href={nextModule.href}>
               Next module: {nextModule.label}
             </Link>
           ) : (

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import type { LessonViewerDetail } from '../../services/lesson_api';
 import '../../styles/lessons_viewer_css/lesson-main-content.css';
@@ -111,20 +111,20 @@ export default function MainContent({
 
       <footer className="lesson-navigation">
         {previousLesson ? (
-          <Link className="lesson-navigation__button lesson-navigation__button--secondary" to={previousLesson.href}>
+          <Link className="lesson-navigation__button lesson-navigation__button--secondary" href={previousLesson.href}>
             Previous lesson
           </Link>
         ) : (
           <span />
         )}
         {nextLesson ? (
-          <Link className="lesson-navigation__button" to={nextLesson.href}>
+          <Link className="lesson-navigation__button" href={nextLesson.href}>
             Next lesson
           </Link>
         ) : nextModule ? (
           <Link
             className="lesson-navigation__button"
-            to={nextModule.href}
+            href={nextModule.href}
             aria-disabled={isCompletingModule}
             onClick={(event) => {
               event.preventDefault();

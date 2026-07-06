@@ -1,6 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import LoginModal from './login_modal';
@@ -14,12 +13,12 @@ vi.mock('../../context/auth_store', () => ({
   useAuth: () => authActions,
 }));
 
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => new URLSearchParams('login=1&next=%2Fprofile'),
+}));
+
 const renderLoginModal = (onClose = vi.fn()) => {
-  render(
-    <MemoryRouter initialEntries={['/courses?login=1&next=%2Fprofile']}>
-      <LoginModal isOpen onClose={onClose} />
-    </MemoryRouter>,
-  );
+  render(<LoginModal isOpen onClose={onClose} />);
 
   return { onClose };
 };
@@ -30,11 +29,7 @@ describe('LoginModal', () => {
   });
 
   it('does not render when closed', () => {
-    render(
-      <MemoryRouter>
-        <LoginModal isOpen={false} onClose={vi.fn()} />
-      </MemoryRouter>,
-    );
+    render(<LoginModal isOpen={false} onClose={vi.fn()} />);
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });

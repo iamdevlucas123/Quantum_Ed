@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import '../../styles/lessons_viewer_css/lesson-topbar.css';
 
 type HeaderLessonsProps = {
@@ -10,7 +10,7 @@ export default function HeaderLessons({ backHref, courseTitle }: HeaderLessonsPr
   return (
     <div className="lesson-viewer__topbar">
       <div className="lesson-viewer__topbar-left">
-        <Link className="lesson-viewer__icon-button" to={backHref} aria-label="Go back to course">
+        <Link className="lesson-viewer__icon-button" href={backHref} aria-label="Go back to course">
           &#8592;
         </Link>
         <div className="lesson-viewer__brand">

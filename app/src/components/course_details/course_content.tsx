@@ -1,5 +1,7 @@
+'use client'
+
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import type { CourseModuleSummary } from '../../services/course_api';
 
@@ -80,7 +82,7 @@ export default function CourseContent({ courseSlug, lessonsCount, modules }: Cou
                     <Link
                       className="course-module__lesson-link"
                       key={lesson.id}
-                      to={`/courses/${courseSlug}/lessons/${lesson.slug}`}
+                      href={`/courses/${courseSlug}/lessons/${lesson.slug}`}
                     >
                       <strong>{lesson.name}</strong>
                       <span>{lesson.description}</span>

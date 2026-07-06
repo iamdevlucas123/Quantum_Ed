@@ -1,5 +1,7 @@
+'use client'
+
 import { useEffect, useState, type FormEvent } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'next/navigation'
 
 import { env } from '../../config/env'
 import { useAuth } from '../../context/auth_store'
@@ -58,7 +60,7 @@ const getPasswordStrength = (password: string): 'weak' | 'medium' | 'strong' => 
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   // Gets the auth actions from the Zustand auth store.
   const { signIn, signUp } = useAuth()
-  const [searchParams] = useSearchParams()
+  const searchParams = useSearchParams()
   
   // Controls whether the modal is in login or signup mode.
   const [mode, setMode] = useState<AuthMode>('signin')
@@ -74,7 +76,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const isSignUp = mode === 'signup'
   const passwordRequirements = getPasswordRequirements(password)
   const passwordStrength = getPasswordStrength(password)
-  const oauthError = searchParams.get('oauth_error')
+  const oauthError = searchParams?.get('oauth_error') ?? null
 
   useEffect(() => {
     if (!isOpen || !oauthError) {
@@ -86,7 +88,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   }, [isOpen, oauthError])
 
   const getOAuthTargetPath = (): string => {
-    const nextFromQuery = searchParams.get('next')
+    const nextFromQuery = searchParams?.get('next') ?? null
 
     if (nextFromQuery && nextFromQuery.startsWith('/')) {
       return nextFromQuery

@@ -1,5 +1,7 @@
+'use client'
+
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useAuth } from '../context/auth_store';
 import { useUiStore } from '../context/ui_store';
@@ -12,21 +14,26 @@ export default function Header() {
   const isLoginModalOpen = useUiStore((state) => state.isLoginModalOpen);
   const openLoginModal = useUiStore((state) => state.openLoginModal);
   const closeLoginModalState = useUiStore((state) => state.closeLoginModal);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const loginParam = searchParams?.get('login') ?? null;
 
   useEffect(() => {
-    if (searchParams.get('login') === '1' && !isAuthenticated) {
+    if (loginParam === '1' && !isAuthenticated) {
       openLoginModal();
     }
-  }, [isAuthenticated, openLoginModal, searchParams]);
+  }, [isAuthenticated, loginParam, openLoginModal]);
 
   const closeLoginModal = (): void => {
-    if (searchParams.get('login') === '1') {
-      const nextParams = new URLSearchParams(searchParams);
+    if (loginParam === '1') {
+      const nextParams = new URLSearchParams(searchParams ?? undefined);
       nextParams.delete('login');
       nextParams.delete('next');
       nextParams.delete('oauth_error');
-      setSearchParams(nextParams, { replace: true });
+      const nextQuery = nextParams.toString();
+      const nextPathname = pathname ?? '/';
+      router.replace(nextQuery ? `${nextPathname}?${nextQuery}` : nextPathname);
     }
 
     closeLoginModalState();

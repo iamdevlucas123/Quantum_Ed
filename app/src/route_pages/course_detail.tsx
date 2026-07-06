@@ -1,5 +1,7 @@
+'use client'
+
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 
 import '../styles/course_detail_css/course-detail-hero.css';
 import '../styles/course_detail_css/course-detail-meta.css';
@@ -11,7 +13,8 @@ import CourseContent from '../components/course_details/course_content';
 import { getCourseBySlug, saveCourse, unsaveCourse, type CourseDetail as CourseDetailData } from '../services/course_api';
 
 function CourseDetail() {
-  const { courseSlug } = useParams<{ courseSlug: string }>();
+  const params = useParams<{ courseSlug: string }>();
+  const courseSlug = params?.courseSlug;
   const [course, setCourse] = useState<CourseDetailData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import type { CourseListItem } from '../../services/course_api';
 import { getCourseLevel, getCourseStatus, getCourseSubject } from './courses_data';
@@ -72,7 +72,7 @@ export default function CoursesGrid({ courses, error, isLoading }: CoursesGridPr
             <span>{course.hoursCount}h</span>
           </div>
 
-          <Link to={`/courses/${course.slug}`}>View course</Link>
+          <Link href={`/courses/${course.slug}`}>View course</Link>
         </article>
       ))}
     </section>

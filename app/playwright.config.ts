@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 const apiDir = path.resolve(dirname, '../api')
 const databaseUrl = process.env.DATABASE_URL ?? 'postgresql://quantum:quantum@localhost:5432/quantum_ed_test?schema=public'
-const apiUrl = process.env.VITE_API_URL ?? 'http://localhost:3000'
+const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
 const appUrl = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:5173'
 const apiPort = new URL(apiUrl).port || '3000'
 
@@ -57,14 +57,14 @@ export default defineConfig({
       },
     },
     {
-      command: 'npm run dev -- --host 127.0.0.1 --port 5173',
+      command: 'npm run dev',
       cwd: dirname,
       url: appUrl,
       reuseExistingServer: true,
       timeout: 120000,
       env: {
         ...process.env,
-        VITE_API_URL: apiUrl,
+        NEXT_PUBLIC_API_URL: apiUrl,
       },
     },
   ],
