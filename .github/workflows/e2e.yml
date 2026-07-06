@@ -37,7 +37,7 @@ jobs:
       REFRESH_TOKEN_EXPIRES_IN: 7d
       FRONTEND_URL: http://localhost:5173
       CORS_ORIGINS: http://localhost:5173
-      VITE_API_URL: http://localhost:3000
+      NEXT_PUBLIC_API_URL: http://localhost:3000
 
     steps:
       - uses: actions/checkout@v4
@@ -85,7 +85,7 @@ jobs:
       - name: Start app
         working-directory: app
         run: |
-          npm run dev -- --host 127.0.0.1 --port 5173 > ../app-e2e.log 2>&1 &
+          npm run dev > ../app-e2e.log 2>&1 &
           for i in {1..60}; do
             if curl -fsS http://localhost:5173 > /dev/null; then
               exit 0
