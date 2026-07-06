@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import type { CourseDetail } from '../../services/course_api';
 
@@ -35,7 +35,7 @@ export default function CourseMeta({ course, firstLessonHref }: CourseMetaProps)
 
       <div className="course-actions">
         {firstLessonHref ? (
-          <Link to={firstLessonHref}>Start Learning</Link>
+          <Link href={firstLessonHref}>Start Learning</Link>
         ) : (
           <button type="button">Start Learning</button>
         )}

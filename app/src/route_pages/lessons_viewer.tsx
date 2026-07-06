@@ -1,5 +1,7 @@
+'use client'
+
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, useRouter } from 'next/navigation';
 
 import SideBar from '../components/lessons_viewer/sidebar';
 import MainContent from '../components/lessons_viewer/main_content';
@@ -16,8 +18,10 @@ type NavigationLink = {
 };
 
 function LessonsViewer() {
-  const { courseSlug, lessonSlug } = useParams<{ courseSlug: string; lessonSlug: string }>();
-  const navigate = useNavigate();
+  const params = useParams<{ courseSlug: string; lessonSlug: string }>();
+  const courseSlug = params?.courseSlug;
+  const lessonSlug = params?.lessonSlug;
+  const router = useRouter();
   const [lesson, setLesson] = useState<LessonViewerDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -62,7 +66,7 @@ function LessonsViewer() {
 
   const handleNextModule = async (href: string): Promise<void> => {
     if (!courseSlug || !lessonSlug) {
-      navigate(href);
+      router.push(href);
       return;
     }
 
@@ -75,7 +79,7 @@ function LessonsViewer() {
       });
     } finally {
       setIsCompletingModule(false);
-      navigate(href);
+      router.push(href);
     }
   };
 

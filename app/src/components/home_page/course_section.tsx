@@ -1,5 +1,7 @@
+'use client'
+
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import '../../styles/home_page_css/course_section.css';
 import { getHomeCourseCatalog, type HomeCourseSubjectGroup } from '../../services/course_catalog';
@@ -92,7 +94,7 @@ export default function CourseSection() {
             {!isLoading && !error && activeGroup ? (
                 <div className="course-showcase__grid">
                     {activeGroup.courses.map((course) => (
-                        <Link className="course-card" key={course.slug} to={`/courses/${course.slug}`}>
+                        <Link className="course-card" key={course.slug} href={`/courses/${course.slug}`}>
                             <div className="course-card__top">
                                 <span className="course-card__badge">{course.badge}</span>
                             </div>

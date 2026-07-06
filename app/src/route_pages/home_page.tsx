@@ -1,3 +1,5 @@
+'use client'
+
 import Header from '../components/header'
 import Hero from '../components/home_page/hero'
 import CourseSection from '../components/home_page/course_section'
