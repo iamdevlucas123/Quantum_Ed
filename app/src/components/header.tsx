@@ -41,16 +41,18 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 text-foreground shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="mx-auto flex min-h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/90 text-foreground shadow-[0_1px_12px_rgba(28,46,88,0.08)] backdrop-blur supports-[backdrop-filter]:bg-background/75">
+      <div className="mx-auto flex min-h-18 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-3 sm:gap-5">
           <Link className="flex shrink-0 items-center gap-2" href="/" aria-label="QuantumEd home">
-            <img className="size-9 rounded-md" src="/assets/icons/quantum-atom-mark.png" alt="QuantumEd" />
-            <span className="hidden text-sm font-semibold tracking-normal sm:inline">QuantumEd</span>
+            <span className="grid size-10 place-items-center rounded-lg border border-primary/15 bg-white shadow-sm">
+              <img className="size-7 object-contain" src="/assets/icons/quantum-atom-mark.png" alt="QuantumEd" />
+            </span>
+            <span className="hidden text-base font-semibold tracking-normal sm:inline">QuantumEd</span>
           </Link>
           <ExploreMenu />
           <nav className="hidden items-center sm:flex" aria-label="Main navigation">
-            <Button asChild variant="ghost" size="sm">
+            <Button asChild variant="ghost" size="sm" className="text-sm font-semibold text-foreground/80 hover:text-foreground">
               <Link href="/courses">Courses</Link>
             </Button>
           </nav>
@@ -69,7 +71,7 @@ export default function Header() {
               </Button>
             </div>
           ) : (
-            <Button id="login" data-testid="auth-open-button" type="button" size="sm" disabled={isLoading} onClick={openLoginModal}>
+            <Button id="login" data-testid="auth-open-button" type="button" size="sm" className="h-10 px-4 shadow-sm" disabled={isLoading} onClick={openLoginModal}>
               Log In
             </Button>
           )}

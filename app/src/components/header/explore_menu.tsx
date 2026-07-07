@@ -17,7 +17,7 @@ export default function ExploreMenu() {
                 className="group"
                 onMouseEnter={() => setActiveSection((currentValue) => currentValue || subjects[0]?.subjectName || '')}
             >
-                <Button type="button" variant="ghost" size="sm" aria-expanded="true" aria-haspopup="true">
+                <Button type="button" variant="ghost" size="sm" className="text-sm font-semibold text-foreground/80 hover:text-foreground" aria-expanded="true" aria-haspopup="true">
                     Explore
                 </Button>
 
