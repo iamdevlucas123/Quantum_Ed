@@ -47,7 +47,7 @@
     "jsdom": "^29.1.1",
     "msw": "^2.14.6",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.9"
   }
 }
